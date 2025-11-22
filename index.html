@@ -23,7 +23,7 @@
         window.addEventListener('DOMContentLoaded', function() {
             // Sentiment Chart
             const ctx = document.getElementById('sentimentChart').getContext('2d');
-            const chartData = {"dates": ["2025-11-11", "2025-11-12", "2025-11-13", "2025-11-14", "2025-11-22"], "positive": [35.1, 17.6, 21.4, 37.5, 0], "negative": [10.5, 14.7, 14.3, 0.0, 0], "neutral": [36.8, 44.1, 38.1, 37.5, 0], "mixed": [17.5, 23.5, 26.2, 25.0, 0], "totals": [57, 34, 42, 8, 0]};
+            const chartData = {"dates": ["2025-11-22"], "positive": [0], "negative": [0], "neutral": [0], "mixed": [0], "totals": [0]};
 
             // If we have data, generate labels from first data date to 30 days ahead
             let labels = chartData.dates;
@@ -214,8 +214,8 @@
 
             // Market Performance Chart
             const marketCtx = document.getElementById('marketChart').getContext('2d');
-            const marketData = {"^IXIC": {"name": "NASDAQ Composite", "dates": ["2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13"], "changes": [0.89, 1.15, 1.86, 0.8, 0.55, -1.57, 0.61, 0.46, -2.04, 0.65, -1.9, -0.21, 2.27, -0.25, -0.26, -2.29]}, "^GSPC": {"name": "S&P 500", "dates": ["2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13"], "changes": [0.58, 0.79, 1.23, 0.23, -0.0, -0.99, 0.26, 0.17, -1.17, 0.37, -1.12, 0.13, 1.54, 0.21, 0.06, -1.66]}, "NVDA": {"name": "NVIDIA", "dates": ["2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13"], "changes": [1.04, 2.25, 2.81, 4.98, 2.99, -2.0, -0.2, 2.17, -3.96, -1.75, -3.65, 0.04, 5.79, -2.96, 0.33, -3.58]}, "MSFT": {"name": "Microsoft", "dates": ["2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13"], "changes": [0.0, 0.59, 1.51, 1.98, -0.1, -2.92, -1.51, -0.15, -0.52, -1.39, -1.98, -0.06, 1.85, 0.53, 0.48, -1.54]}, "GOOGL": {"name": "Alphabet", "dates": ["2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13"], "changes": [0.55, 2.7, 3.6, -0.67, 2.65, 2.52, -0.1, 0.9, -2.18, 2.44, 0.15, -2.08, 4.04, 0.42, -1.58, -2.84]}, "META": {"name": "Meta", "dates": ["2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13"], "changes": [0.08, 0.59, 1.69, 0.08, 0.03, -11.33, -2.72, -1.64, -1.63, 1.38, -2.67, 0.45, 1.62, -0.74, -2.88, 0.14]}, "AMD": {"name": "AMD", "dates": ["2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13"], "changes": [2.07, 7.63, 2.67, -0.64, 2.45, -3.59, 0.5, 1.38, -3.7, 2.51, -7.27, -1.75, 4.47, -2.65, 9.0, -4.22]}, "PLTR": {"name": "Palantir", "dates": ["2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13"], "changes": [2.84, 2.3, 2.46, 0.22, 4.86, -2.14, 3.04, 3.35, -7.94, -1.49, -6.84, 1.65, 8.81, -1.37, -3.56, -6.53]}, "BOTZ": {"name": "AI/Robotics ETF", "dates": ["2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13"], "changes": [1.44, 0.99, 1.19, -0.31, 0.26, -1.98, 1.14, 1.11, -2.43, -0.86, -2.76, 0.06, 1.58, -0.77, -0.28, -2.46]}, "AIQ": {"name": "AI Analytics ETF", "dates": ["2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13"], "changes": [1.35, 1.68, 2.21, 0.13, 0.58, -1.44, 0.72, 0.9, -3.73, 1.09, -1.96, -0.82, 2.8, -0.88, -0.12, -2.68]}};
-            const correlationData = {"total": 2, "correct": 2, "wrong": 0, "ambiguous": 0, "accuracy_pct": 100, "timeline": [{"date": "2025-11-11", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2025-11-12", "sentiment": "neutral", "outcome": "neutral", "correct": 1}]};
+            const marketData = {};
+            const correlationData = {"total": 0, "correct": 0, "wrong": 0, "ambiguous": 0, "accuracy_pct": 0, "timeline": []};
 
             // Use same date range as sentiment chart (reuse labels from sentiment chart)
             const marketLabels = labels;
@@ -360,7 +360,7 @@
     <header>
         <div class="header-stats">
             <div class="stat-item">
-                <span class="stat-value-small">13</span>
+                <span class="stat-value-small">12</span>
                 <span class="stat-label-small">Events</span>
             </div>
             <div class="stat-item">
@@ -368,14 +368,14 @@
                 <span class="stat-label-small">Analyzed</span>
             </div>
             <div class="stat-item">
-                <span class="stat-value-small">2</span>
+                <span class="stat-value-small">0</span>
                 <span class="stat-label-small">Significant</span>
             </div>
         </div>
 
         <div class="header-center">
             <h1>🧠 AI-Pulse</h1>
-            <p class="date">2025-11-22 11:13 UTC</p>
+            <p class="date">2025-11-22 12:03 UTC</p>
         </div>
 
         <nav class="header-nav">
@@ -437,187 +437,58 @@
                 </div>
                 <div class="checkbox-grid">
 
-                    <label class="checkbox-label" style="">
-                        <input type="checkbox" id="symbol-0" class="market-checkbox" data-symbol="^IXIC">
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-0" class="market-checkbox" data-symbol="^IXIC" disabled>
                         <span style="color: #6ee7b7">■</span> NASDAQ
                     </label>
 
-                    <label class="checkbox-label" style="">
-                        <input type="checkbox" id="symbol-1" class="market-checkbox" data-symbol="^GSPC">
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-1" class="market-checkbox" data-symbol="^GSPC" disabled>
                         <span style="color: #94a3b8">■</span> S&P 500
                     </label>
 
-                    <label class="checkbox-label" style="">
-                        <input type="checkbox" id="symbol-2" class="market-checkbox" data-symbol="NVDA">
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-2" class="market-checkbox" data-symbol="NVDA" disabled>
                         <span style="color: #c084fc">■</span> NVIDIA
                     </label>
 
-                    <label class="checkbox-label" style="">
-                        <input type="checkbox" id="symbol-3" class="market-checkbox" data-symbol="MSFT">
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-3" class="market-checkbox" data-symbol="MSFT" disabled>
                         <span style="color: #60a5fa">■</span> Microsoft
                     </label>
 
-                    <label class="checkbox-label" style="">
-                        <input type="checkbox" id="symbol-4" class="market-checkbox" data-symbol="GOOGL">
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-4" class="market-checkbox" data-symbol="GOOGL" disabled>
                         <span style="color: #fbbf24">■</span> Alphabet
                     </label>
 
-                    <label class="checkbox-label" style="">
-                        <input type="checkbox" id="symbol-5" class="market-checkbox" data-symbol="META">
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-5" class="market-checkbox" data-symbol="META" disabled>
                         <span style="color: #f87171">■</span> Meta
                     </label>
 
-                    <label class="checkbox-label" style="">
-                        <input type="checkbox" id="symbol-6" class="market-checkbox" data-symbol="AMD">
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-6" class="market-checkbox" data-symbol="AMD" disabled>
                         <span style="color: #fb923c">■</span> AMD
                     </label>
 
-                    <label class="checkbox-label" style="">
-                        <input type="checkbox" id="symbol-7" class="market-checkbox" data-symbol="PLTR">
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-7" class="market-checkbox" data-symbol="PLTR" disabled>
                         <span style="color: #34d399">■</span> Palantir
                     </label>
 
-                    <label class="checkbox-label" style="">
-                        <input type="checkbox" id="symbol-8" class="market-checkbox" data-symbol="BOTZ">
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-8" class="market-checkbox" data-symbol="BOTZ" disabled>
                         <span style="color: #a78bfa">■</span> AI/Robotics ETF
                     </label>
 
-                    <label class="checkbox-label" style="">
-                        <input type="checkbox" id="symbol-9" class="market-checkbox" data-symbol="AIQ">
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-9" class="market-checkbox" data-symbol="AIQ" disabled>
                         <span style="color: #f472b6">■</span> AI Analytics ETF
                     </label>
 
                 </div>
             </div>
-        </section>
-
-        <section class="sentiment-box">
-            <h3>📊 Predictive Correlation Analysis</h3>
-            <p style="font-size: 0.85rem; color: #94a3b8; margin-top: -5px; margin-bottom: 20px;">
-                Analyzing if overnight AI sector sentiment predicts same-day market performance<br>
-                <strong>Workflow:</strong> Overnight news (previous close 9pm GMT → 1pm GMT analysis) → Today's market movement (2:30pm-9pm GMT)<br>
-                Based on 3 days of historical data (updated 2025-11-13)
-            </p>
-
-            <!-- Card-based summary (default view) -->
-            <div id="insights-summary">
-                <!-- Executive Summary Card -->
-                <div style="background: #1e293b; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #60a5fa;">
-                    <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px; font-weight: 600;">KEY FINDINGS</div>
-                    <div style="color: #e2e8f0; line-height: 1.7; font-size: 0.95rem;">
-                        The analysis shows a perfect 100% correlation rate over 2 days, but this is statistically meaningless due to extremely limited sample size - both days showed neutral sentiment aligned with flat NASDAQ performance. AMD demonstrates the strongest positive momentum (+3.61%) despite neutral AI sector sentiment, indicating it's likely driven by company-specific factors rather than general AI sentiment. META shows the weakest correlation with a -0.67% decline against neutral AI sentiment, suggesting non-AI business factors are dominant. The data is insufficient to draw meaningful correlation conclusions, and the small sample size presents severe statistical limitations for any reliability assessment.
-                    </div>
-                </div>
-
-                <button id="insights-toggle" onclick="toggleInsights()"
-                        style="width: 100%; padding: 12px; background: #1e293b; color: #6ee7b7; border: 1px solid #6ee7b7; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.2s;">
-                    Show Detailed Analysis →
-                </button>
-            </div>
-
-            <!-- Full analysis view (hidden by default) -->
-            <div id="insights-full" style="display: none;">
-                <div style="background: #1e293b; padding: 25px; border-radius: 10px; border-left: 4px solid #c084fc;">
-                    <p style="color: #cbd5e1; line-height: 1.7; margin-bottom: 10px;">The analysis shows a perfect 100% correlation rate over 2 days, but this is statistically meaningless due to extremely limited sample size - both days showed neutral sentiment aligned with flat NASDAQ performance. AMD demonstrates the strongest positive momentum (+3.61%) despite neutral AI sector sentiment, indicating it's likely driven by company-specific factors rather than general AI sentiment. META shows the weakest correlation with a -0.67% decline against neutral AI sentiment, suggesting non-AI business factors are dominant. The data is insufficient to draw meaningful correlation conclusions, and the small sample size presents severe statistical limitations for any reliability assessment.</p><div style="margin-top: 30px; padding-bottom: 10px; border-bottom: 2px solid #334155;"><span style="font-size: 1.2em; color: #6ee7b7; font-weight: 700;">DETAILED ANALYSIS</span></div><p style="margin-top: 25px; font-size: 1.1em; color: #60a5fa; font-weight: 600;">Pattern Recognition</p><p style="color: #cbd5e1; line-height: 1.7; margin-bottom: 10px;">With only 2 days of correlation data, meaningful pattern recognition is impossible. However, the event type analysis shows funding events (mixed/positive) have the highest average significance (74.0-68.8), followed by regulation and partnership events (75.0-65.0). News events, despite being most frequent (40 neutral, 26 mixed, 22 positive), show much lower significance scores (20.0-66.6), suggesting routine news has less market impact than major corporate or regulatory developments.</p><p style="margin-top: 25px; font-size: 1.1em; color: #60a5fa; font-weight: 600;">Sentiment Reliability</p><p style="color: #cbd5e1; line-height: 1.7; margin-bottom: 10px;">The data only contains neutral sentiment days, making sentiment type reliability analysis impossible. Both observed days had low sentiment strength (44.12 and 36.84) correlating with flat market performance (-0.26% and -0.25% NASDAQ), but this represents too small a sample to establish reliability patterns. The event significance data suggests mixed sentiment events (avg 66.6-75.0 significance) may be more market-moving than purely positive or neutral sentiment.</p><p style="margin-top: 25px; font-size: 1.1em; color: #60a5fa; font-weight: 600;">Symbol-Specific Correlation</p><p style="color: #cbd5e1; line-height: 1.7; margin-bottom: 10px;">Based on 3-day performance against neutral AI sentiment:</p><ul style="margin-left: 20px; line-height: 1.8;"><li style="color: #e2e8f0; margin-bottom: 8px;"><strong>Strongest positive divergence<strong>: AMD (+3.61%) - likely driven by non-AI factors</strong></li><li style="color: #e2e8f0; margin-bottom: 8px;"><strong>Moderate alignment<strong>: NVDA (+1.06%), GOOGL (+0.96%), MSFT (+0.95%) - modest gains despite neutral AI sentiment</strong></li><li style="color: #e2e8f0; margin-bottom: 8px;"><strong>Negative divergence<strong>: META (-0.67%) - declining against neutral sentiment, suggesting non-AI business pressures</strong></li></ul><p style="color: #cbd5e1; line-height: 1.7; margin-bottom: 10px;">None show true correlation with AI sentiment given the neutral sentiment period.</p><p style="margin-top: 25px; font-size: 1.1em; color: #60a5fa; font-weight: 600;">Momentum Patterns</p><p style="color: #cbd5e1; line-height: 1.7; margin-bottom: 10px;">Insufficient data for momentum pattern analysis. The 2-day correlation period shows consistent neutral-to-flat alignment, but this doesn't establish any meaningful trend. Individual stock performance varies significantly despite consistent neutral AI sentiment, indicating company-specific factors dominate over AI sector sentiment during neutral periods.</p><p style="margin-top: 25px; font-size: 1.1em; color: #60a5fa; font-weight: 600;">Correlation Strength Indicators</p><p style="color: #cbd5e1; line-height: 1.7; margin-bottom: 10px;">Cannot establish meaningful correlation thresholds with current data. Preliminary observations suggest:</p><ul style="margin-left: 20px; line-height: 1.8;"><li style="color: #e2e8f0; margin-bottom: 8px;"><strong>Strong correlation conditions<strong>: Likely require high-significance events (funding, regulation, partnerships) with clear positive/negative sentiment</strong></li><li style="color: #e2e8f0; margin-bottom: 8px;"><strong>Moderate correlation conditions<strong>: Mixed sentiment periods with moderate significance scores</strong></li><li style="color: #e2e8f0; margin-bottom: 8px;"><strong>Weak correlation conditions<strong>: Neutral sentiment periods (as observed) where company-specific factors dominate, routine news cycles with low significance scores</strong></li></ul><p style="margin-top: 25px; font-size: 1.1em; color: #60a5fa; font-weight: 600;">Limitations & Caveats</p><p style="color: #cbd5e1; line-height: 1.7; margin-bottom: 10px;"><strong>Critical statistical limitations<strong>:</strong></p><ul style="margin-left: 20px; line-height: 1.8;"><li style="color: #e2e8f0; margin-bottom: 8px;">Only 2 days of correlation data provides no statistical validity</li><li style="color: #e2e8f0; margin-bottom: 8px;">Sentiment data exclusively neutral, preventing sentiment type analysis</li><li style="color: #e2e8f0; margin-bottom: 8px;">No volatility periods captured to test correlation under stress</li><li style="color: #e2e8f0; margin-bottom: 8px;">Sample size too small for any confidence intervals or significance testing</li><li style="color: #e2e8f0; margin-bottom: 8px;">Performance data spans 3 days while correlation data spans 2 days, creating analytical inconsistency</li></ul><p style="color: #cbd5e1; line-height: 1.7; margin-bottom: 10px;"><strong>When NOT to rely on correlations<strong>:</strong></p><ul style="margin-left: 20px; line-height: 1.8;"><li style="color: #e2e8f0; margin-bottom: 8px;">During neutral sentiment periods (company fundamentals likely dominate)</li><li style="color: #e2e8f0; margin-bottom: 8px;">For individual stock decisions (AI sentiment is sector-wide, not stock-specific)</li><li style="color: #e2e8f0; margin-bottom: 8px;">Without considering company-specific events, earnings, or non-AI business factors</li><li style="color: #e2e8f0; margin-bottom: 8px;">When significance scores are low (routine news cycles)</li></ul><p style="color: #cbd5e1; line-height: 1.7; margin-bottom: 10px;">This analysis represents CORRELATION OBSERVATION of historical alignment, not predictive capability. The data suggests AI sector sentiment correlation varies significantly by stock, with some companies (AMD, META) showing strong divergence patterns that indicate other business factors are more influential than general AI sector mood.</p>
-                </div>
-
-                <button onclick="toggleInsights()"
-                        style="width: 100%; padding: 12px; background: #1e293b; color: #6ee7b7; border: 1px solid #6ee7b7; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; margin-top: 15px; transition: all 0.2s;">
-                    ← Show Key Findings
-                </button>
-            </div>
-        </section>
-
-        <script>
-        function toggleInsights() {
-            const summary = document.getElementById('insights-summary');
-            const full = document.getElementById('insights-full');
-
-            if (full.style.display === 'none') {
-                summary.style.display = 'none';
-                full.style.display = 'block';
-            } else {
-                summary.style.display = 'block';
-                full.style.display = 'none';
-            }
-        }
-        </script>
-
-        <section class="events research-events">
-            <h2>📚 Research Highlights <span style="font-size: 0.7em; color: #94a3b8; font-weight: normal;">(technical developments)</span></h2>
-            <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px; font-style: italic;">
-                Research papers are not included in sentiment analysis - they represent technical progress rather than market-moving news.
-            </p>
-
-            <article class="event-card-compact">
-                <div class="event-header-compact">
-                    <h3 class="event-title-compact">Mind-altering 'brain weapons' no longer only science fiction, say researchers</h3>
-                    <button class="expand-btn" id="btn-186" onclick="toggleEvent(186)">▶</button>
-                </div>
-
-                <div class="event-content-expanded" id="content-186" style="display: none;">
-                    <div class="event-meta-compact">
-                        <span class="sentiment">↕️ mixed</span>
-                        
-                        <span> | 2025-11-22 06:33</span>
-                        <span> | Notable This represents early-stage research awareness rather than actionable investment intelligence. While neurotechnology may become significant in 5-10 years, current AI sector valuations and growth drivers remain focused on LLMs, cloud computing, and traditional AI applications.</span>
-                    </div>
-
-                    <div class="implications">
-                        <h4>💡 Implications</h4>
-                        <p>Limited near-term investment impact as brain-computer interfaces remain nascent with unclear commercial timelines. However, this signals growing government interest in neurotechnology funding, which could benefit AI companies developing neural interfaces and related computing infrastructure.</p>
-                    </div>
-
-                    <div class="affected-parties">
-                        <h4>👥 Affected Parties</h4>
-                        <p>Potential beneficiaries: NVDA (neural computing chips), META (brain-computer interface research), specialized neurotechnology startups Potential risks: Regulatory scrutiny on AI companies developing neural technologies, ethical oversight requirements</p>
-                    </div>
-
-                    <div class="context">
-                        <h4>📚 Context</h4>
-                        <p>Similar to early discussions around AI weapons systems, this follows a pattern of research breakthroughs leading to policy discussions before commercial applications. The brain-computer interface market is projected to grow significantly but remains highly speculative with companies like Neuralink still in clinical trials.</p>
-                    </div>
-
-                    <div class="event-link">
-                        <a href="https://www.theguardian.com/world/2025/nov/22/mind-altering-brain-weapons-no-longer-only-science-fiction-say-researchers" target="_blank">Read full article →</a>
-                    </div>
-                </div>
-            </article>
-
-            <article class="event-card-compact">
-                <div class="event-header-compact">
-                    <h3 class="event-title-compact">The New AI Consciousness Paper</h3>
-                    <button class="expand-btn" id="btn-182" onclick="toggleEvent(182)">▶</button>
-                </div>
-
-                <div class="event-content-expanded" id="content-182" style="display: none;">
-                    <div class="event-meta-compact">
-                        <span class="sentiment">➡️ neutral</span>
-                        
-                        <span> | 2025-11-21 16:25</span>
-                        <span> | Notable This represents general sector awareness without direct investment impact. Consciousness research doesn't affect current revenue models, competitive positioning, or strategic decisions for major AI companies focused on practical applications.</span>
-                    </div>
-
-                    <div class="implications">
-                        <h4>💡 Implications</h4>
-                        <p>For AI sector investors, consciousness research remains largely academic with minimal immediate commercial relevance. Current AI investment themes focus on practical capabilities like reasoning, multimodality, and efficiency rather than consciousness questions, which are still highly speculative and far from commercial application.</p>
-                    </div>
-
-                    <div class="affected-parties">
-                        <h4>👥 Affected Parties</h4>
-                        <p>• Academic AI research institutions (positive research interest) • Major AI companies (GOOGL, MSFT, META) - minimal impact as focus remains on practical AI capabilities • AI ethics and safety organizations - increased discussion material • No clear commercial winners or losers from this research</p>
-                    </div>
-
-                    <div class="context">
-                        <h4>📚 Context</h4>
-                        <p>AI consciousness has been a recurring topic in academic circles for years without translating to commercial breakthroughs. Previous consciousness research papers have generated discussion but haven't materially impacted AI company valuations or strategies, which remain focused on measurable performance improvements and market applications.</p>
-                    </div>
-
-                    <div class="event-link">
-                        <a href="https://www.astralcodexten.com/p/the-new-ai-consciousness-paper" target="_blank">Read full article →</a>
-                    </div>
-                </div>
-            </article>
         </section>
 
         <script>
