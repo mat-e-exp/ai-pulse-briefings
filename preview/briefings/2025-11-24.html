@@ -1,0 +1,2270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Pulse Briefing - 2025-11-24</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function toggleEvent(id) {
+            const content = document.getElementById('content-' + id);
+            const button = document.getElementById('btn-' + id);
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                button.textContent = '▼';
+            } else {
+                content.style.display = 'none';
+                button.textContent = '▶';
+            }
+        }
+
+        // Initialize charts when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            // Sentiment Chart
+            const ctx = document.getElementById('sentimentChart').getContext('2d');
+            const chartData = {"dates": ["2025-11-24"], "positive": [20.5], "negative": [13.6], "neutral": [54.5], "mixed": [11.4], "totals": [44]};
+
+            // If we have data, generate labels from first data date to 30 days ahead
+            let labels = chartData.dates;
+            let positiveData = chartData.positive;
+            let negativeData = chartData.negative;
+            let neutralData = chartData.neutral;
+            let mixedData = chartData.mixed;
+            let totalData = chartData.totals;
+
+            // If we have at least one data point, extend to show future 30 days
+            if (chartData.dates.length > 0) {
+                const firstDate = new Date(chartData.dates[0]);
+                const today = new Date();
+                const endDate = new Date(today);
+                endDate.setDate(endDate.getDate() + 30);
+
+                // Generate all dates from first data point to 30 days ahead
+                labels = [];
+                const current = new Date(firstDate);
+                while (current <= endDate) {
+                    labels.push(current.toISOString().split('T')[0]);
+                    current.setDate(current.getDate() + 1);
+                }
+
+                // Map data to full date range
+                const mapData = (dates, values) => {
+                    return labels.map(label => {
+                        const index = dates.indexOf(label);
+                        return index >= 0 ? values[index] : null;
+                    });
+                };
+
+                positiveData = mapData(chartData.dates, chartData.positive);
+                negativeData = mapData(chartData.dates, chartData.negative);
+                neutralData = mapData(chartData.dates, chartData.neutral);
+                mixedData = mapData(chartData.dates, chartData.mixed);
+                totalData = mapData(chartData.dates, chartData.totals);
+            }
+
+            const sentimentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Positive',
+                            data: positiveData,
+                            borderColor: '#6ee7b7',
+                            backgroundColor: 'rgba(110, 231, 183, 0.1)',
+                            tension: 0.3,
+                            spanGaps: true
+                        },
+                        {
+                            label: 'Negative',
+                            data: negativeData,
+                            borderColor: '#fca5a5',
+                            backgroundColor: 'rgba(252, 165, 165, 0.1)',
+                            tension: 0.3,
+                            spanGaps: true
+                        },
+                        {
+                            label: 'Neutral',
+                            data: neutralData,
+                            borderColor: '#94a3b8',
+                            backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                            tension: 0.3,
+                            spanGaps: true
+                        },
+                        {
+                            label: 'Mixed',
+                            data: mixedData,
+                            borderColor: '#fcd34d',
+                            backgroundColor: 'rgba(252, 211, 77, 0.1)',
+                            tension: 0.3,
+                            spanGaps: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',  // Trigger on x-axis position
+                        intersect: false  // Don't require hovering directly on points
+                    },
+                    onHover: function(event, activeElements, chart) {
+                        // Get the x-position and find the nearest date index
+                        const canvasPosition = Chart.helpers.getRelativePosition(event, chart);
+                        const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
+
+                        if (dataX !== null && dataX >= 0 && dataX < labels.length) {
+                            const index = Math.round(dataX);
+                            if (index >= 0 && index < labels.length) {
+                                updateSentimentBreakdown(index, labels[index], positiveData[index], negativeData[index], neutralData[index], mixedData[index], totalData[index]);
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#e2e8f0'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    const index = context[0].dataIndex;
+                                    const total = totalData[index];
+                                    return context[0].label + ' (Total: ' + (total || 0) + ' events)';
+                                },
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                color: '#94a3b8',
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            },
+                            grid: {
+                                color: '#334155'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#94a3b8',
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                color: '#334155'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Function to update sentiment breakdown display
+            function updateSentimentBreakdown(index, date, positive, negative, neutral, mixed, total) {
+                document.getElementById('breakdown-date').textContent = date;
+
+                // Check if we have data for this date
+                if (!total || total === 0 || positive === null) {
+                    // No data - show placeholders
+                    document.getElementById('breakdown-positive-pct').textContent = '-';
+                    document.getElementById('breakdown-negative-pct').textContent = '-';
+                    document.getElementById('breakdown-neutral-pct').textContent = '-';
+                    document.getElementById('breakdown-mixed-pct').textContent = '-';
+                    document.getElementById('breakdown-positive-count').textContent = '-';
+                    document.getElementById('breakdown-negative-count').textContent = '-';
+                    document.getElementById('breakdown-neutral-count').textContent = '-';
+                    document.getElementById('breakdown-mixed-count').textContent = '-';
+                    document.getElementById('breakdown-total').textContent = '-';
+                } else {
+                    // Has data - show actual values
+                    document.getElementById('breakdown-positive-pct').textContent = (positive || 0).toFixed(1) + '%';
+                    document.getElementById('breakdown-negative-pct').textContent = (negative || 0).toFixed(1) + '%';
+                    document.getElementById('breakdown-neutral-pct').textContent = (neutral || 0).toFixed(1) + '%';
+                    document.getElementById('breakdown-mixed-pct').textContent = (mixed || 0).toFixed(1) + '%';
+
+                    // Calculate actual counts from percentages
+                    const posCount = total > 0 ? Math.round(positive * total / 100) : 0;
+                    const negCount = total > 0 ? Math.round(negative * total / 100) : 0;
+                    const neuCount = total > 0 ? Math.round(neutral * total / 100) : 0;
+                    const mixCount = total > 0 ? Math.round(mixed * total / 100) : 0;
+
+                    document.getElementById('breakdown-positive-count').textContent = posCount;
+                    document.getElementById('breakdown-negative-count').textContent = negCount;
+                    document.getElementById('breakdown-neutral-count').textContent = neuCount;
+                    document.getElementById('breakdown-mixed-count').textContent = mixCount;
+                    document.getElementById('breakdown-total').textContent = total || 0;
+                }
+
+                // Highlight the breakdown section
+                const breakdownSection = document.getElementById('sentiment-breakdown');
+                breakdownSection.style.backgroundColor = 'rgba(110, 231, 183, 0.05)';
+                setTimeout(() => {
+                    breakdownSection.style.backgroundColor = '';
+                }, 200);
+            }
+
+            // Market Performance Chart
+            const marketCtx = document.getElementById('marketChart').getContext('2d');
+            const marketData = {};
+            const correlationData = {"total": 0, "correct": 0, "wrong": 0, "ambiguous": 0, "accuracy_pct": 0, "timeline": []};
+
+            // Use same date range as sentiment chart (reuse labels from sentiment chart)
+            const marketLabels = labels;
+
+            // Define symbol display order and colors
+            const symbolConfig = [
+                {symbol: '^IXIC', label: 'NASDAQ', color: '#6ee7b7'},
+                {symbol: '^GSPC', label: 'S&P 500', color: '#94a3b8'},
+                {symbol: 'NVDA', label: 'NVIDIA', color: '#c084fc'},
+                {symbol: 'MSFT', label: 'Microsoft', color: '#60a5fa'},
+                {symbol: 'GOOGL', label: 'Alphabet', color: '#fbbf24'},
+                {symbol: 'META', label: 'Meta', color: '#f87171'},
+                {symbol: 'AMD', label: 'AMD', color: '#fb923c'},
+                {symbol: 'PLTR', label: 'Palantir', color: '#34d399'},
+                {symbol: 'BOTZ', label: 'AI/Robotics ETF', color: '#a78bfa'},
+                {symbol: 'AIQ', label: 'AI Analytics ETF', color: '#f472b6'}
+            ];
+
+            // Map market data to full date range (align with sentiment chart dates)
+            const mapMarketData = (symbolDates, symbolChanges) => {
+                const dataMap = {};
+                symbolDates.forEach((date, idx) => {
+                    dataMap[date] = symbolChanges[idx];
+                });
+                return marketLabels.map(label => dataMap[label] !== undefined ? dataMap[label] : null);
+            };
+
+            // Build datasets for each symbol
+            const marketDatasets = symbolConfig.map(config => {
+                const symbolData = marketData[config.symbol];
+                if (!symbolData) return null;
+
+                return {
+                    label: config.label,
+                    symbol: config.symbol,  // Store symbol for lookup
+                    data: mapMarketData(symbolData.dates, symbolData.changes),
+                    borderColor: config.color,
+                    backgroundColor: 'transparent',
+                    tension: 0.3,
+                    hidden: true,  // All hidden by default
+                    spanGaps: true  // Connect across missing data points
+                };
+            }).filter(d => d !== null);
+
+            window.marketChart = new Chart(marketCtx, {
+                type: 'line',
+                data: {
+                    labels: marketLabels,
+                    datasets: marketDatasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false  // Using custom checkboxes instead
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,  // Dynamic scaling
+                            afterDataLimits: function(axis) {
+                                // Ensure minimum scale of ±1%
+                                const range = axis.max - axis.min;
+                                if (range < 2) {
+                                    const center = (axis.max + axis.min) / 2;
+                                    axis.max = center + 1;
+                                    axis.min = center - 1;
+                                }
+                            },
+                            ticks: {
+                                color: '#94a3b8',
+                                callback: function(value) {
+                                    return value.toFixed(1) + '%';
+                                }
+                            },
+                            grid: {
+                                color: '#334155'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#94a3b8',
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                color: '#334155'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Checkbox toggle functionality
+            document.querySelectorAll('.market-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const symbol = this.dataset.symbol;
+                    // Find dataset by matching symbol directly
+                    const datasetIndex = window.marketChart.data.datasets.findIndex(ds => ds.symbol === symbol);
+
+                    if (datasetIndex !== -1) {
+                        window.marketChart.data.datasets[datasetIndex].hidden = !this.checked;
+                        window.marketChart.update();
+                    }
+                });
+            });
+        });
+
+        // Toggle all market symbols on/off
+        function toggleAllMarketSymbols(checked) {
+            document.querySelectorAll('.market-checkbox:not([disabled])').forEach(checkbox => {
+                checkbox.checked = checked;
+
+                const symbol = checkbox.dataset.symbol;
+                // Find dataset by matching symbol directly
+                const datasetIndex = window.marketChart.data.datasets.findIndex(ds => ds.symbol === symbol);
+
+                if (datasetIndex !== -1) {
+                    window.marketChart.data.datasets[datasetIndex].hidden = !checked;
+                }
+            });
+            window.marketChart.update();
+        }
+
+        // Toggle visibility function for market checkboxes
+        function toggleMarketSymbol(index) {
+            const checkbox = document.getElementById('symbol-' + index);
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event('change'));
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-stats">
+            <div class="stat-item">
+                <span class="stat-value-small">50</span>
+                <span class="stat-label-small">Events</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value-small">44</span>
+                <span class="stat-label-small">Analyzed</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value-small">50</span>
+                <span class="stat-label-small">Significant</span>
+            </div>
+        </div>
+
+        <div class="header-center">
+            <h1>🧠 AI-Pulse</h1>
+            <p class="date">2025-11-24 08:49 UTC</p>
+        </div>
+
+        <nav class="header-nav">
+            <a href="../index.html">Latest</a>
+            <a href="../archive.html">Archive</a>
+            <a href="https://github.com/mat-e-exp/ai-pulse">GitHub</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="sentiment-box">
+            <h3>Sentiment Trend (Last 30 Days)</h3>
+            <div class="chart-container">
+                <canvas id="sentimentChart"></canvas>
+            </div>
+            <div class="sentiment-current" id="sentiment-breakdown">
+                <h4>Sentiment Breakdown <span id="breakdown-date" style="color: #6ee7b7; font-weight: normal;">(Hover over chart)</span></h4>
+                <ul class="sentiment-list">
+                    <li>
+                        <span class="sentiment-positive">positive</span>:
+                        <span id="breakdown-positive-pct">-</span>
+                        <span style="color: #94a3b8; font-size: 0.9em;">(<span id="breakdown-positive-count">-</span> events)</span>
+                    </li>
+                    <li>
+                        <span class="sentiment-negative">negative</span>:
+                        <span id="breakdown-negative-pct">-</span>
+                        <span style="color: #94a3b8; font-size: 0.9em;">(<span id="breakdown-negative-count">-</span> events)</span>
+                    </li>
+                    <li>
+                        <span class="sentiment-neutral">neutral</span>:
+                        <span id="breakdown-neutral-pct">-</span>
+                        <span style="color: #94a3b8; font-size: 0.9em;">(<span id="breakdown-neutral-count">-</span> events)</span>
+                    </li>
+                    <li>
+                        <span class="sentiment-mixed">mixed</span>:
+                        <span id="breakdown-mixed-pct">-</span>
+                        <span style="color: #94a3b8; font-size: 0.9em;">(<span id="breakdown-mixed-count">-</span> events)</span>
+                    </li>
+                    <li style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #334155;">
+                        <strong>Total:</strong> <span id="breakdown-total">-</span> events analyzed
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="sentiment-box">
+            <h3>Market Performance (Last 30 Days)</h3>
+            <div class="chart-container">
+                <canvas id="marketChart"></canvas>
+            </div>
+
+            <div class="market-controls">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h4 style="margin: 0;">Select Indices & Stocks</h4>
+                    <div class="market-control-buttons">
+                        <button onclick="toggleAllMarketSymbols(true)" class="market-control-btn">All</button>
+                        <button onclick="toggleAllMarketSymbols(false)" class="market-control-btn">None</button>
+                    </div>
+                </div>
+                <div class="checkbox-grid">
+
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-0" class="market-checkbox" data-symbol="^IXIC" disabled>
+                        <span style="color: #6ee7b7">■</span> NASDAQ
+                    </label>
+
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-1" class="market-checkbox" data-symbol="^GSPC" disabled>
+                        <span style="color: #94a3b8">■</span> S&P 500
+                    </label>
+
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-2" class="market-checkbox" data-symbol="NVDA" disabled>
+                        <span style="color: #c084fc">■</span> NVIDIA
+                    </label>
+
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-3" class="market-checkbox" data-symbol="MSFT" disabled>
+                        <span style="color: #60a5fa">■</span> Microsoft
+                    </label>
+
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-4" class="market-checkbox" data-symbol="GOOGL" disabled>
+                        <span style="color: #fbbf24">■</span> Alphabet
+                    </label>
+
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-5" class="market-checkbox" data-symbol="META" disabled>
+                        <span style="color: #f87171">■</span> Meta
+                    </label>
+
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-6" class="market-checkbox" data-symbol="AMD" disabled>
+                        <span style="color: #fb923c">■</span> AMD
+                    </label>
+
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-7" class="market-checkbox" data-symbol="PLTR" disabled>
+                        <span style="color: #34d399">■</span> Palantir
+                    </label>
+
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-8" class="market-checkbox" data-symbol="BOTZ" disabled>
+                        <span style="color: #a78bfa">■</span> AI/Robotics ETF
+                    </label>
+
+                    <label class="checkbox-label" style=" opacity: 0.4;">
+                        <input type="checkbox" id="symbol-9" class="market-checkbox" data-symbol="AIQ" disabled>
+                        <span style="color: #f472b6">■</span> AI Analytics ETF
+                    </label>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="events material-events">
+            <h2>🔴 Material Events <span style="font-size: 0.7em; color: #94a3b8; font-weight: normal;">(thesis-changing)</span></h2>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Insurers retreat from AI cover as risk of multibillion-dollar claims mounts</h3>
+                    <button class="expand-btn" id="btn-10" onclick="toggleEvent(10)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-10" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📉 negative</span>
+                        
+                        <span> | 2025-11-24 04:22</span>
+                        <span> | Notable Material - Directly impacts risk assessment models, potentially requiring revised valuation approaches for AI-focused investments. Increases uncertainty around scalability and deployment of AI technologies.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>For AI sector investors, this represents a potential significant friction point in AI deployment, potentially slowing enterprise adoption and increasing operational costs. Companies will need to self-insure or develop more robust risk mitigation strategies, which could compress margins and increase investment requirements.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Harmed: AI infrastructure companies (NVDA, MSFT, GOOGL) - Potential Beneficiaries: Risk management/cybersecurity firms - Impacted Sectors: Enterprise AI, cloud computing, autonomous systems</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Parallels emerging technology risk patterns seen in cybersecurity and autonomous vehicle sectors, where initial enthusiasm was tempered by complex liability landscapes. Represents an early signal of potential regulatory and financial risk frameworks emerging around AI technologies. The retreat of insurers suggests a maturing risk assessment environment for AI, moving beyond pure technological pote...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.ft.com/content/abfe9741-f438-4ed6-a673-075ec177dc62" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Google tells employees it must double capacity every 6 months to meet AI demand</h3>
+                    <button class="expand-btn" id="btn-40" onclick="toggleEvent(40)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-40" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                         | OpenAI, Google
+                        <span> | 2025-11-23 01:50</span>
+                        <span> | Notable Material: Directly impacts valuation models for AI and infrastructure technology companies, confirms bullish infrastructure investment thesis.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should prioritize companies with strong cloud infrastructure, semiconductor capabilities, and AI computational capacity, particularly those with scalable data center and chip manufacturing strategies. This trend validates continued aggressive investment in AI infrastructure and computing power.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- NVIDIA (NVDA) - Microsoft (MSFT) - Google (GOOGL) - AMD - Cloud infrastructure providers - Semiconductor equipment manufacturers - Companies with limited infrastructure scaling capabilities - Less capitalized AI startups</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Comparable to early cloud computing infrastructure expansion, but potentially faster and more capital-intensive. Indicates AI is transitioning from experimental to mission-critical enterprise technology, requiring massive computational resources. Signals continued validation of the AI infrastructure investment narrative, reinforcing long-term bullish sentiment on AI-related technology stocks.</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://biztoc.com/x/e6b6546b0d597728" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">An emphasis on AI capability ahead of regulation should pay off by helping India’s AI ecosystem forge ahead</h3>
+                    <button class="expand-btn" id="btn-21" onclick="toggleEvent(21)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-21" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                        
+                        <span> | 2025-11-23 08:30</span>
+                        <span> | Notable The strategy represents a strategic positioning that could create new investment channels in the emerging AI market. While not immediately material to major AI stocks, it indicates a potential future growth market that sophisticated investors should monitor.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should watch for emerging Indian AI startups and potential investment opportunities in the country's rapidly developing tech ecosystem. The approach suggests potential for future competitive advantage in AI development and deployment.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>* Indian AI startups (Sarvam AI, Krutrim) * Domestic tech companies * Global AI infrastructure providers * Cloud service providers operating in India</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Contrasts with more restrictive regulatory approaches in other markets like the EU, positioning India as a potentially more innovation-friendly AI development environment. Follows a similar capacity-first approach seen in other emerging tech markets like China's early internet development strategy. - NVDA: Potential future market expansion - MSFT: Cloud and AI infrastructure opportunities - GOOGL:...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.livemint.com/opinion/online-views/ai-capability-regulation-india-ecosystem-artificial-intelligence-regulation-growth-11763639143046.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+<div id="material-hidden-3" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Larry Summers RESIGNS from OpenAI board, steps back from Harvard amid Epstein scandal</h3>
+                    <button class="expand-btn" id="btn-24" onclick="toggleEvent(24)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-24" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📉 negative</span>
+                         | OpenAI
+                        <span> | 2025-11-23 06:00</span>
+                        <span> | Notable Notable: Signals potential governance risks in AI leadership, but not immediately material to core investment thesis. - MSFT: Moderate potential impact due to OpenAI partnership - Other AI stocks (NVDA, GOOGL, META): Minimal direct financial impact</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should monitor potential leadership and governance disruptions at OpenAI, which could indirectly impact Microsoft's AI investments and strategic partnerships. The situation may trigger increased scrutiny of board-level relationships and ethical oversight in AI companies.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- OpenAI - Microsoft (strategic partner) - Harvard University - AI sector governance reputation</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Follows broader tech industry reckoning with leadership accountability - Occurs during sensitive period of AI regulatory and ethical scrutiny - Potential signal of increased institutional transparency expectations While not a catastrophic event, the resignation highlights ongoing reputational challenges for high-profile AI institutions and the importance of robust governance mechanisms in emergi...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.naturalnews.com/2025-11-23-larry-summers-resigns-openai-steps-back-harvard.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="material-hidden-4" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">As Google pulls ahead, OpenAI's comeback plan is codenamed 'Shallotpeat'</h3>
+                    <button class="expand-btn" id="btn-32" onclick="toggleEvent(32)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-32" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">↕️ mixed</span>
+                         | OpenAI, Google
+                        <span> | 2025-11-23 04:03</span>
+                        <span> | Notable Notable - Worth tracking as a competitive signal, but not immediately material to investment thesis - NVDA: Neutral (continues to benefit from AI compute infrastructure) - MSFT: Slight Positive (close OpenAI relationship) - GOOGL: Neutral to Positive (Gemini 3 development) - META: Neutral - AMD: Neutral</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should monitor the escalating AI model competition, as continued technological differentiation could impact market valuations and competitive positioning. The development highlights the rapid innovation cycle in generative AI and the importance of continuous model improvements.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- OpenAI - Google - Microsoft (OpenAI's key investor) - NVIDIA (potential chip/infrastructure supplier) - Alphabet (Google's parent)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Continues the pattern of rapid AI model iteration seen throughout 2023-2025, with major players constantly leapfrogging each other's capabilities. The "Shallotpeat" codename suggests a specific strategic response, potentially indicating a targeted technological approach. The leaked internal memo approach suggests ongoing competitive pressures and potential internal strategic realignment at OpenAI ...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://biztoc.com/x/d0b18d19626d9e98" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="material-hidden-5" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Build desktop applications using Go and Web Technologies</h3>
+                    <button class="expand-btn" id="btn-6" onclick="toggleEvent(6)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-6" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                        
+                        <span> | 2025-11-24 04:33</span>
+                        <span> | Notable Notable: Worth tracking as part of broader developer productivity and AI application development trends, but not immediately material to major investment theses.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>For AI sector investors, this signals continued democratization of software development tools that could accelerate AI application creation, particularly in edge computing and cross-platform AI deployment scenarios.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- GitHub/Microsoft (potential integration/adoption) - Desktop application development platforms - Go programming language ecosystem - Cross-platform development tool providers</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Similar to Electron.js and other cross-platform frameworks, but with potential performance and lightweight advantages from using Go. Represents ongoing trend of simplifying complex software development processes. - Marginally positive for developer productivity - Could reduce friction in AI application development - Minimal direct revenue implication for major tech stocks - Signals continued innov...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://github.com/wailsapp/wails" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="material-hidden-6" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">mcp-memory-service 8.29.0</h3>
+                    <button class="expand-btn" id="btn-44" onclick="toggleEvent(44)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-44" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                         | Anthropic
+                        <span> | 2025-11-23 07:35</span>
+                        <span> | Notable Notable: Demonstrates ongoing technical innovation in AI infrastructure, but not immediately material to stock valuations. - MSFT: Potentially positive for VS Code ecosystem - NVDA: Neutral, but reflects broader AI software development trends - GOOGL/META: Background signal of AI software complexity</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should view this as a signal of increasing sophistication in AI memory management and cross-platform functionality, which could improve AI application performance and user experience across different software environments.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Anthropic (direct development) - Microsoft (VS Code integration) - Potential AI software developers - Cloud computing providers</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Represents continued evolution of AI memory and context management, building on recent advances in AI application integration and semantic search technologies. Signals ongoing technical refinement in AI software infrastructure.</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://pypi.org/project/mcp-memory-service/8.29.0/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="material-hidden-7" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Iowa City made its buses free. Traffic cleared, and so did the air</h3>
+                    <button class="expand-btn" id="btn-12" onclick="toggleEvent(12)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-12" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                        
+                        <span> | 2025-11-23 22:06</span>
+                        <span> | Notable Background: Provides interesting market context but does not materially change investment thesis for core AI sector stocks.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>This case study might indirectly signal growing municipal interest in sustainable transportation technologies, potentially creating peripheral opportunities for AI companies specializing in urban planning, transportation optimization, or smart city solutions.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>* Transit technology AI firms (Remix, Transit, Moovit) * Smart city infrastructure companies * Environmental technology startups * Major AI hardware providers (NVDA, AMD)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Represents a small-scale municipal experiment in free public transit - Suggests potential broader urban mobility transformation trends - Highlights intersection of sustainability and public transportation policy The score reflects the event's limited but noteworthy potential for generating future AI-related municipal technology opportunities, without presenting an immediate, direct investment ca...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.nytimes.com/2025/11/18/climate/iowa-city-free-buses.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="material-hidden-8" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Racket v9.0</h3>
+                    <button class="expand-btn" id="btn-15" onclick="toggleEvent(15)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-15" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 13:35</span>
+                        <span> | Notable Background: No direct investment thesis change or material impact on AI sector stocks.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>For AI sector investors, this is primarily a background technical update. Racket is not a mainstream AI development language, so the release does not significantly alter AI development toolchains or platforms.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Minimal direct impact on major tech companies - Potential minor interest for programming language researchers - Some niche developer communities</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Racket is a historically academic-oriented Lisp-family language, descended from Scheme. While technically sophisticated, it has not been a primary language for AI/ML development compared to Python, Julia, or R. The version update likely includes performance improvements, language features, and standard library enhancements, but nothing suggesting a breakthrough that would materially affect AI tech...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://blog.racket-lang.org/2025/11/racket-v9-0.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="material-hidden-9" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">OpenAI secures San Francisco offices amid reported threat from activist</h3>
+                    <button class="expand-btn" id="btn-29" onclick="toggleEvent(29)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-29" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📉 negative</span>
+                         | OpenAI
+                        <span> | 2025-11-23 04:45</span>
+                        <span> | Notable Notable: Warrants tracking but doesn't fundamentally change investment thesis - Reflects broader tech industry tensions around AI development - Demonstrates potential workplace vulnerabilities for high-profile AI organizations - Follows pattern of increased scrutiny and potential activist challenges to AI companies - Limited information suggests this is a manageable incident - No indication of significant operational disruption - Typical risk management scenario for tech companies - Minor potential negative sentiment - Unlikely to materially affect stock performance - Reinforces need for comprehensive corporate security strategies - Monitor OpenAI's response - Assess broader security preparedness of AI companies - No immediate portfolio adjustment necessary</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should monitor potential security risks in AI companies, which could impact operational stability and potentially attract negative media attention. The incident underscores the need for robust security protocols in high-profile tech organizations.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- OpenAI (direct impact) - Microsoft (major OpenAI investor/partner) - Other AI technology companies in San Francisco</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://nextbigwhat.com/openai-secures-san-francisco-offices-amid-reported-threat-from-activist/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="material-hidden-10" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">clippy-code 4.6.0</h3>
+                    <button class="expand-btn" id="btn-36" onclick="toggleEvent(36)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-36" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                         | OpenAI
+                        <span> | 2025-11-23 02:49</span>
+                        <span> | Notable Background: Provides general sector awareness but does not materially change investment thesis for AI stocks.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>The release indicates continued developer-focused tooling in the AI ecosystem, but does not represent a breakthrough that would significantly impact AI sector investment strategies.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- OpenAI (minimal mention) - Potential indirect impact on developer tool ecosystem - No direct material impact on major AI stocks</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Represents ongoing trend of modular, LLM-powered coding assistants - Similar to GitHub Copilot and other AI coding tools - Incremental evolution of developer productivity tools - Incomplete content description limits comprehensive analysis - Appears to be a point release (4.6.0) suggesting iterative development - No clear differentiation from existing coding assistance tools The low significance...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://pypi.org/project/clippy-code/4.6.0/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="material-hidden-11" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">"Good engineering management" is a fad</h3>
+                    <button class="expand-btn" id="btn-16" onclick="toggleEvent(16)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-16" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 20:16</span>
+                        <span> | Notable Notable: Worth tracking as a potential leading indicator of organizational culture evolution, but not immediately material to investment theses.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>For AI sector investors, this signals potential internal cultural shifts in technical organizations around management philosophy. It may indicate growing skepticism about established organizational practices, which could impact talent retention and organizational effectiveness in high-stakes AI development environments.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- FAANG companies (META, GOOGL, MSFT) - AI-focused tech firms (NVIDIA, OpenAI) - Enterprise software/consulting firms - Technical recruitment/HR platforms</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Follows broader tech industry trends of questioning traditional management frameworks, similar to previous "agile" and "lean startup" methodology debates. Reflects ongoing tension between structured management and innovation-driven technical cultures. - Minimal direct financial impact - Represents intellectual discourse about organizational design - Potentially signals emerging management adaptati...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://lethain.com/good-eng-mgmt-is-a-fad/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="material-hidden-12" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Passing the Torch – My Last Root DNSSEC KSK Ceremony as Crypto Officer 4</h3>
+                    <button class="expand-btn" id="btn-7" onclick="toggleEvent(7)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-7" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-24 02:16</span>
+                        <span> | Notable Background: No material impact on investment strategies or technology sector positioning.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>No direct implications for AI sector investors. This is a specialized internet infrastructure operational note with minimal broader technology investment significance.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Root DNS infrastructure teams - Internet governance technical personnel - Potential minimal impact on cybersecurity infrastructure providers</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>DNSSEC KSK ceremonies are periodic cryptographic key rotation events critical for maintaining internet domain name system security. This seems to be a routine leadership transition in a technical role responsible for these ceremonies. - No connection to AI technology developments - Not related to major tech company strategies - Represents routine technical infrastructure maintenance - Unlikely to ...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://technotes.seastrom.com/2025/11/23/passing-the-torch.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="material-hidden-13" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Jim Cramer Wonders Whether OpenAI Will be Able to Beat Alphabet (GOOGL)</h3>
+                    <button class="expand-btn" id="btn-25" onclick="toggleEvent(25)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-25" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                         | OpenAI
+                        <span> | 2025-11-23 05:56</span>
+                        <span> | Notable Background: Provides general sector chatter without presenting material new information that would substantially alter investment strategies.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should view this as speculative market commentary rather than a definitive competitive assessment. The snippet suggests ongoing market interest in AI competitive dynamics between major players.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Alphabet (GOOGL) - OpenAI - Microsoft (indirect, via OpenAI relationship)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Reflects ongoing market fascination with AI competitive landscape - Highlights continuing media narrative around AI tech rivalry - No substantive technical, financial, or strategic details provided - Incomplete news article - Lack of concrete competitive insights - Absence of quantifiable competitive intelligence - Appears more like commentary than substantive reporting The neutral sentiment ste...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://finance.yahoo.com/news/jim-cramer-wonders-whether-openai-055658893.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="material-hidden-14" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">'A Battle With My Blood' in more ways than one</h3>
+                    <button class="expand-btn" id="btn-26" onclick="toggleEvent(26)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-26" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 05:00</span>
+                        <span> | Notable Background: No material change to investment thesis or sector outlook.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>No immediate implications for AI sector investors. The content seems to be a personal commentary unrelated to technological or market developments.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- No AI companies directly affected - No technology sectors impacted</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>The fragment suggests a personal narrative about cancer, potentially involving a Kennedy family member, but lacks substantive details for meaningful analysis. - Source (American Thinker) suggests an opinion/editorial piece - Limited content provides insufficient context for deeper evaluation - No discernible connection to AI, technology, or investment landscapes The extremely low significance scor...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.americanthinker.com/blog/2025/11/a_battle_with_my_blood_in_more_ways_than_one.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div>
+            <button onclick="toggleEventSection('material', 15)" id="material-toggle-btn"
+                    style="margin: 20px auto; display: block; padding: 8px 20px; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
+                Show 12 More Events
+            </button>
+        </section>
+
+        <section class="events notable-events">
+            <h2>🟡 Notable Events <span style="font-size: 0.7em; color: #94a3b8; font-weight: normal;">(worth tracking)</span></h2>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Google CEO Sundar Pichai issues stark warning to employees amid tough AI competition from OpenAI and Microsoft, says 'you can't rest...'</h3>
+                    <button class="expand-btn" id="btn-30" onclick="toggleEvent(30)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-30" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">↕️ mixed</span>
+                         | OpenAI, Google, Microsoft
+                        <span> | 2025-11-23 04:43</span>
+                        <span> | Notable Notable - Provides strategic insight into major tech players' AI investment perspectives without fundamentally altering existing investment theses. - GOOGL: Potential increased capex pressure - MSFT: Validates continued aggressive AI strategy - NVDA: Reinforces robust AI infrastructure demand - META: Highlights industry-wide AI investment imperative</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should anticipate heightened R&D spending and competitive maneuvering among major AI players. The statement implies that AI investment remains critical despite potential market overheating concerns.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Beneficiaries: Google, Microsoft, OpenAI - Potential Risks: Smaller AI startups, companies with limited AI investment capacity - Sectors Impacted: Cloud Computing, Enterprise AI, Tech Infrastructure</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Echoes similar competitive warnings from 2023-2024 AI race, demonstrating sustained strategic importance of AI technological leadership. Suggests ongoing market maturation and competitive differentiation through AI capabilities. The warning reflects a mature understanding that AI is transitioning from experimental to mission-critical enterprise technology, with significant long-term strategic impl...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://economictimes.indiatimes.com/news/new-updates/google-ceo-sundar-pichai-issues-stark-warning-to-employees-amid-ai-competition-from-openai-and-microsoft-says-you-cant-rest-/articleshow/125515579.cms" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Japan's gamble to turn island of Hokkaido into global chip hub</h3>
+                    <button class="expand-btn" id="btn-5" onclick="toggleEvent(5)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-5" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                        
+                        <span> | 2025-11-24 03:07</span>
+                        <span> | Notable Notable: Worth tracking as a potential strategic shift in global semiconductor landscape, but not immediately thesis-changing for major AI/tech stocks.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>AI sector investors should view this as a potential long-term diversification of semiconductor manufacturing geography, potentially reducing concentration risks currently centered in Taiwan and Korea. This could create new investment opportunities in regional infrastructure, advanced manufacturing, and semiconductor supply chain resilience.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Beneficiaries: TSMC, Intel, AMD, NVIDIA - Regional tech infrastructure companies - Japanese semiconductor equipment manufacturers - Cloud computing providers (MSFT, GOOGL, AWS)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>This follows global trends of geographic diversification post-COVID supply chain disruptions and geopolitical tensions, particularly around Taiwan's semiconductor manufacturing capabilities. Japan's historical strength in precision manufacturing makes Hokkaido an intriguing potential tech hub. - Potential government subsidies/incentives - Emerging tech talent development ecosystem - Strategic resp...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.bbc.com/news/articles/c8676qpxgnqo" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">MCP Apps just dropped (OpenAI and Anthropic collab) and I think this is huge</h3>
+                    <button class="expand-btn" id="btn-34" onclick="toggleEvent(34)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-34" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                         | OpenAI, Anthropic
+                        <span> | 2025-11-23 03:27</span>
+                        <span> | Notable Notable - Reduce development costs - Improve interoperability - Lower barriers to AI application creation - Potentially create new middleware/infrastructure investment opportunities</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should view this as a positive signal of ecosystem maturation, indicating that major AI companies are moving towards more standardized, collaborative development approaches. This could reduce friction in AI application development and potentially accelerate market adoption.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- OpenAI - Anthropic - Cloud computing providers (MSFT, GOOGL, AMZN) - AI infrastructure companies (NVDA, AMD) - Enterprise software developers</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>This appears analogous to early web standards development (HTML/CSS), where collaboration enabled broader ecosystem growth. Similar protocol standardization efforts in AI could signal a maturing technology landscape. - Modest positive signal for collaborative AI development - Indicates ongoing technical innovation - May reduce fragmentation in AI application ecosystems The collaboration between Op...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="http://blog.modelcontextprotocol.io/posts/2025-11-21-mcp-apps/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+<div id="notable-hidden-3" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Articles On: Huawei, CISA, Cyber Espiongage, Google, AI, Amazon, Microsoft, and Nvidia</h3>
+                    <button class="expand-btn" id="btn-42" onclick="toggleEvent(42)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-42" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📉 negative</span>
+                         | Google, Microsoft, NVIDIA, Amazon
+                        <span> | 2025-11-23 00:00</span>
+                        <span> | Notable Notable - Signals ongoing technological decoupling - Suggests potential market restructuring - Indicates growing geopolitical risk premium for tech investments</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>AI sector investors should anticipate increased regulatory scrutiny and potential market fragmentation, with technological supply chains and market access becoming more politically complex. This may drive increased investment in domestic technology development and create opportunities for alternative technology providers.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Beneficiaries: Microsoft, NVIDIA, Google, Amazon (as Western tech alternatives) - Harmed: Huawei, Chinese technology ecosystem - Potential Winners: US/European semiconductor and AI infrastructure companies</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Part of a broader trend of technological sovereignty initiatives, similar to previous US restrictions on Chinese technology companies. Represents continuation of tech Cold War dynamics emerging since 2020. - 6G network bans represent strategic technological containment - Reflects growing national security concerns around Chinese technology - Potential catalyst for accelerated technological innovat...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.hoover.org/research/articles-huawei-cisa-cyber-espiongage-google-ai-amazon-microsoft-and-nvidia" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-4" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Show HN: Syd – An offline-first, AI-augmented workstation for blue teams</h3>
+                    <button class="expand-btn" id="btn-3" onclick="toggleEvent(3)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-3" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                        
+                        <span> | 2025-11-24 07:11</span>
+                        <span> | Notable Notable - Represents an emerging trend in secure, privacy-focused AI application development that could influence future enterprise security tool design.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should note the growing market for privacy-preserving AI tools, especially in cybersecurity and sensitive enterprise contexts. This suggests potential opportunities in localized AI processing technologies and security-focused AI applications.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Potential beneficiaries: CrowdStrike, Palo Alto Networks - Cybersecurity AI tool developers - Enterprise security software companies - Local AI processing chip manufacturers (NVIDIA, AMD)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Follows recent trends of decentralized AI and increased enterprise concern about data leakage and cloud-based AI risks. Demonstrates the ongoing evolution of AI tools toward more granular, secure, and specialized applications. - Increasing enterprise demand for privacy-preserving AI - Trend toward localized AI processing - Growing sophistication of cybersecurity AI tools The solution's offline-fir...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.sydsec.co.uk" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-5" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Show HN: Stun LLMs with thousands of invisible Unicode characters</h3>
+                    <button class="expand-btn" id="btn-4" onclick="toggleEvent(4)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-4" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">↕️ mixed</span>
+                        
+                        <span> | 2025-11-24 03:00</span>
+                        <span> | Notable Notable - Warrants tracking but doesn't fundamentally change investment thesis. Signals potential need for enhanced AI model resilience technologies.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should note this as an emerging technical risk in AI model robustness. It highlights potential vulnerabilities in current LLM architectures that could require additional defensive development and potentially increase R&D costs for major AI companies.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- NVIDIA (NVDA) - Microsoft (MSFT) - Google/Alphabet (GOOGL) - Meta (META) - OpenAI - Anthropic - AI infrastructure/security startups</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Follows recent trends of exploring AI model vulnerabilities - Similar to previous adversarial machine learning research - Represents ongoing cat-and-mouse game in AI security - Modest increase in AI model development costs - Potential temporary reputational risk for AI platforms - Opportunity for cybersecurity/AI resilience startups Recommended investor action: Monitor, but not a significant por...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://gibberifier.com" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-6" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">X's new country-of-origin feature reveals many 'US' accounts to be foreign-run</h3>
+                    <button class="expand-btn" id="btn-18" onclick="toggleEvent(18)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-18" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">↕️ mixed</span>
+                        
+                        <span> | 2025-11-23 23:25</span>
+                        <span> | Notable Rationale: While not thesis-changing, this development underscores the growing importance of AI-driven authentication solutions and platform trust mechanisms. Investors should monitor how social media and tech companies respond to these challenges.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>For AI sector investors, this signals increased scrutiny on platform integrity, potentially driving investment in AI-powered verification and authentication technologies. Companies with robust identity verification and bot detection capabilities may see increased market interest.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- X/Twitter (direct impact) - Social media platforms (Meta, Alphabet) - Cybersecurity firms (Crowdstrike, Palo Alto Networks) - AI verification technology providers</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Follows previous concerns about bot networks, foreign interference in digital platforms, and the ongoing challenge of maintaining platform authenticity in an increasingly complex digital landscape. Builds on existing narratives about social media platform vulnerabilities. - MSFT: Potential opportunity for LinkedIn/Azure identity verification technologies - META: Increased pressure on platform inte...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.hindustantimes.com/world-news/us-news/xs-new-country-of-origin-feature-shakes-maga-and-democrat-circles-as-many-us-accounts-revealed-to-be-foreignrun-101763857104296.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-7" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">The Three Disparate Ways That Policymakers And Lawmakers Are Regulating AI That Provides Mental Health Guidance</h3>
+                    <button class="expand-btn" id="btn-22" onclick="toggleEvent(22)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-22" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">↕️ mixed</span>
+                         | Amazon
+                        <span> | 2025-11-23 08:15</span>
+                        <span> | Notable Notable - Signals important regulatory trend that could impact AI healthcare market development - MSFT: Potential increased compliance costs for Teams/healthcare AI - GOOGL: Potential constraints on medical AI product development - META: Limited direct impact - NVDA: Indirect effect through potential AI application restrictions</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should anticipate increased compliance costs and potential market friction for AI companies developing mental health applications. Regulatory fragmentation could slow market penetration and increase legal/development expenses.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Amazon (mentioned in article) - Telehealth providers - Mental health tech startups - Large AI platforms (MSFT, GOOGL) - Healthcare AI solution providers</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Follows broader trend of domain-specific AI regulation emerging globally, with mental health representing a particularly sensitive regulatory frontier. Represents early-stage policy development around AI's role in sensitive human services. The three disparate regulatory approaches suggest a complex, evolving policy landscape that will require ongoing investor monitoring. Companies with flexible, e...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.forbes.com/sites/lanceeliot/2025/11/23/the-three-disparate-ways-that-policymakers-and-lawmakers-are-regulating-ai-that-provides-mental-health-guidance/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-8" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Terence Tao: At the Erdos problem website, AI assistance now becoming routine</h3>
+                    <button class="expand-btn" id="btn-20" onclick="toggleEvent(20)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-20" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                        
+                        <span> | 2025-11-22 20:27</span>
+                        <span> | Notable Notable: Provides evidence of AI's expanding capabilities, supporting current investment theses around AI's transformative potential. Strengthens long-term growth narratives for AI infrastructure and model development companies.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Reinforces AI's potential in complex cognitive tasks, suggesting broader enterprise and research applications. Demonstrates AI moving from experimental to practical tools in high-complexity domains like mathematics and scientific research.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- NVIDIA (NVDA): Potential increased compute demand for advanced AI models - Microsoft (MSFT): Azure AI and research computing platforms - Google (GOOGL): Research AI capabilities - OpenAI - Academic research institutions - Scientific computing companies</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Represents continuation of AI's progression from narrow to more generalized problem-solving capabilities. Follows previous milestones like mathematical theorem proving and complex reasoning tasks. This development is particularly interesting as it comes from a Fields Medal winner (considered the "Nobel Prize of Mathematics"), lending significant credibility to AI's advancing capabilities.</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://mathstodon.xyz/@tao/115591487350860999" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-9" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Ask HN: Hearing aid wearers, what's hot?</h3>
+                    <button class="expand-btn" id="btn-2" onclick="toggleEvent(2)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-2" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-24 02:25</span>
+                        <span> | Notable Notable: Signals potential growth in AI-enhanced medical device markets, particularly in adaptive audio technology. - Potential for machine learning in real-time sound environment adaptation - Advanced noise reduction algorithms - Personalized audio processing - Potential integration with broader AI assistive technologies</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>AI sector investors should note the growing convergence of medical device technology with AI/machine learning capabilities, particularly in adaptive sound processing and personalized audio experiences.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>* Phonak (hearing aid manufacturer) * Apple (hearing technology integration) * Cochlear Limited * Starkey Technologies * Microsoft (AI audio processing) * Google (sound AI algorithms)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Hearing aid market projected to reach $10B by 2026 - Increasing consumer demand for technologically sophisticated medical devices - Growing intersection of AI and medical technology - Rising awareness of personalized medical solutions The thread represents a micro-signal of broader technological convergence in assistive medical technologies, worth tracking for AI sector investors.</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://news.ycombinator.com/item?id=46029699" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-10" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">OpenAI to retire GPT-4o API access by February 2026</h3>
+                    <button class="expand-btn" id="btn-28" onclick="toggleEvent(28)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-28" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                         | OpenAI
+                        <span> | 2025-11-23 04:45</span>
+                        <span> | Notable Notable: Worth tracking as it provides insight into OpenAI's strategic thinking, but does not fundamentally alter near-term investment theses in AI sector. - Minimal direct impact on NVDA, MSFT - Potential slight positive for GOOGL/cloud AI providers as alternative seekers - AMD: Neutral</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>AI sector investors should view this as a potential indicator of OpenAI's product lifecycle management and potential upcoming model transitions. It may prompt developers and enterprise customers to reassess their AI integration strategies and explore alternative model options.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Beneficiaries: Alternative AI model providers (Anthropic, Google, Microsoft) - Potentially Harmed: Developers heavily dependent on GPT-4o API - Neutral: OpenAI (managed transition)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Consistent with typical tech industry practice of deprecating older models as newer technologies emerge. Gives enterprises ~3 months notice for transition planning. This event represents a normal technological evolution rather than a dramatic market shift.</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://nextbigwhat.com/openai-to-retire-gpt-4o-api-access-by-february-2026/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-11" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Your eyes hold secrets to how long you live. New alarming study finds link between eyes, heart disease and diabetes. Check details</h3>
+                    <button class="expand-btn" id="btn-35" onclick="toggleEvent(35)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-35" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 03:11</span>
+                        <span> | Notable This development represents an incremental but meaningful advancement in AI-driven medical diagnostics. While not immediately thesis-changing, it reinforces the potential for AI to transform early disease detection and personalized medicine.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>AI investors should note the growing intersection of medical imaging, predictive diagnostics, and machine learning algorithms. This signals continued opportunities in healthcare AI applications, particularly in predictive screening technologies.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- NVIDIA (AI medical imaging hardware) - Google/Alphabet (DeepMind medical research) - Microsoft (Healthcare AI solutions) - Imaging technology companies - Medical diagnostics firms - Health AI startups</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Growing trend of AI applications in medical imaging - Increasing focus on preventative healthcare technologies - Continued investment in machine learning diagnostic tools The research suggests AI's expanding role in interpreting complex medical imaging data, potentially creating new market opportunities for companies developing advanced diagnostic technologies. Recommendation: Monitor developmen...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://economictimes.indiatimes.com/news/new-updates/your-eyes-hold-secrets-to-how-long-you-will-live-new-alarming-study-finds-link-between-eyes-heart-disease-and-diabetes/articleshow/125514489.cms" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-12" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">New magnetic component discovered in the Faraday effect after nearly 2 centuries</h3>
+                    <button class="expand-btn" id="btn-19" onclick="toggleEvent(19)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-19" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-19 20:53</span>
+                        <span> | Notable Background: Interesting scientific advancement that does not immediately change investment theses but warrants monitoring for potential future technological convergence.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>For AI sector investors, this represents a background-level scientific development that could potentially influence future computational architectures, particularly in quantum computing and advanced semiconductor design. The discovery might have downstream implications for more efficient magnetic sensing and data transmission technologies.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- NVIDIA (potential long-term materials R&D interest) - AMD (semiconductor design research) - Applied Materials - IBM Research - Academic quantum computing research centers</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>The Faraday effect, discovered in 1845 by Michael Faraday, relates to the interaction between light and magnetic fields. A new magnetic component discovery suggests ongoing fundamental research that could incrementally contribute to materials science and computational technologies. - Early-stage scientific research with speculative long-term potential - No immediate commercial application evident ...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://phys.org/news/2025-11-magnetic-component-faraday-effect-centuries.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-13" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">RuBee</h3>
+                    <button class="expand-btn" id="btn-1" onclick="toggleEvent(1)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-1" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-24 03:08</span>
+                        <span> | Notable</span>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://computer.rip/2025-11-22-RuBee.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-14" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">The feds want to make it illegal to even possess an anarchist zine</h3>
+                    <button class="expand-btn" id="btn-8" onclick="toggleEvent(8)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-8" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📉 negative</span>
+                        
+                        <span> | 2025-11-24 05:46</span>
+                        <span> | Notable Notable: Requires monitoring as potential indicator of expanding regulatory constraints on information platforms - Slight negative pressure on platforms emphasizing user-generated content - Potential increased compliance/moderation technology investments - May accelerate development of privacy/anonymization technologies</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>For AI sector investors, this represents a potential signal of tightening information control mechanisms that could indirectly impact content moderation technologies, free speech platforms, and digital rights software development.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Potentially impacted: Alphabet (GOOGL), Meta (META) - Content moderation AI companies - Digital rights tech firms - First Amendment technology providers</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Echoes historical patterns of governmental attempts to restrict information dissemination, similar to prior constraints on underground publishing and digital communication channels. Represents emerging tension between digital rights and governmental control mechanisms. Recommendation: Monitor but not an immediate portfolio adjustment trigger. Potential long-term signal of increasing regulatory com...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://theintercept.com/2025/11/23/prairieland-ice-antifa-zines-criminalize-protest-journalism/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-15" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">wyn360-cli 0.3.66</h3>
+                    <button class="expand-btn" id="btn-33" onclick="toggleEvent(33)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-33" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                         | Anthropic
+                        <span> | 2025-11-23 03:36</span>
+                        <span> | Notable Background: No direct investment thesis change, represents routine product iteration in AI developer tools ecosystem.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>For AI sector investors, this signals continued expansion of AI development tools, but does not represent a meaningful shift in competitive dynamics or market positioning.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Anthropic (potential minor benefit) - Developer tooling ecosystem - AI infrastructure companies (minimal impact)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Part of ongoing trend of AI-powered coding assistants (similar to GitHub Copilot) - Represents continued fragmentation and specialization in AI coding tool market - Minimal distinguishing characteristics from existing offerings - Continued democratization of AI coding tools - Incremental improvement in AI-assisted development workflows - Low barrier to entry for new AI coding assistant products ...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://pypi.org/project/wyn360-cli/0.3.66/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-16" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Judge temporarily blocks OpenAI from using 'Cameo' in video-making app Sora</h3>
+                    <button class="expand-btn" id="btn-37" onclick="toggleEvent(37)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-37" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                         | OpenAI
+                        <span> | 2025-11-23 02:34</span>
+                        <span> | Notable Notable: Worth monitoring legal resolution, but not fundamentally changing investment thesis around AI video generation technologies. - Minimal immediate impact on NVDA, MSFT - Potential small branding/naming risk for AI product launches - Reinforces importance of comprehensive trademark research in AI product development</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should view this as a minor operational challenge for OpenAI. The restraining order suggests potential branding complications but does not materially affect the company's AI video generation technology or broader market positioning.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- OpenAI (direct impact) - Potential video/media AI platforms - Trademark holders in creative/entertainment spaces</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Consistent with increasing legal scrutiny of AI product naming and trademark usage - Similar to past tech trademark disputes (e.g., Meta/Facebook trademark challenges) - Reflects maturing AI product ecosystem with more complex legal considerations The relatively low significance score reflects the narrow, procedural nature of the trademark dispute and its limited potential to disrupt OpenAI's co...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://biztoc.com/x/d3a88dbe6bf45fc1" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-17" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Delhi AQI: Delhi continues to breath toxic air as AQI crosses 400 mark in several areas on 10th consecutive day. Check update for Noida, Gurugram</h3>
+                    <button class="expand-btn" id="btn-38" onclick="toggleEvent(38)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-38" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📉 negative</span>
+                        
+                        <span> | 2025-11-23 02:22</span>
+                        <span> | Notable Notable - Signals growing market for climate adaptation technologies and AI-driven environmental solutions - Moderate potential for increased investment in climate resilience technologies - Reinforces trend of AI applied to environmental challenges - Potential workforce productivity implications in high-pollution regions</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>- Environmental monitoring technologies - Air purification AI systems - Remote work/distributed workforce technologies - Climate adaptation tech solutions</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Honeywell (environmental tech) - Microsoft (cloud/remote work infrastructure) - Google (AI environmental monitoring) - IQAir (air quality tracking technologies)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Recurring Delhi air quality crisis - Growing global focus on urban environmental challenges - Increasing AI applications in environmental monitoring/mitigation The persistent air quality issue represents a systemic challenge that could drive technological innovation and investment in climate adaptation solutions.</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://economictimes.indiatimes.com/news/new-updates/delhi-aqi-today-delhi-continues-to-breath-toxic-air-as-aqi-crosses-400-mark-in-several-areas-on-10th-consecutive-day-check-update-for-noida-gurugram-and-more/articleshow/125514716.cms" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-18" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Git 3.0 will use main as the default branch</h3>
+                    <button class="expand-btn" id="btn-9" onclick="toggleEvent(9)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-9" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-24 06:37</span>
+                        <span> | Notable Background: Does not meaningfully change investment thesis or require portfolio adjustment.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Minimal direct implications for AI sector investors. This change represents a standardization practice that might incrementally improve developer experience but does not affect core technology development or competitive positioning.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- GitHub (Microsoft) - GitLab - Atlassian - Software development tools ecosystem</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Reflects broader industry trend of moving away from potentially problematic terminology - Part of ongoing software development cultural standardization - Follows similar changes in other open-source and enterprise software platforms While symbolically meaningful in tech culture, this event is essentially a naming convention update with negligible financial or strategic implications for AI sector...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://thoughtbot.com/blog/git-3-0-will-use-main-as-the-default-branch" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-19" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">“Oracle’s (ORCL) a Legitimate Question,” Says Jim Cramer</h3>
+                    <button class="expand-btn" id="btn-23" onclick="toggleEvent(23)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-23" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 06:02</span>
+                        <span> | Notable Background: No direct change to investment thesis is warranted based on this fragment of information.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>For AI sector investors, this represents background noise without clear actionable intelligence. The reference to CoreWeave suggests some potential cloud/compute context, but insufficient details are provided to draw meaningful conclusions.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Oracle (ORCL) - Potential secondary impact on cloud computing stocks - Minimal direct implications for major AI players (NVDA, MSFT, GOOGL)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Without full context, this appears to be a media commentary piece lacking substantive technical or financial analysis. Jim Cramer's opinions are often viewed as entertainment rather than definitive investment guidance. - Incomplete news snippet limits comprehensive analysis - Requires full article review to extract meaningful insights - No clear signal about Oracle's AI capabilities or strategic p...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://finance.yahoo.com/news/oracle-orcl-legitimate-says-jim-060241236.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-20" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Claude and ChatGPT or: how I learned to stop worrying and love artificial intelligence</h3>
+                    <button class="expand-btn" id="btn-27" onclick="toggleEvent(27)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-27" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                         | Anthropic
+                        <span> | 2025-11-23 05:00</span>
+                        <span> | Notable Background: General sector awareness, no direct investment impact</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Minimal direct implications for AI sector investors. Represents anecdotal evidence of increasing AI normalization and public comfort with conversational AI technologies.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Anthropic (mentioned) - Potential secondary impact on consumer AI perception</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Reflects ongoing trend of AI mainstreaming and user adaptation, similar to early internet/smartphone adoption narratives. Represents a soft cultural signal rather than a hard technological or financial development. - Continued consumer curiosity about AI - Generational shift in technology comfort - Potential long-term market receptiveness to AI products The piece's nostalgic tone (referencing BASI...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.americanthinker.com/blog/2025/11/claude_and_chatgpt_or_how_i_learned_to_stop_worrying_and_love_artificial_intelligence.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-21" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">도널드 레임덕 "미국인들이 멍청해서 나를 지지하지 않아"</h3>
+                    <button class="expand-btn" id="btn-31" onclick="toggleEvent(31)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-31" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 04:19</span>
+                        <span> | Notable Background: Insufficient substantive information to influence investment decisions in AI stocks.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Minimal direct impact on AI sector investments. The SpaceX reference might tangentially relate to aerospace/technology infrastructure, but no clear AI investment signal is present.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Potential minor impact on aerospace technology stocks - No direct AI sector companies mentioned</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Incomplete news article - Potential translation/transmission error - No clear connection to AI sector developments - The event details seem inconsistent - URL and content don't fully align - Requires further verification before drawing any investment conclusions The low significance score reflects the lack of clear, actionable information related to AI sector investments. More context or a compl...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://ryueyes11.tistory.com/511982" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-22" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Cyclone likely to form over Bay of Bengal, IMD warns of heavy rainfall in Tamil Nadu, Kerala and Karnataka. Check latest update</h3>
+                    <button class="expand-btn" id="btn-39" onclick="toggleEvent(39)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-39" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 01:55</span>
+                        <span> | Notable Background: No direct changes to investment thesis required. General awareness of potential regional disruption.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>For AI sector investors, this event presents no immediate investment implications. The cyclone might indirectly affect regional technology infrastructure or data center operations, but no direct AI sector impact is evident.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>* Local technology infrastructure providers * Regional IT service companies (TCS, Infosys) * Cloud service providers with regional data centers</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Cyclones in the Bay of Bengal are seasonal and common - Technology resilience in these regions has improved over time - No indication of significant technology or AI ecosystem disruption - Not material for major AI stocks (NVDA, MSFT, GOOGL) - Potential minor operational considerations for regional tech companies - Demonstrates importance of understanding broader geopolitical and environmental c...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://economictimes.indiatimes.com/news/new-updates/cyclone-likely-to-form-over-bay-of-bengal-imd-warns-of-heavy-rainfall-in-andaman-nicobar-tamil-nadu-kerala-and-karnataka-check-latest-update/articleshow/125514596.cms" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-23" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">tokencostauto 0.1.361</h3>
+                    <button class="expand-btn" id="btn-41" onclick="toggleEvent(41)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-41" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                         | OpenAI
+                        <span> | 2025-11-23 00:34</span>
+                        <span> | Notable Background: No direct change to investment thesis or significant market implications. - Represents ongoing granular innovation in AI development tooling - Reflects continued focus on API cost management and transparency - Typical of the ongoing technical refinement in AI ecosystem - Package seems focused on practical cost tracking for AI API usage - Unlikely to move stock prices or create meaningful investment signals - Represents background-level technical development in AI infrastructure The event is essentially a minor technical release with limited broader market significance. Investors can file this under general AI ecosystem development tracking but should not make any investment decisions based on this announcement.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Minimal direct impact on AI sector investment strategy. Represents a small incremental tool in AI development infrastructure, potentially helpful for cost management in AI agent development.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- OpenAI (tangentially mentioned) - Small-scale AI developers and researchers - Potential minor interest for software development tools ecosystem</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://pypi.org/project/tokencostauto/0.1.361/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-24" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Giving the Jakks Atari Paddle a Spin</h3>
+                    <button class="expand-btn" id="btn-17" onclick="toggleEvent(17)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-17" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 20:31</span>
+                        <span> | Notable Background: No direct impact on investment strategies or sector dynamics</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>No immediate implications for AI sector investors. The news appears to be more of a personal or hobbyist technology piece with no discernible connection to AI investment trends.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- None identified in the AI or technology investment space</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Without more context, this looks like a personal blog post about a vintage gaming peripheral, which falls well below the threshold of meaningful technology or investment news. The extremely low significance score reflects the apparent lack of substantive information related to AI technologies, market movements, or strategic developments that would interest institutional or retail investors trackin...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://nicole.express/2025/paddle-me-atari.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-25" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Fran Sans – font inspired by San Francisco light rail displays</h3>
+                    <button class="expand-btn" id="btn-11" onclick="toggleEvent(11)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-11" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 18:20</span>
+                        <span> | Notable Background: No discernible impact on investment strategies or sector dynamics</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Minimal to no implications for AI sector investors. This is essentially a design curiosity with no technological or financial relevance to AI markets.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- No material impact on technology companies - Potentially minor interest for design-focused creative firms - No significant AI sector participants affected</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Typography is a design discipline, not a technological innovation - No connection to AI infrastructure, machine learning, or computational technologies - Lacks any substantive link to investment-grade technological developments The extremely low significance score reflects the event's complete lack of material relevance to technology investment, AI sector trends, or broader market dynamics. This...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://emilysneddon.com/fran-sans-essay" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-26" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Editing Code in Emacs</h3>
+                    <button class="expand-btn" id="btn-14" onclick="toggleEvent(14)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-14" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 14:59</span>
+                        <span> | Notable Background: No change to investment thesis, essentially sector awareness content for technology enthusiasts.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>No direct implications for AI sector investors. This represents a niche technical discussion that does not materially influence AI technology development or market dynamics.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- No significant impact on major tech companies - Potentially of mild interest to developer tools/productivity software companies (MSFT, AAPL)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Emacs is a long-standing text editor primarily used by programmers and technical professionals. This appears to be a personal workflow exploration rather than a significant technological breakthrough. - Too granular and personal to represent meaningful market signal - Represents ongoing developer community discussion/documentation - No discernible impact on AI sector investment strategies The extr...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://redpenguin101.github.io/html/posts/2025_11_23_emacs_for_code_editing.html" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-27" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Rocks – UhOh and Apology</h3>
+                    <button class="expand-btn" id="btn-43" onclick="toggleEvent(43)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-43" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 08:33</span>
+                        <span> | Notable Background: No direct investment impact or relevance to AI sector investment strategies.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>No discernible implications for AI sector investors. The text seems to be a personal narrative without technical or market significance.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>None identified.</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>No substantive context can be extracted from the limited and seemingly random text snippet. The source (freethoughtblogs.com) and incomplete content suggest this is not a credible investment information source. The text appears to be a personal blog post with no material market significance. The extremely low significance score reflects the complete absence of actionable intelligence for AI sector...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://freethoughtblogs.com/stderr/2025/11/23/rocks-uhoh-and-apology/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div><div id="notable-hidden-28" style="display: none;">
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Daily Horoscope for November 23, 2025</h3>
+                    <button class="expand-btn" id="btn-45" onclick="toggleEvent(45)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-45" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-23 07:00</span>
+                        <span> | Notable Background: No change to investment thesis, no actionable intelligence</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>No direct implications for AI sector investors. This is purely entertainment content with zero technological or investment significance.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- No AI companies or sectors impacted - No material investment relevance</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>- Standard daily newspaper filler content - No technological, market, or strategic insights present - Represents typical non-substantive media noise The low significance score reflects the complete absence of meaningful information. This type of content is essentially irrelevant to serious technology or AI investment analysis. Investors should disregard and focus on substantive market research, ea...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://www.denverpost.com/2025/11/23/daily-horoscope-for-november-23-2025/" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+</div>
+            <button onclick="toggleEventSection('notable', 29)" id="notable-toggle-btn"
+                    style="margin: 20px auto; display: block; padding: 8px 20px; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
+                Show 26 More Events
+            </button>
+        </section>
+
+        <section class="events research-events">
+            <h2>📚 Research Highlights <span style="font-size: 0.7em; color: #94a3b8; font-weight: normal;">(technical developments)</span></h2>
+            <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px; font-style: italic;">
+                Research papers are not included in sentiment analysis - they represent technical progress rather than market-moving news.
+            </p>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Comparing verbal, visual and combined explanations for Bayesian Network inferences</h3>
+                    <button class="expand-btn" id="btn-50" onclick="toggleEvent(50)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-50" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">➡️ neutral</span>
+                        
+                        <span> | 2025-11-24 08:37</span>
+                        <span> | Notable Notable - Demonstrates ongoing focus on AI explainability, which could influence future product development and enterprise AI adoption strategies.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should note this as part of the broader AI transparency and explainability trend, which is becoming increasingly important for enterprise and regulatory acceptance of AI systems. The work suggests continued investment in making AI more understandable and user-friendly.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- Microsoft (potential integration into Azure AI) - Google (relevant for Google Cloud AI services) - IBM (strong Bayesian network research heritage) - Enterprise AI software providers like C3.ai</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Part of a growing research stream addressing the "black box" problem in AI, building on previous work in model interpretability and user interface design for complex probabilistic systems. - Represents academic research pushing AI transparency forward - Addresses a known user understanding barrier in probabilistic AI models - Signals continued investment in making AI more accessible and comprehens...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://arxiv.org/abs/2511.16961" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Hybrid Differential Reward: Combining Temporal Difference and Action Gradients for Efficient Multi-Agent Reinforcement Learning in Cooperative Driving</h3>
+                    <button class="expand-btn" id="btn-49" onclick="toggleEvent(49)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-49" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                        
+                        <span> | 2025-11-24 08:37</span>
+                        <span> | Notable Notable - Signals potential performance improvements in autonomous driving AI that could incrementally advantage companies with strong machine learning research capabilities.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should note this as a incremental but important step in improving AI decision-making for autonomous vehicles, potentially accelerating development timelines for companies investing in self-driving technology. The research suggests more robust multi-agent coordination strategies could emerge, reducing uncertainty in autonomous driving implementations.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- NVIDIA (hardware acceleration for AI learning) - Waymo (autonomous driving technology) - Tesla (autonomous driving research) - Mobileye (autonomous driving systems) - Mercedes-Benz, BMW (autonomous vehicle development)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Builds on existing reinforcement learning research, specifically addressing performance limitations in multi-agent cooperative control scenarios. Represents continued refinement of AI decision-making techniques for complex, real-world environments. The research specifically targets the challenge of maintaining meaningful reward signals in high-frequency, continuous control scenarios - a persistent...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://arxiv.org/abs/2511.16916" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Fantastic Bugs and Where to Find Them in AI Benchmarks</h3>
+                    <button class="expand-btn" id="btn-48" onclick="toggleEvent(48)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-48" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                        
+                        <span> | 2025-11-24 08:37</span>
+                        <span> | Notable - Enhance transparency in AI model performance - Reduce misleading benchmark claims - Improve investor confidence in AI technology claims - Support more accurate competitive assessments</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors will gain more confidence in AI performance metrics, potentially reducing valuation uncertainty and improving the ability to compare AI model capabilities across different platforms and providers.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- NVIDIA (NVDA) - Microsoft (MSFT) - Alphabet (GOOGL) - Meta (META) - AMD - AI testing and benchmark firms - AI research institutions</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>This builds on growing concerns about AI benchmark reliability, following previous issues with AI model evaluation methods. It represents a systematic approach to addressing measurement challenges in rapidly evolving AI technologies. The proposed statistical analysis framework for identifying invalid benchmark questions is a technical advancement that demonstrates the ongoing maturation of AI eval...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://arxiv.org/abs/2511.16842" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Cognitive BASIC: An In-Model Interpreted Reasoning Language for LLMs</h3>
+                    <button class="expand-btn" id="btn-47" onclick="toggleEvent(47)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-47" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                        
+                        <span> | 2025-11-24 08:37</span>
+                        <span> | Notable Notable - Worth tracking as a potential breakthrough in AI model development, but not immediately material to current valuations.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should view this as a potentially important advancement in AI model governance and transparency. The ability to create more interpretable AI models could reduce risk perceptions and accelerate enterprise AI adoption, particularly in regulated industries like finance and healthcare.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- NVIDIA (potential hardware optimization opportunities) - Microsoft (Azure AI platform enhancement) - Google (DeepMind research alignment) - OpenAI (model interpretability research) - Anthropic (AI safety and transparency focus)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Historically, similar interpretability efforts have been challenging. This approach leverages the familiar BASIC programming paradigm, which might make complex AI reasoning more accessible to developers and researchers. It builds on previous work in AI transparency like chain-of-thought prompting and model decomposition. - Represents continued academic push toward more explainable AI - Demonstrate...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://arxiv.org/abs/2511.16837" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">Stable diffusion models reveal a persisting human and AI gap in visual creativity</h3>
+                    <button class="expand-btn" id="btn-46" onclick="toggleEvent(46)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-46" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">↕️ mixed</span>
+                        
+                        <span> | 2025-11-24 08:37</span>
+                        <span> | Notable Notable: Provides valuable competitive intelligence about current AI generative capabilities without fundamentally disrupting existing investment theses.</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should note that while AI image generation continues to advance, there remains substantial room for improvement in generative creativity. This implies continued investment opportunities in AI research and development to bridge the current creative performance gap.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- NVIDIA (NVDA) - Microsoft (MSFT) - Alphabet (GOOGL) - Adobe (ADBE) - Stability AI - Midjourney - OpenAI</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>This research builds on previous divergent thinking studies, extending the creative assessment from language models to visual generation. It represents a continuation of empirical testing of AI's creative boundaries, following similar assessments in text and language domains. - Confirms ongoing differentiation between human and AI creative processes - Suggests continued market opportunities for AI...</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://arxiv.org/abs/2511.16814" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="event-card-compact">
+                <div class="event-header-compact">
+                    <h3 class="event-title-compact">An Economy of AI Agents</h3>
+                    <button class="expand-btn" id="btn-13" onclick="toggleEvent(13)">▶</button>
+                </div>
+
+                <div class="event-content-expanded" id="content-13" style="display: none;">
+                    <div class="event-meta-compact">
+                        <span class="sentiment">📈 positive</span>
+                        
+                        <span> | 2025-11-23 02:08</span>
+                        <span> | Notable Notable - Signals emerging technological trajectory that could influence future AI platform architectures and economic models. - Suggests potential new revenue models for AI companies - Indicates continued complexity in AI agent interaction technologies - Highlights ongoing research into autonomous economic systems</span>
+                    </div>
+
+                    <div class="implications">
+                        <h4>💡 Implications</h4>
+                        <p>Investors should monitor potential platform technologies that could enable scalable AI agent economies, which might dramatically reduce transaction costs and create new marketplaces for AI-driven interactions. The research hints at future decentralized AI coordination mechanisms with significant economic potential.</p>
+                    </div>
+
+                    <div class="affected-parties">
+                        <h4>👥 Affected Parties</h4>
+                        <p>- NVIDIA (AI compute infrastructure) - Microsoft (AI platform development) - Alphabet/Google (AI research and deployment) - Amazon Web Services (potential infrastructure provider) - Anthropic (AI agent research) - OpenAI (multi-agent system development)</p>
+                    </div>
+
+                    <div class="context">
+                        <h4>📚 Context</h4>
+                        <p>Builds on distributed AI research like multi-agent reinforcement learning and blockchain-based coordination mechanisms. Represents next evolutionary step beyond current generative AI models toward more autonomous, interconnected AI systems.</p>
+                    </div>
+
+                    <div class="event-link">
+                        <a href="https://arxiv.org/abs/2509.01063" target="_blank">Read full article →</a>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <script>
+        function toggleEventSection(section, totalCount) {
+            const button = document.getElementById(section + '-toggle-btn');
+            const isExpanded = button.textContent.includes('Show Less');
+
+            for (let i = 3; i < totalCount; i++) {
+                const elem = document.getElementById(section + '-hidden-' + i);
+                if (elem) {
+                    elem.style.display = isExpanded ? 'none' : 'block';
+                }
+            }
+
+            if (isExpanded) {
+                button.textContent = 'Show ' + (totalCount - 3) + ' More Events';
+            } else {
+                button.textContent = 'Show Less';
+            }
+        }
+        </script>
+    </main>
+
+    <footer>
+        <p>Generated by AI-Pulse | Data from Hacker News, NewsAPI, SEC EDGAR, GitHub, Company IR</p>
+        <p>Analysis powered by Claude (Anthropic)</p>
+    </footer>
+</body>
+</html>
