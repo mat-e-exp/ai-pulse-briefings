@@ -22,12 +22,12 @@
         // Initialize charts when page loads
         window.addEventListener('DOMContentLoaded', function() {
             // Extract closed market dates (needed for both charts)
-            const marketData = {"BTC-USD": {"name": "Bitcoin", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-27", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.7, 1.68, -0.26, 0.44, 0.94, -0.44, -3.49, 0.57, 0.7, -0.09, 0.41, 0.28, -0.57, -0.73, 0.55, -2.45, -0.03, -2.31, -1.99, 1.66, -1.87]}, "AIQ": {"name": "AI Analytics ETF", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.57, 3.17, 0.29, 0.85, 0.95, -0.02, 0.62, 0.79, 0.22, 1.04, 0.08, 0.29, 0.77, -0.75, -2.24, -1.27, -0.02, -1.8]}, "BOTZ": {"name": "AI/Robotics ETF", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [1.24, 1.73, 1.41, 0.93, 0.86, 0.23, -0.28, 1.02, 3.86, -0.3, 0.33, -0.03, 0.41, -0.27, -1.49, -0.66, -0.97, -2.21]}, "PLTR": {"name": "Palantir", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-0.57, 4.78, 0.8, 1.36, 1.62, -0.57, 1.91, 3.16, 1.04, 2.16, -0.15, 0.19, 3.34, -0.2, -2.12, -0.17, 2.46, -5.57]}, "AMD": {"name": "AMD", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.09, 5.53, -4.15, 3.93, 1.54, 1.03, -2.06, 1.1, -0.74, 0.92, 1.44, 0.23, -0.09, 0.0, -4.81, -1.52, 0.77, -5.29]}, "META": {"name": "Meta", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.87, 3.16, 3.78, -0.41, 2.26, -1.09, 0.97, -1.16, 3.43, 1.8, -0.98, -1.48, -1.04, 0.4, -1.3, 0.51, 1.49, -1.16]}, "GOOGL": {"name": "Alphabet", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [3.53, 6.31, 1.53, -1.08, 0.07, -1.65, 0.29, -0.63, 1.15, -2.35, 1.07, 0.99, -2.43, -1.01, -0.35, -0.54, -3.21]}, "MSFT": {"name": "Microsoft", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.32, 0.4, 0.63, 1.78, 1.34, -1.07, 0.67, -2.5, 0.65, 0.48, 1.63, 0.2, -2.74, 1.03, -1.02, -0.78, 0.33, -0.06]}, "NVDA": {"name": "NVIDIA", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-0.97, 2.05, -2.59, 1.37, -1.81, 1.65, 0.86, -1.03, 2.11, -0.53, 1.72, -0.31, -0.64, -1.55, -3.27, 0.73, 0.81, -3.81]}, "^GSPC": {"name": "S&P 500", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.98, 1.55, 0.91, 0.69, 0.54, -0.53, 0.25, 0.3, 0.11, 0.19, -0.35, -0.09, 0.67, 0.21, -1.07, -0.16, -0.24, -1.16]}, "^IXIC": {"name": "NASDAQ Composite", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.88, 2.69, 0.67, 0.82, 0.65, -0.38, 0.59, 0.17, 0.22, 0.31, -0.14, 0.13, 0.33, -0.25, -1.69, -0.59, 0.23, -1.81]}, "ASML": {"name": "ASML", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [1.84, -0.74, 0.71, 0.31, -3.74, 0.64, -1.08, -5.63]}, "ROBT": {"name": "First Trust Robotics AI", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.31, 0.17, 0.45, -0.3, -2.07, -1.66, -0.3, -2.01]}, "ARKQ": {"name": "ARK Autonomous Tech", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.1, 0.27, 0.74, 1.34, -2.46, -1.25, 0.51, -3.45]}, "NOW": {"name": "ServiceNow", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-0.1, 0.18, -80.03, 1.63, -0.28, -11.54, 2.08, 0.16]}, "CRM": {"name": "Salesforce", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-0.4, 0.58, 1.22, -0.7, -0.05, -2.92, 0.13, 1.27]}, "SNOW": {"name": "Snowflake", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.52, -1.19, -2.72, 1.83, -1.17, -1.22, 2.47, -1.95]}, "ORCL": {"name": "Oracle", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [1.36, 0.5, 0.86, -10.82, -4.61, -2.7, 1.97, -5.41]}, "ARM": {"name": "Arm Holdings", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.08, 1.54, -0.29, -3.8, -3.86, -4.98, -2.63, -5.38]}, "ADBE": {"name": "Adobe", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-2.06, 1.53, -0.35, 2.13, 1.71, -1.48, -0.93, 1.95]}, "AAPL": {"name": "Apple", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16"], "changes": [-0.32, -0.26, 0.58, -0.27, 0.09, -1.5, 0.18]}, "AMZN": {"name": "Amazon", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.15, 0.45, 1.69, -0.65, -1.78, -1.61, 0.01, -0.58]}, "TSM": {"name": "TSMC", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [2.43, 0.57, 2.22, -1.71, -4.2, -1.47, -0.3, -3.45]}, "INTC": {"name": "Intel", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-2.68, 0.5, 0.69, -3.11, -4.3, -0.79, -0.53, -3.38]}, "_closed_dates": ["2025-11-27"]};
+            const marketData = {"BTC-USD": {"name": "Bitcoin", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-27", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.7, 1.68, -0.26, 0.44, 0.94, -0.44, -3.49, 0.57, 0.7, -0.09, 0.41, 0.28, -0.57, -0.73, 0.55, -2.45, -0.03, -2.31, -1.99, 1.66, -1.87]}, "AIQ": {"name": "AI Analytics ETF", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.57, 3.17, 0.29, 0.85, 0.95, -0.02, 0.62, 0.79, 0.22, 1.04, 0.08, 0.29, 0.77, -0.75, -2.24, -1.27, -0.02, -1.8]}, "BOTZ": {"name": "AI/Robotics ETF", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [1.24, 1.73, 1.41, 0.93, 0.86, 0.23, -0.28, 1.02, 3.86, -0.3, 0.33, -0.03, 0.41, -0.27, -1.49, -0.66, -0.97, -2.21]}, "PLTR": {"name": "Palantir", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-0.57, 4.78, 0.8, 1.36, 1.62, -0.57, 1.91, 3.16, 1.04, 2.16, -0.15, 0.19, 3.34, -0.2, -2.12, -0.17, 2.46, -5.57]}, "AMD": {"name": "AMD", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.09, 5.53, -4.15, 3.93, 1.54, 1.03, -2.06, 1.1, -0.74, 0.92, 1.44, 0.23, -0.09, 0.0, -4.81, -1.52, 0.77, -5.29]}, "META": {"name": "Meta", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.87, 3.16, 3.78, -0.41, 2.26, -1.09, 0.97, -1.16, 3.43, 1.8, -0.98, -1.48, -1.04, 0.4, -1.3, 0.51, 1.49, -1.16]}, "GOOGL": {"name": "Alphabet", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [3.53, 6.31, 1.53, -1.08, 0.07, -1.65, 0.29, -0.63, 1.15, -2.35, 1.07, 0.99, -2.43, -1.01, -0.35, -0.54, -3.21]}, "MSFT": {"name": "Microsoft", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.32, 0.4, 0.63, 1.78, 1.34, -1.07, 0.67, -2.5, 0.65, 0.48, 1.63, 0.2, -2.74, 1.03, -1.02, -0.78, 0.33, -0.06]}, "NVDA": {"name": "NVIDIA", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-0.97, 2.05, -2.59, 1.37, -1.81, 1.65, 0.86, -1.03, 2.11, -0.53, 1.72, -0.31, -0.64, -1.55, -3.27, 0.73, 0.81, -3.81]}, "^GSPC": {"name": "S&P 500", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.98, 1.55, 0.91, 0.69, 0.54, -0.53, 0.25, 0.3, 0.11, 0.19, -0.35, -0.09, 0.67, 0.21, -1.07, -0.16, -0.24, -1.16]}, "^IXIC": {"name": "NASDAQ Composite", "dates": ["2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.88, 2.69, 0.67, 0.82, 0.65, -0.38, 0.59, 0.17, 0.22, 0.31, -0.14, 0.13, 0.33, -0.25, -1.69, -0.59, 0.23, -1.81]}, "ASML": {"name": "ASML", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [1.84, -0.74, 0.71, 0.31, -3.74, 0.64, -1.08, -5.63]}, "ROBT": {"name": "First Trust Robotics AI", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.31, 0.17, 0.45, -0.3, -2.07, -1.66, -0.3, -2.01]}, "ARKQ": {"name": "ARK Autonomous Tech", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [0.1, 0.27, 0.74, 1.34, -2.46, -1.25, 0.51, -3.45]}, "NOW": {"name": "ServiceNow", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-0.1, 0.18, -0.18, 1.63, -0.28, -11.54, 2.08, 0.16]}, "CRM": {"name": "Salesforce", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-0.4, 0.58, 1.22, -0.7, -0.05, -2.92, 0.13, 1.27]}, "SNOW": {"name": "Snowflake", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.52, -1.19, -2.72, 1.83, -1.17, -1.22, 2.47, -1.95]}, "ORCL": {"name": "Oracle", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [1.36, 0.5, 0.86, -10.82, -4.61, -2.7, 1.97, -5.41]}, "ARM": {"name": "Arm Holdings", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.08, 1.54, -0.29, -3.8, -3.86, -4.98, -2.63, -5.38]}, "ADBE": {"name": "Adobe", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-2.06, 1.53, -0.35, 2.13, 1.71, -1.48, -0.93, 1.95]}, "AAPL": {"name": "Apple", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16"], "changes": [-0.32, -0.26, 0.58, -0.27, 0.09, -1.5, 0.18]}, "AMZN": {"name": "Amazon", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-1.15, 0.45, 1.69, -0.65, -1.78, -1.61, 0.01, -0.58]}, "TSM": {"name": "TSMC", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [2.43, 0.57, 2.22, -1.71, -4.2, -1.47, -0.3, -3.45]}, "INTC": {"name": "Intel", "dates": ["2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17"], "changes": [-2.68, 0.5, 0.69, -3.11, -4.3, -0.79, -0.53, -3.38]}, "_closed_dates": ["2025-11-27"]};
             const closedDates = marketData._closed_dates || [];
 
             // Sentiment Chart
             const ctx = document.getElementById('sentimentChart').getContext('2d');
-            const chartData = {"dates": ["2025-11-24", "2025-11-25", "2025-11-26", "2025-11-27", "2025-11-28", "2025-11-29", "2025-11-30", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-06", "2025-12-07", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18"], "positive": [40.9, 42.9, 37.3, 33.7, 31.1, 31.6, 30.8, 30.8, 31.4, 34.3, 35.2, 35.0, 34.4, 33.0, 32.7, 32.5, 35.7, 39.4, 44.1, 40.3, 38.7, 36.9, 35.1, 32.5, 32.6], "negative": [9.1, 7.5, 10.5, 12.6, 14.0, 13.4, 13.3, 13.7, 13.4, 12.5, 12.2, 12.5, 14.1, 13.9, 13.1, 12.7, 11.9, 10.4, 10.0, 9.8, 8.6, 8.4, 9.6, 9.8, 9.5], "neutral": [27.3, 36.1, 39.1, 39.2, 41.7, 42.9, 43.6, 43.4, 42.3, 39.1, 38.8, 37.4, 35.3, 37.2, 39.0, 40.3, 37.2, 34.4, 31.9, 35.6, 38.9, 40.7, 41.3, 43.7, 42.9], "mixed": [22.7, 13.5, 13.2, 14.6, 13.2, 12.1, 12.3, 12.2, 12.9, 14.0, 13.9, 15.2, 16.2, 15.9, 15.3, 14.6, 15.2, 15.8, 14.0, 14.3, 13.7, 14.1, 14.0, 14.0, 15.0], "totals": [44, 133, 220, 309, 408, 506, 571, 549, 551, 534, 526, 506, 532, 554, 557, 536, 538, 538, 521, 533, 555, 548, 550, 508, 515]};
+            const chartData = {"dates": ["2025-11-24", "2025-11-25", "2025-11-26", "2025-11-27", "2025-11-28", "2025-11-29", "2025-11-30", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-06", "2025-12-07", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18"], "positive": [40.9, 42.9, 37.3, 33.7, 31.1, 31.6, 30.8, 30.8, 31.4, 34.3, 35.2, 35.0, 34.4, 33.0, 32.7, 32.5, 35.7, 39.4, 44.1, 40.3, 38.7, 36.9, 35.1, 32.5, 32.5], "negative": [9.1, 7.5, 10.5, 12.6, 14.0, 13.4, 13.3, 13.7, 13.4, 12.5, 12.2, 12.5, 14.1, 13.9, 13.1, 12.7, 11.9, 10.4, 10.0, 9.8, 8.6, 8.4, 9.6, 9.8, 9.5], "neutral": [27.3, 36.1, 39.1, 39.2, 41.7, 42.9, 43.6, 43.4, 42.3, 39.1, 38.8, 37.4, 35.3, 37.2, 39.0, 40.3, 37.2, 34.4, 31.9, 35.6, 38.9, 40.7, 41.3, 43.7, 43.0], "mixed": [22.7, 13.5, 13.2, 14.6, 13.2, 12.1, 12.3, 12.2, 12.9, 14.0, 13.9, 15.2, 16.2, 15.9, 15.3, 14.6, 15.2, 15.8, 14.0, 14.3, 13.7, 14.1, 14.0, 14.0, 15.0], "totals": [44, 133, 220, 309, 408, 506, 571, 549, 551, 534, 526, 506, 532, 554, 557, 536, 538, 538, 521, 533, 555, 548, 550, 508, 514]};
 
             // If we have data, generate labels from first data date to 30 days ahead
             let labels = chartData.dates;
@@ -433,22 +433,22 @@
     <header>
         <div class="header-stats">
             <div class="stat-item">
-                <span class="stat-value-small">665</span>
+                <span class="stat-value-small">664</span>
                 <span class="stat-label-small">Events</span>
             </div>
             <div class="stat-item">
-                <span class="stat-value-small">515</span>
+                <span class="stat-value-small">514</span>
                 <span class="stat-label-small">Analyzed</span>
             </div>
             <div class="stat-item">
-                <span class="stat-value-small">437</span>
+                <span class="stat-value-small">436</span>
                 <span class="stat-label-small">Significant</span>
             </div>
         </div>
 
         <div class="header-center">
             <h1>🧠 AI-Pulse</h1>
-            <p class="date">2025-12-18 12:33 UTC</p>
+            <p class="date">2025-12-18 12:50 UTC</p>
         </div>
 
         <nav class="header-nav">
@@ -11061,41 +11061,6 @@
 </div><div id="notable-hidden-206" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
-                    <h3 class="event-title-compact">IBM’s $11B Deal Sends Confluent (CFLT) Into the Spotlight as Analysts Stay Bullish</h3>
-                    <button class="expand-btn" id="btn-2261" onclick="toggleEvent(2261)">▶</button>
-                </div>
-
-                <div class="event-content-expanded" id="content-2261" style="display: none;">
-                    <div class="event-meta-compact">
-                        <span class="sentiment">📈 positive</span>
-                        
-                        <span> | 2025-12-11 12:48</span>
-                        <span> | Notable Notable: Provides insight into AI data infrastructure investment trends without fundamentally changing sector investment thesis.</span>
-                    </div>
-
-                    <div class="implications">
-                        <h4>💡 Implications</h4>
-                        <p>AI investors should pay attention to data infrastructure plays like Confluent that enable real-time data processing for AI/ML applications. This signals continued investment interest in middleware and data management technologies critical to AI deployment.</p>
-                    </div>
-
-                    <div class="affected-parties">
-                        <h4>👥 Affected Parties</h4>
-                        <p>- Confluent (CFLT): Direct beneficiary - IBM: Potential strategic partner/acquirer - Data infrastructure stocks: Cloudflare (NET), Databricks - AI platform providers: Snowflake (SNOW), MongoDB (MDB)</p>
-                    </div>
-
-                    <div class="context">
-                        <h4>📚 Context</h4>
-                        <p>- Confluent provides Apache Kafka-based data streaming platforms - Growing demand for real-time data processing in AI/ML applications - Part of broader trend of enterprise AI infrastructure investments The event suggests continued investor optimism about specialized AI infrastructure technologies, highlighting the ecosystem beyond pure semiconductor and cloud computing plays.</p>
-                    </div>
-
-                    <div class="event-link">
-                        <a href="https://finance.yahoo.com/news/ibm-11b-deal-sends-confluent-124838741.html" target="_blank">Read full article →</a>
-                    </div>
-                </div>
-            </article>
-</div><div id="notable-hidden-207" style="display: none;">
-            <article class="event-card-compact">
-                <div class="event-header-compact">
                     <h3 class="event-title-compact">The 6 AI Trends That Will Dominate 2026</h3>
                     <button class="expand-btn" id="btn-2762" onclick="toggleEvent(2762)">▶</button>
                 </div>
@@ -11128,7 +11093,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-208" style="display: none;">
+</div><div id="notable-hidden-207" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Anthropic’s Chief Scientist Says We’re Rapidly Approaching the Moment That Could Doom Us All</h3>
@@ -11163,7 +11128,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-209" style="display: none;">
+</div><div id="notable-hidden-208" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">As every screen becomes shoppable, attribution problems resurface</h3>
@@ -11198,7 +11163,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-210" style="display: none;">
+</div><div id="notable-hidden-209" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">hftool added to PyPI</h3>
@@ -11233,7 +11198,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-211" style="display: none;">
+</div><div id="notable-hidden-210" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Roomba maker iRobot swept into bankruptcy</h3>
@@ -11268,7 +11233,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-212" style="display: none;">
+</div><div id="notable-hidden-211" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Walter Isaacson on Disney's OpenAI investment, dueling WBD bids and SpaceX IPO</h3>
@@ -11303,7 +11268,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-213" style="display: none;">
+</div><div id="notable-hidden-212" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">marx-ai added to PyPI</h3>
@@ -11338,7 +11303,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-214" style="display: none;">
+</div><div id="notable-hidden-213" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">OpenAI-Backed Chai Discovery Raises $130 Million for AI-Designed Molecules</h3>
@@ -11373,7 +11338,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-215" style="display: none;">
+</div><div id="notable-hidden-214" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">This Startup Wants to Build Self-Driving Car Software—Super Fast</h3>
@@ -11408,7 +11373,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-216" style="display: none;">
+</div><div id="notable-hidden-215" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">The AI doomers feel undeterred</h3>
@@ -11443,7 +11408,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-217" style="display: none;">
+</div><div id="notable-hidden-216" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Job apocalypse? Humbug! AI is creating brand new occupations</h3>
@@ -11478,7 +11443,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-218" style="display: none;">
+</div><div id="notable-hidden-217" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Time magazine snubs Charlie Kirk, names AI 'architects' as 'Person of the Year'</h3>
@@ -11513,7 +11478,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-219" style="display: none;">
+</div><div id="notable-hidden-218" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">sigmoda added to PyPI</h3>
@@ -11548,7 +11513,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-220" style="display: none;">
+</div><div id="notable-hidden-219" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">China Plans Tougher Regulations Targeting Carmaker Price War</h3>
@@ -11583,7 +11548,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-221" style="display: none;">
+</div><div id="notable-hidden-220" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Germany Summons Russia Envoy Over ‘Massive’ Rise in Cyberattacks</h3>
@@ -11618,7 +11583,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-222" style="display: none;">
+</div><div id="notable-hidden-221" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">OpenAI strikes back in the chatbot race against Google with new ChatGPT model</h3>
@@ -11648,7 +11613,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-223" style="display: none;">
+</div><div id="notable-hidden-222" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">ThreatsDay Bulletin: Spyware Alerts, Mirai Strikes, Docker Leaks, ValleyRAT Rootkit — and 20 More Stories</h3>
@@ -11683,7 +11648,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-224" style="display: none;">
+</div><div id="notable-hidden-223" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">ChatGPT&#8217;s ‘adult mode’ is expected to debut in Q1 2026</h3>
@@ -11718,7 +11683,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-225" style="display: none;">
+</div><div id="notable-hidden-224" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">The Download: solar geoengineering’s future, and OpenAI is being sued</h3>
@@ -11753,7 +11718,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-226" style="display: none;">
+</div><div id="notable-hidden-225" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Opera wants you to pay $20 a month to use its AI-powered browser Neon</h3>
@@ -11788,7 +11753,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-227" style="display: none;">
+</div><div id="notable-hidden-226" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">People Are Paying to Get Their Chatbots High on ‘Drugs’</h3>
@@ -11823,7 +11788,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-228" style="display: none;">
+</div><div id="notable-hidden-227" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Apple Engineers Are Inspecting Bacon Packaging to Help Level Up US Manufacturers</h3>
@@ -11858,7 +11823,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-229" style="display: none;">
+</div><div id="notable-hidden-228" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Show HN: macOS local meeting recorder with Whisper transcription/ Claude notes</h3>
@@ -11893,7 +11858,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-230" style="display: none;">
+</div><div id="notable-hidden-229" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Did AI write that? 5 ways to distinguish chatbots from human authors</h3>
@@ -11928,7 +11893,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-231" style="display: none;">
+</div><div id="notable-hidden-230" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Everything is gambling now</h3>
@@ -11963,7 +11928,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-232" style="display: none;">
+</div><div id="notable-hidden-231" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">VCs discuss why most consumer AI startups still lack staying power</h3>
@@ -11998,7 +11963,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-233" style="display: none;">
+</div><div id="notable-hidden-232" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Merriam-Webster’s word of the year delivers a dismissive verdict on junk AI content</h3>
@@ -12033,7 +11998,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-234" style="display: none;">
+</div><div id="notable-hidden-233" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Microsoft will finally kill obsolete cipher that has wreaked decades of havoc</h3>
@@ -12068,7 +12033,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-235" style="display: none;">
+</div><div id="notable-hidden-234" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Are We in an AI Bubble? Here’s What 13 Economists Told Us</h3>
@@ -12098,7 +12063,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-236" style="display: none;">
+</div><div id="notable-hidden-235" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">mcp-postgres-semantic 1.0.0</h3>
@@ -12128,7 +12093,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-237" style="display: none;">
+</div><div id="notable-hidden-236" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">GNOME bans AI-generated extensions</h3>
@@ -12163,7 +12128,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-238" style="display: none;">
+</div><div id="notable-hidden-237" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">A brief history of Sam Altman’s hype</h3>
@@ -12198,7 +12163,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-239" style="display: none;">
+</div><div id="notable-hidden-238" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">AI might not be coming for lawyers’ jobs anytime soon</h3>
@@ -12233,7 +12198,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-240" style="display: none;">
+</div><div id="notable-hidden-239" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">How I wrote JustHTML using coding agents - Friendly Bit</h3>
@@ -12268,7 +12233,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-241" style="display: none;">
+</div><div id="notable-hidden-240" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">A Personal AI Maturity Model</h3>
@@ -12303,7 +12268,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-242" style="display: none;">
+</div><div id="notable-hidden-241" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">This Week in Tech 1062: The Architects of AI</h3>
@@ -12338,7 +12303,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-243" style="display: none;">
+</div><div id="notable-hidden-242" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">THE ECONOMIST: Despite job loss fears, AI is creating high-value roles and human skills are the new premium</h3>
@@ -12373,7 +12338,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-244" style="display: none;">
+</div><div id="notable-hidden-243" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">AI and the ironies of automation – Part 2</h3>
@@ -12408,7 +12373,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-245" style="display: none;">
+</div><div id="notable-hidden-244" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">gym-csle-cyborg 0.9.15</h3>
@@ -12443,7 +12408,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-246" style="display: none;">
+</div><div id="notable-hidden-245" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Oracle move opens questions for AI’s investment boom</h3>
@@ -12478,7 +12443,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-247" style="display: none;">
+</div><div id="notable-hidden-246" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">He created Grand Theft Auto. Now he's back with a novel about an AI that hijacks your mind</h3>
@@ -12513,7 +12478,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-248" style="display: none;">
+</div><div id="notable-hidden-247" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Kids Rarely Read Whole Books Anymore. Even in English Class</h3>
@@ -12548,7 +12513,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-249" style="display: none;">
+</div><div id="notable-hidden-248" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">VPN location claims don't match real traffic exits</h3>
@@ -12583,7 +12548,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-250" style="display: none;">
+</div><div id="notable-hidden-249" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Ask HN: How can I get better at using AI for programming?</h3>
@@ -12618,7 +12583,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-251" style="display: none;">
+</div><div id="notable-hidden-250" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">YouTube's CEO limits his kids' social media use – other tech bosses do the same</h3>
@@ -12653,7 +12618,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-252" style="display: none;">
+</div><div id="notable-hidden-251" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Wall Street Sphincters Tighten as Oracle Delays Its OpenAI Data Center Buildout</h3>
@@ -12688,7 +12653,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-253" style="display: none;">
+</div><div id="notable-hidden-252" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">OK, what’s going on with LinkedIn’s algo?</h3>
@@ -12723,7 +12688,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-254" style="display: none;">
+</div><div id="notable-hidden-253" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Using secondary school maths to demystify AI</h3>
@@ -12758,7 +12723,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-255" style="display: none;">
+</div><div id="notable-hidden-254" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">BpfJailer: eBPF Mandatory Access Control [pdf]</h3>
@@ -12793,7 +12758,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-256" style="display: none;">
+</div><div id="notable-hidden-255" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Microsoft’s Copilot usage analysis exposes the 2am philosophy question trend</h3>
@@ -12828,7 +12793,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-257" style="display: none;">
+</div><div id="notable-hidden-256" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Guarding My Git Forge Against AI Scrapers</h3>
@@ -12863,7 +12828,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-258" style="display: none;">
+</div><div id="notable-hidden-257" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Bigger AI models are failing faster - The future evolution of AI is into the 4D world</h3>
@@ -12898,7 +12863,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-259" style="display: none;">
+</div><div id="notable-hidden-258" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Show HN: I built an AI tool to evaluate my AngelList deal flow</h3>
@@ -12933,7 +12898,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-260" style="display: none;">
+</div><div id="notable-hidden-259" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">No, Inbound Isn’t Dead. The GTM Playbook Isn’t Broken. But Your Moats Are Shrinking to Months. SaaStr AI London AMA LIVE with Jason Lemkin</h3>
@@ -12968,7 +12933,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-261" style="display: none;">
+</div><div id="notable-hidden-260" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Disney Picks a Side in the OpenAI-Google Rivalry</h3>
@@ -12988,7 +12953,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-262" style="display: none;">
+</div><div id="notable-hidden-261" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Carry Trade Revival That Electrified EM Spurs Optimism for 2026</h3>
@@ -13008,7 +12973,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-263" style="display: none;">
+</div><div id="notable-hidden-262" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Google’s Catch-Up in the AI Race Wasn’t Fair</h3>
@@ -13028,7 +12993,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-264" style="display: none;">
+</div><div id="notable-hidden-263" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">TPG Takes $600 Million Hit on ‘Eyebrow Queen’ Cosmetics Bet</h3>
@@ -13048,7 +13013,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-265" style="display: none;">
+</div><div id="notable-hidden-264" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">How China racked up a $1tn trade surplus</h3>
@@ -13068,7 +13033,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-266" style="display: none;">
+</div><div id="notable-hidden-265" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Fraport expects significant decline in 2026 net earnings, first dividend since 2019</h3>
@@ -13088,7 +13053,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-267" style="display: none;">
+</div><div id="notable-hidden-266" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Revolut Forms Team to Bring Private Markets to Retail Investors</h3>
@@ -13108,7 +13073,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-268" style="display: none;">
+</div><div id="notable-hidden-267" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Hedge-Fund Manager Who Got Stock Rally Wrong Still Nabs 79% Gain</h3>
@@ -13133,7 +13098,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-269" style="display: none;">
+</div><div id="notable-hidden-268" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">New Year outlook: Brutal conflicts and AI excesses may persist, but let’s hope for a soft landing</h3>
@@ -13168,7 +13133,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-270" style="display: none;">
+</div><div id="notable-hidden-269" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Show HN: A Claude Code plugin that auto-export plans for multi-model workflows</h3>
@@ -13203,7 +13168,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-271" style="display: none;">
+</div><div id="notable-hidden-270" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">I put GPT-5.2 through an 13-round test, and the AI model raised some serious questions</h3>
@@ -13238,7 +13203,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-272" style="display: none;">
+</div><div id="notable-hidden-271" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">mcp-audit 0.9.1</h3>
@@ -13273,7 +13238,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-273" style="display: none;">
+</div><div id="notable-hidden-272" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Advent of Swift</h3>
@@ -13308,7 +13273,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-274" style="display: none;">
+</div><div id="notable-hidden-273" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Shai-Hulud compromised a dev machine and raided GitHub org access: a post-mortem</h3>
@@ -13343,7 +13308,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-275" style="display: none;">
+</div><div id="notable-hidden-274" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Sources: OpenAI told staff it was ending the six-month “vesting cliff” that required new employees to work for at least six months before their equity vests</h3>
@@ -13378,7 +13343,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-276" style="display: none;">
+</div><div id="notable-hidden-275" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">timestep 2026.0.49</h3>
@@ -13413,7 +13378,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-277" style="display: none;">
+</div><div id="notable-hidden-276" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Oracle investors cast doubt on its knack for divination</h3>
@@ -13443,7 +13408,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-278" style="display: none;">
+</div><div id="notable-hidden-277" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">US TikTok investors in limbo as deal set to be delayed again</h3>
@@ -13478,7 +13443,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-279" style="display: none;">
+</div><div id="notable-hidden-278" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">‘Wicked’ Director Jon M. Chu on ‘What Makes Art Beautiful’ in the AI Era</h3>
@@ -13513,7 +13478,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-280" style="display: none;">
+</div><div id="notable-hidden-279" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Why it’s time to reset our expectations for AI</h3>
@@ -13548,7 +13513,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-281" style="display: none;">
+</div><div id="notable-hidden-280" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Children with cancer scammed out of millions fundraised for their treatment</h3>
@@ -13583,7 +13548,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-282" style="display: none;">
+</div><div id="notable-hidden-281" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">AI-powered truth-telling models challenge big techâs vaccine & climate disinformation</h3>
@@ -13618,7 +13583,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-283" style="display: none;">
+</div><div id="notable-hidden-282" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">History of Declarative Programming</h3>
@@ -13653,7 +13618,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-284" style="display: none;">
+</div><div id="notable-hidden-283" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">Stop Trying to Make the Humanities ‘Relevant’</h3>
@@ -13688,7 +13653,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-285" style="display: none;">
+</div><div id="notable-hidden-284" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">mcp-audit 0.8.1.dev0</h3>
@@ -13723,7 +13688,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-286" style="display: none;">
+</div><div id="notable-hidden-285" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">How I use AI to bring my kid's art to life - and why it's a fun learning opportunity</h3>
@@ -13758,7 +13723,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-287" style="display: none;">
+</div><div id="notable-hidden-286" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">French supermarket's Christmas advert is worldwide hit (without AI) [video]</h3>
@@ -13793,7 +13758,7 @@
                     </div>
                 </div>
             </article>
-</div><div id="notable-hidden-288" style="display: none;">
+</div><div id="notable-hidden-287" style="display: none;">
             <article class="event-card-compact">
                 <div class="event-header-compact">
                     <h3 class="event-title-compact">speterlin-stocks 1.0.5</h3>
@@ -13829,9 +13794,9 @@
                 </div>
             </article>
 </div>
-            <button onclick="toggleEventSection('notable', 289)" id="notable-toggle-btn"
+            <button onclick="toggleEventSection('notable', 288)" id="notable-toggle-btn"
                     style="margin: 20px auto; display: block; padding: 8px 20px; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
-                Show 286 More Events
+                Show 285 More Events
             </button>
         </section>
 
@@ -18398,7 +18363,7 @@
                                 <div class="heatmap-square heatmap-square-incorrect"></div>
                                 <div class="heatmap-square-back heatmap-square-incorrect">
                                     <div class="flip-icon">↑</div>
-                                    <div class="flip-pct">-80.0%</div>
+                                    <div class="flip-pct">-0.2%</div>
                                 </div>
                             </div>
                         </div>
