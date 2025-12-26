@@ -274,9 +274,9 @@ section h2 {
 .event-card-compact {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 12px 20px;
-    margin-bottom: 10px;
+    border-radius: 4px;
+    padding: 5px 8px;
+    margin-bottom: 3px;
     transition: box-shadow 0.2s;
 }
 
@@ -304,10 +304,15 @@ section h2 {
 
 .event-title-compact {
     flex: 1;
-    font-size: 1.1rem;
-    line-height: 1.4;
+    font-size: 0.65rem;
+    line-height: 1.1;
+    font-weight: 400;
     color: white;
     margin: 0;
+}
+
+.event-title-compact strong {
+    font-weight: 700;
 }
 
 .expand-btn {
