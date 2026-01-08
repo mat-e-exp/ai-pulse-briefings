@@ -27,7 +27,7 @@
 
             // Sentiment Chart
             const ctx = document.getElementById('sentimentChart').getContext('2d');
-            const chartData = {"dates": ["2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-20", "2025-12-21", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-27", "2025-12-28", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-01", "2026-01-02", "2026-01-03", "2026-01-04", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08"], "positive": [32.5, 35.7, 39.4, 44.1, 40.3, 38.7, 36.9, 35.1, 32.5, 30.0, 32.8, 36.4, 37.3, 35.7, 33.9, 31.9, 31.9, 31.0, 31.0, 29.1, 27.3, 28.9, 32.5, 30.4, 31.0, 31.0, 31.7, 30.4, 28.2, 32.1, 33.8], "negative": [12.7, 11.9, 10.4, 10.0, 9.8, 8.6, 8.4, 9.6, 9.8, 8.3, 8.6, 8.9, 8.7, 8.4, 9.6, 10.9, 11.1, 11.2, 11.0, 10.5, 10.0, 8.3, 7.8, 7.7, 6.9, 7.7, 7.6, 8.0, 8.3, 8.9, 10.5], "neutral": [40.3, 37.2, 34.4, 31.9, 35.6, 38.9, 40.7, 41.3, 43.7, 47.2, 45.4, 39.9, 40.0, 43.0, 43.1, 44.3, 42.9, 44.4, 44.3, 45.0, 49.2, 48.2, 44.3, 46.6, 46.9, 48.2, 47.0, 49.3, 51.3, 46.2, 44.2], "mixed": [14.6, 15.2, 15.8, 14.0, 14.3, 13.7, 14.1, 14.0, 14.0, 14.5, 13.2, 14.8, 14.0, 12.9, 13.3, 13.0, 14.2, 13.4, 13.8, 15.3, 13.6, 14.6, 15.3, 15.3, 15.1, 13.2, 13.7, 12.2, 12.2, 12.8, 11.5], "totals": [536, 538, 538, 521, 533, 555, 548, 550, 508, 504, 491, 506, 528, 535, 540, 524, 452, 464, 465, 484, 472, 492, 510, 517, 522, 546, 542, 523, 515, 507, 477]};
+            const chartData = {"dates": ["2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-20", "2025-12-21", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-27", "2025-12-28", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-01", "2026-01-02", "2026-01-03", "2026-01-04", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08"], "positive": [32.5, 35.7, 39.4, 44.1, 40.3, 38.7, 36.9, 35.1, 32.5, 30.0, 32.8, 36.4, 37.3, 35.7, 33.9, 31.9, 31.9, 31.0, 31.0, 29.1, 27.3, 28.9, 32.5, 30.4, 31.0, 31.0, 31.7, 30.4, 28.2, 32.1, 33.6], "negative": [12.7, 11.9, 10.4, 10.0, 9.8, 8.6, 8.4, 9.6, 9.8, 8.3, 8.6, 8.9, 8.7, 8.4, 9.6, 10.9, 11.1, 11.2, 11.0, 10.5, 10.0, 8.3, 7.8, 7.7, 6.9, 7.7, 7.6, 8.0, 8.3, 8.9, 10.4], "neutral": [40.3, 37.2, 34.4, 31.9, 35.6, 38.9, 40.7, 41.3, 43.7, 47.2, 45.4, 39.9, 40.0, 43.0, 43.1, 44.3, 42.9, 44.4, 44.3, 45.0, 49.2, 48.2, 44.3, 46.6, 46.9, 48.2, 47.0, 49.3, 51.3, 46.2, 44.6], "mixed": [14.6, 15.2, 15.8, 14.0, 14.3, 13.7, 14.1, 14.0, 14.0, 14.5, 13.2, 14.8, 14.0, 12.9, 13.3, 13.0, 14.2, 13.4, 13.8, 15.3, 13.6, 14.6, 15.3, 15.3, 15.1, 13.2, 13.7, 12.2, 12.2, 12.8, 11.4], "totals": [536, 538, 538, 521, 533, 555, 548, 550, 508, 504, 491, 506, 528, 535, 540, 524, 452, 464, 465, 484, 472, 492, 510, 517, 522, 546, 542, 523, 515, 507, 473]};
 
             // If we have data, generate labels from first data date to 30 days ahead
             let labels = chartData.dates;
@@ -485,7 +485,7 @@
                 <img src="../logo.svg" alt="AI-Pulse Logo" style="width: 50px; height: 50px; vertical-align: middle; margin-right: 10px;">
             </object>
             <h1 style="display: inline; vertical-align: middle;">AI-Pulse</h1>
-            <p class="date">2026-01-08 12:46 UTC</p>
+            <p class="date">2026-01-08 13:02 UTC</p>
         </div>
 
         <nav class="header-nav">
@@ -522,7 +522,7 @@
                 Sector Signal
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                The overall sentiment signal for the AI sector is mixed, with strong positive signals around continued investor appetite for frontier AI technologies and the enterprise potential of AI, balanced by concerns around emerging copyright and data access challenges. Investors should anticipate a dynamic environment requiring careful consideration of both growth opportunities and potential regulatory hurdles.
+                The overall sentiment signal for the AI sector is mixed. While there are several positive indicators, such as strong investor appetite for frontier AI technologies and continued investment in cloud infrastructure and AI computing, there are also potential challenges posed by copyright issues and the need for more sophisticated data screening processes. Investors should anticipate a complex regulatory and operational environment for AI companies in the near future.
             </p>
         </div>
         
@@ -541,7 +541,7 @@
                 </span>
             </div>
             <p style="color: #94a3b8; margin: 0; font-size: 0.9rem; line-height: 1.5;">
-                Nvidia&#39;s continued innovation in AI computing, including the launch of its Vera Rubin chips and Alpamayo open AI models, suggests the company is maintaining its technological leadership and market dominance, positioning it to capitalize on the accelerating adoption of AI across industries.
+                Nvidia&#39;s continued innovation in AI computing, including the launch of its new Vera Rubin chips and Alpamayo open AI models, suggests the company is maintaining its technological leadership and expanding its market opportunities in the AI sector.
             </p>
         </div>
         
@@ -1066,7 +1066,7 @@
                 Emerging Trends
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                AI companies are facing increasing regulatory and legal challenges related to the risks of generative AI technologies, particularly around content moderation and ethical development. At the same time, major investments in AI infrastructure and hardware suggest sustained momentum in the adoption and commercialization of advanced machine learning capabilities across diverse industries.
+                Investors should closely monitor emerging legal and regulatory risks associated with generative AI platforms, particularly around content moderation and ethical development. Additionally, the significant capital investments in AI infrastructure and hardware capabilities suggest ongoing momentum and opportunity within the AI technology sector.
             </p>
         </div>
         
@@ -1605,7 +1605,7 @@
                 Research Themes
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                These research papers explore various aspects of embodied AI, self-aware reward models, prompt optimization for language models, adversarial program evolution, game-playing algorithms, energy-efficient reasoning models, artifact extraction, autonomous decision-making, verifiable learning substrates, and multilingual knowledge graph alignment - demonstrating significant technical progress in areas such as trustworthiness, self-awareness, instruction-following, program evolution, and knowledge representation.
+                The research papers cover a wide range of AI capabilities, including embodied AI trustworthiness, self-aware reward modeling, LLM instruction optimization, adversarial program evolution, game-playing, energy-efficient reasoning, artifact extraction, autonomous decision-making, verifiable learning, and multilingual knowledge graph alignment. These developments aim to push the boundaries of AI&#39;s technical prowess and expand its real-world applications.
             </p>
         </div>
         
@@ -9644,6 +9644,794 @@
             <div class="heatmap-square heatmap-square-closed" style="width: 16px; height: 16px;"></div>
             <span>Market closed</span>
         </div>
+    </div>
+</section>
+
+
+
+
+
+<section class="sentiment-box">
+    <h2 style="display: flex; align-items: center; gap: 12px;">
+        <img src="../icons/correlation-info.svg" alt="" style="width: 64px; height: 64px; vertical-align: middle;">
+        <span>Sentiment-Price Correlation (Last 10 Trading Days)</span>
+    </h2>
+
+    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px; font-style: italic;">
+        How each symbol's price movement correlates with AI/tech news sentiment. Positive = moves with sentiment, Negative = moves against sentiment.
+    </p>
+
+    <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+            <thead>
+                <tr style="border-bottom: 2px solid #334155;">
+                    <th style="text-align: left; padding: 12px 8px; color: #94a3b8; font-weight: 600;">Symbol</th>
+                    <th style="text-align: center; padding: 12px 8px; color: #94a3b8; font-weight: 600;">Correlation</th>
+                    <th style="text-align: center; padding: 12px 8px; color: #94a3b8; font-weight: 600;">Signal</th>
+                    <th style="text-align: center; padding: 12px 8px; color: #94a3b8; font-weight: 600;">Accuracy</th>
+                    <th style="text-align: center; padding: 12px 8px; color: #94a3b8; font-weight: 600;">Days</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        ADBE
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ADBE</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #d1fae5; color: #065f46; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            +0.34
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #059669; font-weight: 500;">
+                        Strong +
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        30.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        Apple
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">AAPL</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #d1fae5; color: #065f46; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            +0.23
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #059669; font-weight: 500;">
+                        Strong +
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        20.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        CRM
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">CRM</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #ecfdf5; color: #047857; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            +0.12
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #10b981; font-weight: 500;">
+                        Positive
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        60.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                    
+                    
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        PLTR
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">PLTR</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            +0.08
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
+                        Weak
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        30.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                    
+                    
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        Amazon
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">AMZN</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            +0.01
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
+                        Weak
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        40.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                    
+                    
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        BOTZ
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">BOTZ</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            +0.01
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
+                        Weak
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        30.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                    
+                    
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        TSM
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">TSM</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.02
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
+                        Weak
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        50.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                    
+                    
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        Google
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">GOOGL</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.03
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
+                        Weak
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        30.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                    
+                    
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        ARM
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ARM</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.05
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
+                        Weak
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        10.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                    
+                    
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        NVIDIA
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">NVDA</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.06
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
+                        Weak
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        30.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                    
+                    
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        ROBT
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ROBT</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.07
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
+                        Weak
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        20.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        Bitcoin
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">BTC-USD</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fef2f2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.10
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #ef4444; font-weight: 500;">
+                        Negative
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        30.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        INTC
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">INTC</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fef2f2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.12
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #ef4444; font-weight: 500;">
+                        Negative
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        40.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        AIQ
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">AIQ</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fef2f2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.16
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #ef4444; font-weight: 500;">
+                        Negative
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        20.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        ORCL
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ORCL</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fef2f2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.17
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #ef4444; font-weight: 500;">
+                        Negative
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        50.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        NOW
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">NOW</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fef2f2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.17
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #ef4444; font-weight: 500;">
+                        Negative
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        60.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        ARKQ
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ARKQ</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fef2f2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.18
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #ef4444; font-weight: 500;">
+                        Negative
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        20.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        Meta
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">META</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.24
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
+                        Strong -
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        40.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        S&amp;P 500
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">^GSPC</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.24
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
+                        Strong -
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        20.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        AMD
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">AMD</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.27
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
+                        Strong -
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        10.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        Microsoft
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">MSFT</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.29
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
+                        Strong -
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        30.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        NASDAQ
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">^IXIC</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.29
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
+                        Strong -
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        40.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        ASML
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ASML</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.40
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
+                        Strong -
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        40.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        SNOW
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">SNOW</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.58
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
+                        Strong -
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        40.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top: 20px; padding: 15px; background: #1e293b; border-radius: 8px; font-size: 0.85rem; color: #94a3b8;">
+        <strong style="color: #e2e8f0;">How to read:</strong> A correlation of +0.30 means the symbol tends to rise when sentiment is positive. A correlation of -0.30 means the symbol tends to move opposite to sentiment. Values near zero indicate no reliable relationship.
     </div>
 </section>
 
