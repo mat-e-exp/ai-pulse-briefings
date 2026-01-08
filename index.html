@@ -442,6 +442,19 @@
             }
         }
 
+        // Generic toggle for collapsible sections
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId + '-content');
+            const button = document.getElementById(sectionId + '-toggle');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                button.textContent = 'Hide Details';
+            } else {
+                content.style.display = 'none';
+                button.textContent = 'Show Details';
+            }
+        }
+
         // Toggle event section expand/collapse
         function toggleEventSection(section, totalCount) {
             const button = document.getElementById(section + '-toggle-btn');
@@ -485,7 +498,7 @@
                 <img src="logo.svg" alt="AI-Pulse Logo" style="width: 50px; height: 50px; vertical-align: middle; margin-right: 10px;">
             </object>
             <h1 style="display: inline; vertical-align: middle;">AI-Pulse</h1>
-            <p class="date">2026-01-08 14:22 UTC</p>
+            <p class="date">2026-01-08 14:43 UTC</p>
         </div>
 
         <nav class="header-nav">
@@ -522,7 +535,7 @@
                 Sector Signal
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                The overall sentiment for the AI sector is overwhelmingly bullish. Investors are showing strong confidence in the growth and potential of the AI industry, with continued massive capital inflows, technological advancements, and enterprise-level adoption. The sector appears poised for sustained momentum and innovation.
+                The overall sentiment signal for the AI sector is bullish. Investors are demonstrating strong belief in the growth potential of frontier AI technologies, with massive capital commitments and continued innovation driving the sector forward. However, investors should also monitor potential regulatory and compliance challenges that could impact the industry.
             </p>
         </div>
         
@@ -541,7 +554,7 @@
                 </span>
             </div>
             <p style="color: #94a3b8; margin: 0; font-size: 0.9rem; line-height: 1.5;">
-                Nvidia&#39;s strategic investments, technological leadership, and continued innovation in AI computing, including its new Vera Rubin chips and Alpamayo models, suggest the company is well-positioned to maintain its dominance in the AI ecosystem.
+                Nvidia&#39;s strategic investments, technological leadership, and continued innovation in AI computing and automotive AI applications suggest the company is well-positioned to capitalize on the growing demand for advanced AI solutions across industries.
             </p>
         </div>
         
@@ -1068,7 +1081,7 @@
                 Emerging Trends
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                AI sector investors should closely monitor the growing legal and regulatory risks around generative AI platforms, particularly regarding content moderation and ethical development practices. Additionally, the increased investment and strategic partnerships in AI infrastructure, robotics, and industrial applications suggest continued momentum in the diversification and enterprise-level adoption of AI technologies.
+                AI sector investors must closely monitor emerging legal and regulatory risks associated with generative AI technologies, particularly around content moderation, user safety, and ethical development frameworks. Meanwhile, the significant investments and strategic partnerships observed suggest continued strong momentum in AI infrastructure, robotics, and industrial applications, creating new growth opportunities for AI hardware and software providers.
             </p>
         </div>
         
@@ -1607,7 +1620,7 @@
                 Research Themes
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                The research papers cover a wide range of topics, including embodied AI certification, self-aware reward models, LLM instruction following, adversarial program evolution, energy-aware routing, artifact extraction, agentic AI for credit risk decision-making, verifiable learning substrates, and semantic alignment of knowledge graphs. The key innovation areas focus on improving the trustworthiness, autonomy, explainability, and efficiency of AI systems.
+                The key research themes focus on advancing embodied AI trustworthiness, self-aware reward modeling, enhanced language model instruction following, adversarial program evolution, and energy-aware large model routing. Innovations also target verbatim-grounded artifact extraction, agentic AI for autonomous credit risk decisions, verifiable learning substrates, and multilingual knowledge graph alignment.
             </p>
         </div>
         
@@ -2120,6 +2133,13 @@
     <div class="market-controls">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <h4 style="margin: 0;">Select Indices & Stocks</h4>
+            <button onclick="toggleSection('market-symbols')" id="market-symbols-toggle"
+                    style="padding: 8px 20px; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
+                Show Details
+            </button>
+        </div>
+        <div id="market-symbols-content" style="display: none;">
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
             <div class="market-control-buttons">
                 <button onclick="toggleAllMarketSymbols(true)" class="market-control-btn">All</button>
                 <button onclick="toggleAllMarketSymbols(false)" class="market-control-btn">None</button>
@@ -2449,6 +2469,7 @@
             </div>
             
         </div>
+        </div>
     </div>
 </section>
 
@@ -2464,12 +2485,19 @@
         <span>Prediction Accuracy (Last 30 Days)</span>
     </h2>
 
-    <div style="margin-bottom: 20px;">
-        <span style="color: #94a3b8;">Overall: </span>
-        <span style="color: #fca5a5; font-weight: 700; font-size: 1.3rem;">36.1%</span>
-        <span style="color: #94a3b8; font-size: 0.9rem;"> (165/457 correct)</span>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+            <span style="color: #94a3b8;">Overall: </span>
+            <span style="color: #fca5a5; font-weight: 700; font-size: 1.3rem;">36.1%</span>
+            <span style="color: #94a3b8; font-size: 0.9rem;"> (165/457 correct)</span>
+        </div>
+        <button onclick="toggleSection('heatmap')" id="heatmap-toggle"
+                style="padding: 8px 20px; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
+            Show Details
+        </button>
     </div>
 
+    <div id="heatmap-content" style="display: none;">
     <div class="heatmap-container">
         <div class="heatmap-header">
             <div class="heatmap-symbol-label"></div>
@@ -9647,6 +9675,7 @@
             <span>Market closed</span>
         </div>
     </div>
+    </div>
 </section>
 
 
@@ -9654,11 +9683,18 @@
 
 
 <section class="sentiment-box">
-    <h2 style="display: flex; align-items: center; gap: 12px;">
-        <img src="icons/correlation-info.svg" alt="" style="width: 64px; height: 64px; vertical-align: middle;">
-        <span>Sentiment-Price Correlation (Last 10 Trading Days)</span>
-    </h2>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+        <h2 style="display: flex; align-items: center; gap: 12px; margin: 0;">
+            <img src="icons/correlation-info.svg" alt="" style="width: 64px; height: 64px; vertical-align: middle;">
+            <span>Sentiment-Price Correlation (Last 10 Trading Days)</span>
+        </h2>
+        <button onclick="toggleSection('correlation')" id="correlation-toggle"
+                style="padding: 8px 20px; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; flex-shrink: 0;">
+            Show Details
+        </button>
+    </div>
 
+    <div id="correlation-content" style="display: none;">
     <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px; font-style: italic;">
         How each symbol's price movement correlates with AI/tech news sentiment. Positive = moves with sentiment, Negative = moves against sentiment.
     </p>
@@ -10434,6 +10470,7 @@
 
     <div style="margin-top: 20px; padding: 15px; background: #1e293b; border-radius: 8px; font-size: 0.85rem; color: #94a3b8;">
         <strong style="color: #e2e8f0;">How to read:</strong> A correlation of +0.30 means the symbol tends to rise when sentiment is positive. A correlation of -0.30 means the symbol tends to move opposite to sentiment. Values near zero indicate no reliable relationship.
+    </div>
     </div>
 </section>
 
