@@ -825,26 +825,91 @@ footer a:hover {
     text-align: center;
 }
 
+/* Tablet styles */
 @media (max-width: 768px) {
     body {
         padding: 10px;
     }
 
-    header h1 {
-        font-size: 2rem;
+    /* Header - stack vertically */
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
     }
 
+    .header-stats {
+        order: 2;
+        justify-content: center;
+    }
+
+    .header-center {
+        order: 1;
+    }
+
+    .header-center h1 {
+        font-size: 1.6rem;
+    }
+
+    .header-nav {
+        order: 3;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .header-nav a {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+
+    /* Section icons - smaller */
+    .sentiment-box h2 img,
+    .sentiment-box h3 img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .sentiment-box h2 {
+        font-size: 1.3rem;
+        gap: 10px;
+    }
+
+    .sentiment-box h3 {
+        font-size: 1.1rem;
+    }
+
+    .sentiment-box {
+        padding: 20px;
+    }
+
+    /* Hero section */
     .hero {
         padding: 40px 20px;
     }
 
+    .hero h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Stats grid */
     .stats {
         grid-template-columns: 1fr;
+    }
+
+    /* Event cards */
+    .event-card {
+        padding: 20px;
     }
 
     .event-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 10px;
+    }
+
+    .event-header h3 {
+        font-size: 1.1rem;
     }
 
     .event-meta {
@@ -852,7 +917,201 @@ footer a:hover {
         gap: 10px;
     }
 
+    /* Checkbox grid */
     .checkbox-grid {
         grid-template-columns: 1fr;
+    }
+
+    /* Heatmap - horizontal scroll */
+    .heatmap-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .heatmap-row,
+    .heatmap-header {
+        min-width: 600px;
+    }
+
+    .heatmap-symbol-label {
+        width: 80px;
+        font-size: 0.75rem;
+    }
+
+    .heatmap-accuracy-label {
+        width: 35px;
+        font-size: 0.7rem;
+    }
+
+    /* Charts */
+    .chart-container {
+        height: 250px;
+    }
+
+    /* Archive list */
+    .archive-list {
+        padding: 20px;
+    }
+
+    /* Footer */
+    footer {
+        margin-top: 40px;
+        padding: 20px 15px;
+    }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+    body {
+        padding: 8px;
+    }
+
+    /* Header - more compact */
+    header {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .header-center h1 {
+        font-size: 1.4rem;
+    }
+
+    .header-center .date {
+        font-size: 0.75rem;
+    }
+
+    .stat-item {
+        padding: 4px 8px;
+        min-width: 50px;
+    }
+
+    .stat-value-small {
+        font-size: 0.85rem;
+    }
+
+    .stat-label-small {
+        font-size: 0.55rem;
+    }
+
+    .header-nav a {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+
+    /* Section icons - even smaller */
+    .sentiment-box h2 img,
+    .sentiment-box h3 img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .sentiment-box h2 {
+        font-size: 1.1rem;
+        gap: 8px;
+    }
+
+    .sentiment-box h3 {
+        font-size: 1rem;
+    }
+
+    .sentiment-box {
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    /* Section heading text */
+    section h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+
+    /* Event cards */
+    .event-card {
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+
+    .event-header h3 {
+        font-size: 1rem;
+    }
+
+    .score {
+        padding: 6px 12px;
+        font-size: 0.95rem;
+        min-width: 60px;
+    }
+
+    .event-meta {
+        font-size: 0.8rem;
+    }
+
+    /* Compact event cards */
+    .event-card-compact {
+        padding: 4px 6px;
+    }
+
+    .event-title-compact {
+        font-size: 0.6rem;
+    }
+
+    .score-compact {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+        min-width: 50px;
+    }
+
+    /* Charts */
+    .chart-container {
+        height: 200px;
+    }
+
+    /* Market controls */
+    .market-controls h4 {
+        font-size: 0.9rem;
+    }
+
+    .market-control-btn {
+        padding: 5px 12px;
+        font-size: 0.8rem;
+    }
+
+    .checkbox-label {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    /* Heatmap */
+    .heatmap-symbol-label {
+        width: 70px;
+        font-size: 0.7rem;
+    }
+
+    .heatmap-accuracy-label {
+        width: 30px;
+        font-size: 0.65rem;
+    }
+
+    /* Summary boxes */
+    .sentiment-box > div[style*="background: #ffffff"] {
+        padding: 15px;
+    }
+
+    /* Archive */
+    .archive-list {
+        padding: 15px;
+    }
+
+    .briefing-list a {
+        padding: 15px;
+    }
+
+    .briefing-list .date {
+        font-size: 0.95rem;
+    }
+
+    /* Footer */
+    footer {
+        font-size: 0.85rem;
     }
 }
