@@ -27,7 +27,7 @@
 
             // Sentiment Chart
             const ctx = document.getElementById('sentimentChart').getContext('2d');
-            const chartData = {"dates": ["2025-12-11", "2025-12-12", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-20", "2025-12-21", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-27", "2025-12-28", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-01", "2026-01-02", "2026-01-03", "2026-01-04", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-10"], "positive": [39.4, 44.1, 40.3, 38.7, 36.9, 35.1, 32.5, 30.0, 32.8, 36.4, 37.3, 35.7, 33.9, 31.9, 31.9, 31.0, 31.0, 29.1, 27.3, 28.9, 32.5, 30.4, 31.0, 31.0, 31.7, 30.4, 28.2, 32.1, 36.2, 40.8, 42.5], "negative": [10.4, 10.0, 9.8, 8.6, 8.4, 9.6, 9.8, 8.3, 8.6, 8.9, 8.7, 8.4, 9.6, 10.9, 11.1, 11.2, 11.0, 10.5, 10.0, 8.3, 7.8, 7.7, 6.9, 7.7, 7.6, 8.0, 8.3, 8.9, 9.9, 11.4, 12.7], "neutral": [34.4, 31.9, 35.6, 38.9, 40.7, 41.3, 43.7, 47.2, 45.4, 39.9, 40.0, 43.0, 43.1, 44.3, 42.9, 44.4, 44.3, 45.0, 49.2, 48.2, 44.3, 46.6, 46.9, 48.2, 47.0, 49.3, 51.3, 46.2, 42.9, 36.5, 32.7], "mixed": [15.8, 14.0, 14.3, 13.7, 14.1, 14.0, 14.0, 14.5, 13.2, 14.8, 14.0, 12.9, 13.3, 13.0, 14.2, 13.4, 13.8, 15.3, 13.6, 14.6, 15.3, 15.3, 15.1, 13.2, 13.7, 12.2, 12.2, 12.8, 11.1, 11.4, 12.1], "totals": [538, 521, 533, 555, 548, 550, 508, 504, 491, 506, 528, 535, 540, 524, 452, 464, 465, 484, 472, 492, 510, 517, 522, 546, 542, 523, 515, 507, 506, 510, 513]};
+            const chartData = {"dates": ["2025-12-11", "2025-12-12", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-20", "2025-12-21", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-27", "2025-12-28", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-01", "2026-01-02", "2026-01-03", "2026-01-04", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-10"], "positive": [39.4, 44.1, 40.3, 38.7, 36.9, 35.1, 32.5, 30.0, 32.8, 36.4, 37.3, 35.7, 33.9, 31.9, 31.9, 31.0, 31.0, 29.1, 27.3, 28.9, 32.5, 30.4, 31.0, 31.0, 31.7, 30.4, 28.2, 32.1, 36.2, 40.8, 42.2], "negative": [10.4, 10.0, 9.8, 8.6, 8.4, 9.6, 9.8, 8.3, 8.6, 8.9, 8.7, 8.4, 9.6, 10.9, 11.1, 11.2, 11.0, 10.5, 10.0, 8.3, 7.8, 7.7, 6.9, 7.7, 7.6, 8.0, 8.3, 8.9, 9.9, 11.4, 12.1], "neutral": [34.4, 31.9, 35.6, 38.9, 40.7, 41.3, 43.7, 47.2, 45.4, 39.9, 40.0, 43.0, 43.1, 44.3, 42.9, 44.4, 44.3, 45.0, 49.2, 48.2, 44.3, 46.6, 46.9, 48.2, 47.0, 49.3, 51.3, 46.2, 42.9, 36.5, 32.6], "mixed": [15.8, 14.0, 14.3, 13.7, 14.1, 14.0, 14.0, 14.5, 13.2, 14.8, 14.0, 12.9, 13.3, 13.0, 14.2, 13.4, 13.8, 15.3, 13.6, 14.6, 15.3, 15.3, 15.1, 13.2, 13.7, 12.2, 12.2, 12.8, 11.1, 11.4, 13.0], "totals": [538, 521, 533, 555, 548, 550, 508, 504, 491, 506, 528, 535, 540, 524, 452, 464, 465, 484, 472, 492, 510, 517, 522, 546, 542, 523, 515, 507, 506, 510, 552]};
 
             // If we have data, generate labels from first data date to 30 days ahead
             let labels = chartData.dates;
@@ -480,15 +480,15 @@
     <header>
         <div class="header-stats">
             <div class="stat-item">
-                <span class="stat-value-small">5,262</span>
+                <span class="stat-value-small">5,294</span>
                 <span class="stat-label-small">Events</span>
             </div>
             <div class="stat-item">
-                <span class="stat-value-small">4,571</span>
+                <span class="stat-value-small">4,621</span>
                 <span class="stat-label-small">Analyzed</span>
             </div>
             <div class="stat-item">
-                <span class="stat-value-small">3,607</span>
+                <span class="stat-value-small">4,621</span>
                 <span class="stat-label-small">Significant</span>
             </div>
         </div>
@@ -498,7 +498,7 @@
                 <img src="logo.svg" alt="AI-Pulse Logo" style="width: 50px; height: 50px; vertical-align: middle; margin-right: 10px;">
             </object>
             <h1 style="display: inline; vertical-align: middle;">AI-Pulse</h1>
-            <p class="date">2026-01-10 10:44 UTC</p>
+            <p class="date">2026-01-10 13:53 UTC</p>
         </div>
 
         <nav class="header-nav">
@@ -536,32 +536,78 @@
                 Sector Signal
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                The overall sentiment signal for the AI sector is bullish. Investors are demonstrating strong belief in the long-term potential of frontier AI technologies, as evidenced by the massive capital investment and appetite for AI-focused companies. The sector is also seeing validation from enterprises&#39; willingness to commit significant resources to AI transformation, suggesting sustained revenue growth opportunities for cloud, AI infrastructure, and semiconductor companies.
+                The overall sentiment for the AI sector is bullish, with strong investor appetite and continued capital inflows driving innovation, infrastructure investment, and commercialization of advanced AI technologies. The sector appears poised for sustained growth, with significant near-term opportunities in robotics, cloud computing, and semiconductor development.
             </p>
         </div>
         
-        <div style="background: #0f172a; padding: 15px; border-radius: 8px; border-left: 4px solid #6ee7b7;">
+        <div style="background: #0f172a; padding: 15px; border-radius: 8px; border-left: 4px solid #f87171;">
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                 <span style="font-size: 1.1rem;">
                     
-                    <span style="color: #6ee7b7;">▲</span>
+                    <span style="color: #f87171;">▼</span>
                     
                 </span>
                 <span style="font-weight: 700; color: #f8fafc; font-size: 1rem;">
                     NVDA
                 </span>
-                <span style="font-size: 0.8rem; color: #6ee7b7; text-transform: uppercase; font-weight: 600;">
-                    bullish
+                <span style="font-size: 0.8rem; color: #f87171; text-transform: uppercase; font-weight: 600;">
+                    bearish
                 </span>
             </div>
             <p style="color: #94a3b8; margin: 0; font-size: 0.9rem; line-height: 1.5;">
-                NVIDIA&#39;s continued strategic narrative and technological leadership, reinforced by the profile highlighting Jensen Huang&#39;s role in making NVIDIA the most valuable company in the world, suggests the company&#39;s potential as a critical infrastructure provider for generative AI and machine learning technologies, potentially supporting continued strong valuation.
+                The potential disruption in China&#39;s AI chip supply chain and the potential regulatory and trust impacts on AI companies highlighted by the Elon Musk lawsuit against OpenAI suggest potential near-term headwinds for NVIDIA&#39;s AI chip business.
             </p>
         </div>
         
     </div>
     
 
+    
+        
+            
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>Boston</strong> Dynamics Atlas Enters Production As Market-Ready Humanoid Robot</h3>
+        <button class="expand-btn" id="btn-5343" onclick="toggleEvent(5343)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-5343" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">📈 positive</span>
+            
+            <span> | 2026-01-09 11:04</span>
+            <span> | Notable Material - This announcement could materially impact valuation models for AI and robotics-focused investments, signaling a new stage of commercial robotics development.</span>
+        </div>
+
+        
+        <div class="implications">
+            <h4>💡 Implications</h4>
+            <p>Investors should anticipate accelerated demand for advanced robotics across manufacturing, logistics, healthcare, and service sectors. This development suggests significant near-term commercial opportunities for companies investing in humanoid robotic systems and advanced AI embodiment technologies.</p>
+        </div>
+        
+
+        
+        <div class="affected-parties">
+            <h4>👥 Affected Parties</h4>
+            <p>- Boston Dynamics (primary beneficiary) - NVIDIA (AI/robotic processing chips) - Alphabet/Google (robotics/AI research) - Microsoft (AI infrastructure) - Automation equipment manufacturers - Industrial robotics companies</p>
+        </div>
+        
+
+        
+        <div class="context">
+            <h4>📚 Context</h4>
+            <p>Historically, humanoid robots have been experimental. Atlas&#39;s market-readiness represents a potential &#34;iPhone moment&#34; for robotic AI, comparable to early smartphone commercialization. This mirrors previous technological transformations where research prototypes become viable commercial products. The event suggests AI is transitioning from digital/computational domains into physical, embodied...</p>
+        </div>
+        
+
+        <div class="event-link">
+            <a href="https://www.ubergizmo.com/2026/01/atlas-market-ready/" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+        
     
         
             
@@ -658,7 +704,56 @@
         
     
         
+            <div id="material-hidden-3" style="display: none;">
+                
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>The</strong> venture firm that ate Silicon Valley just raised another $15 billion | TechCrunch</h3>
+        <button class="expand-btn" id="btn-5324" onclick="toggleEvent(5324)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-5324" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">📈 positive</span>
             
+            <span> | 2026-01-09 13:04</span>
+            <span> | Notable Material - This funding round directly impacts AI investment landscape, potentially reshaping startup funding dynamics and accelerating AI technology development cycles. - Reinforces bullish AI sector outlook - Suggests continued robust venture funding environment - Indicates potential for breakthrough AI technologies emerging from well-funded startups</span>
+        </div>
+
+        
+        <div class="implications">
+            <h4>💡 Implications</h4>
+            <p>This signals continued strong investor appetite for AI-focused startups, likely accelerating funding for advanced AI research, infrastructure, and application development. Investors should expect increased competition for promising AI ventures and potential valuation pressures.</p>
+        </div>
+        
+
+        
+        <div class="affected-parties">
+            <h4>👥 Affected Parties</h4>
+            <p>- Beneficiaries: AI infrastructure companies (NVIDIA, AMD) - Potential AI startup founders - Cloud computing providers (MSFT Azure, GOOGL Cloud) - Emerging AI research and application companies</p>
+        </div>
+        
+
+        
+        <div class="context">
+            <h4>📚 Context</h4>
+            <p>Largest single VC raise in recent years, coming at a critical moment in AI technological evolution. Represents continued investor confidence despite potential economic uncertainties. - Likely to drive valuations for AI infrastructure and foundational model companies - Potential for increased M&amp;A activity - Accelerated innovation in generative AI, enterprise AI applications</p>
+        </div>
+        
+
+        <div class="event-link">
+            <a href="https://techcrunch.com/2026/01/09/the-venture-firm-that-ate-silicon-valley/" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+            </div>
+        
+    
+        
+            <div id="material-hidden-4" style="display: none;">
+                
 
 
 <article class="event-card-compact">
@@ -701,10 +796,11 @@
         </div>
     </div>
 </article>
+            </div>
         
     
         
-            <div id="material-hidden-3" style="display: none;">
+            <div id="material-hidden-5" style="display: none;">
                 
 
 
@@ -754,7 +850,7 @@
         
     
         
-            <div id="material-hidden-4" style="display: none;">
+            <div id="material-hidden-6" style="display: none;">
                 
 
 
@@ -804,7 +900,57 @@
         
     
         
-            <div id="material-hidden-5" style="display: none;">
+            <div id="material-hidden-7" style="display: none;">
+                
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>Elon</strong> Musk Lawsuit Claims OpenAI Betrayed Its Mission, Raising Fears for AI Trust</h3>
+        <button class="expand-btn" id="btn-5331" onclick="toggleEvent(5331)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-5331" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">📉 negative</span>
+            
+             | OpenAI, Amazon
+            
+            <span> | 2026-01-09 12:40</span>
+            <span> | Notable The lawsuit introduces uncertainty around OpenAI&#39;s governance and could impact investor confidence in AI companies. While not immediately material to valuations, it represents a potential reputational and strategic risk that warrants close monitoring. - Increased investor demands for transparent AI development - Potential regulatory scrutiny of AI company missions - Enhanced due diligence on AI company governance</span>
+        </div>
+
+        
+        <div class="implications">
+            <h4>💡 Implications</h4>
+            <p>Investors should monitor potential regulatory and trust impacts on AI companies, particularly those with ambitious AI development goals. The lawsuit may trigger increased scrutiny of AI companies&#39; mission statements, governance, and alignment with original founding principles.</p>
+        </div>
+        
+
+        
+        <div class="affected-parties">
+            <h4>👥 Affected Parties</h4>
+            <p>- OpenAI - Microsoft (major OpenAI investor) - Alphabet/Google AI - Other AI research organizations - Venture capital firms investing in AI</p>
+        </div>
+        
+
+        
+        <div class="context">
+            <h4>📚 Context</h4>
+            <p>This lawsuit follows Musk&#39;s historical involvement with OpenAI&#39;s founding and subsequent departure. It represents a rare public legal challenge to an AI company&#39;s strategic direction, potentially setting precedent for future AI governance disputes. - Original AI development ideals - Commercial AI monetization strategies - Ethical considerations in AI advancement - Monitor legal proceedings -...</p>
+        </div>
+        
+
+        <div class="event-link">
+            <a href="https://www.ibtimes.com/elon-musk-lawsuit-claims-openai-betrayed-its-mission-raising-fears-ai-trust-3794829" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+            </div>
+        
+    
+        
+            <div id="material-hidden-8" style="display: none;">
                 
 
 
@@ -854,7 +1000,7 @@
         
     
         
-            <div id="material-hidden-6" style="display: none;">
+            <div id="material-hidden-9" style="display: none;">
                 
 
 
@@ -901,156 +1047,6 @@
             </div>
         
     
-        
-            <div id="material-hidden-7" style="display: none;">
-                
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>Stephen</strong> Witt – “Jensen Huang re-engineered Nvidia to make it the most valuable company in the world”</h3>
-        <button class="expand-btn" id="btn-5078" onclick="toggleEvent(5078)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-5078" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">📈 positive</span>
-            
-             | NVIDIA
-            
-            <span> | 2026-01-07 13:01</span>
-            <span> | Notable The book/profile appears to provide deeper strategic insights into Nvidia&#39;s historical positioning and future potential, which could materially impact investor understanding of the company&#39;s long-term value proposition. The narrative of &#34;re-engineering&#34; suggests deliberate, strategic transformation.</span>
-        </div>
-
-        
-        <div class="implications">
-            <h4>💡 Implications</h4>
-            <p>AI sector investors should closely monitor Nvidia&#39;s continued strategic narrative and technological leadership. The profile reinforces Nvidia&#39;s potential as a critical infrastructure provider for generative AI and machine learning technologies, potentially supporting continued strong valuation.</p>
-        </div>
-        
-
-        
-        <div class="affected-parties">
-            <h4>👥 Affected Parties</h4>
-            <p>- Nvidia (primary beneficiary) - Semiconductor manufacturers (AMD, INTC) - Cloud computing providers (MSFT, GOOGL, AMZN) - AI software companies (MSFT, META)</p>
-        </div>
-        
-
-        
-        <div class="context">
-            <h4>📚 Context</h4>
-            <p>Historically comparable to Intel&#39;s dominance in CPU manufacturing during the personal computing era, Nvidia is positioning itself as the critical infrastructure provider for the AI computing era. Jensen Huang&#39;s long-term strategic leadership is being highlighted as a key differentiator. - Published in 2026, suggesting retrospective analysis of Nvidia&#39;s AI era transformation - Potentially...</p>
-        </div>
-        
-
-        <div class="event-link">
-            <a href="https://blogs.lse.ac.uk/lsereviewofbooks/2026/01/07/stephen-witt-jensen-huang-re-engineered-nvidia-to-make-it-the-most-valuable-company-in-the-world/" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-            </div>
-        
-    
-        
-            <div id="material-hidden-8" style="display: none;">
-                
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>Morning</strong> Headlines 1/6/26</h3>
-        <button class="expand-btn" id="btn-4907" onclick="toggleEvent(4907)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-4907" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">📈 positive</span>
-            
-             | OpenAI
-            
-            <span> | 2026-01-06 01:01</span>
-            <span> | Notable The data point suggests accelerating AI adoption in sensitive domains like healthcare, reinforcing investment theses around conversational AI and large language models. While not immediately material to stock valuations, it represents a meaningful market signal about AI&#39;s expanding utility.</span>
-        </div>
-
-        
-        <div class="implications">
-            <h4>💡 Implications</h4>
-            <p>Investors should view this as a strong validation of AI&#39;s potential in healthcare services, potentially driving increased investment in AI conversational health technologies and expanding the addressable market for AI applications in medical information and preliminary diagnostics.</p>
-        </div>
-        
-
-        
-        <div class="affected-parties">
-            <h4>👥 Affected Parties</h4>
-            <p>- OpenAI (primary beneficiary) - Microsoft (significant OpenAI investor) - Healthcare technology companies - Telemedicine platforms - Health information technology sectors</p>
-        </div>
-        
-
-        
-        <div class="context">
-            <h4>📚 Context</h4>
-            <p>This represents an unprecedented scale of AI health interaction, potentially signaling a shift from experimental to mainstream AI usage in professional and personal health information seeking. - Demonstrates exponential growth in AI healthcare interactions - Suggests increasing user comfort with AI-mediated health information - Highlights potential disruption to traditional health information...</p>
-        </div>
-        
-
-        <div class="event-link">
-            <a href="https://histalk2.com/2026/01/05/morning-headlines-1-6-26/" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-            </div>
-        
-    
-        
-            <div id="material-hidden-9" style="display: none;">
-                
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>Jensen</strong> Huang Says Nvidia’s New Vera Rubin Chips Are in ‘Full Production’</h3>
-        <button class="expand-btn" id="btn-4799" onclick="toggleEvent(4799)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-4799" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">📈 positive</span>
-            
-             | NVIDIA
-            
-            <span> | 2026-01-05 23:05</span>
-            <span> | Notable Material - This announcement directly impacts valuation models and competitive positioning in the AI semiconductor market. It represents a tangible technological advancement that could influence near-term revenue projections and market share.</span>
-        </div>
-
-        
-        <div class="implications">
-            <h4>💡 Implications</h4>
-            <p>Investors should view this as a positive signal for Nvidia&#39;s continued innovation and market dominance in AI computing. The potential cost reduction for AI model training and operation could accelerate AI adoption across industries, creating broader market opportunities.</p>
-        </div>
-        
-
-        
-        <div class="affected-parties">
-            <h4>👥 Affected Parties</h4>
-            <p>- NVIDIA (primary beneficiary) - Microsoft (potential cloud/AI infrastructure improvement) - Google (AI computing infrastructure) - Meta (AI model training cost reduction) - Advanced Micro Devices (competitive pressure) - Cloud computing sector - AI research institutions</p>
-        </div>
-        
-
-        
-        <div class="context">
-            <h4>📚 Context</h4>
-            <p>Follows Nvidia&#39;s previous groundbreaking GPU architectures that revolutionized AI computing. Vera Rubin appears to be a next-generation solution addressing current AI infrastructure cost and efficiency challenges, potentially continuing Nvidia&#39;s trajectory of technological leadership.</p>
-        </div>
-        
-
-        <div class="event-link">
-            <a href="https://www.wired.com/story/nvidias-rubin-chips-are-going-into-production/" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-            </div>
-        
-    
 
     
     <button onclick="toggleEventSection('material', 10)" id="material-toggle-btn"
@@ -1082,7 +1078,7 @@
                 Emerging Trends
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                The AI sector continues to experience massive capital inflows, driven by significant investor confidence in the transformative potential of frontier AI technologies. Emerging trends point to increased investment in generative AI, robotics, and AI hardware, alongside heightened focus on content moderation, ethical AI development, and legal/regulatory risks.
+                The AI sector is experiencing a surge in investment, driven by growing institutional confidence in the disruptive potential of frontier AI technologies. Emerging trends suggest increased regulatory scrutiny, legal liability risks, and the need for robust content moderation and ethical AI development frameworks as generative AI capabilities advance.
             </p>
         </div>
         
@@ -1239,6 +1235,56 @@
 
 <article class="event-card-compact">
     <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>Google</strong> Surges to Nearly $4 Trillion, Overtakes Apple for First Time as AI Threatens OpenAI and NVIDIA</h3>
+        <button class="expand-btn" id="btn-5326" onclick="toggleEvent(5326)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-5326" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">📈 positive</span>
+            
+             | OpenAI, Google, NVIDIA
+            
+            <span> | 2026-01-09 13:00</span>
+            <span> | Notable - Demonstrating AI&#39;s transformative market value - Signaling Google&#39;s potential to challenge current AI market leaders - Suggesting AI capability is now a primary driver of tech company valuation</span>
+        </div>
+
+        
+        <div class="implications">
+            <h4>💡 Implications</h4>
+            <p>AI sector investors should view this as strong validation of Google&#39;s AI ecosystem and potential for future revenue generation. This performance suggests continued aggressive investment in AI technologies could be a key driver of tech stock valuations.</p>
+        </div>
+        
+
+        
+        <div class="affected-parties">
+            <h4>👥 Affected Parties</h4>
+            <p>- Beneficiaries: Google/Alphabet, AI infrastructure companies - Potential Losers: Apple, NVIDIA (if Google&#39;s AI capabilities continue to strengthen) - Neutral/Watch: OpenAI, Microsoft, Meta</p>
+        </div>
+        
+
+        
+        <div class="context">
+            <h4>📚 Context</h4>
+            <p>- First time Google has overtaken Apple in market cap in six years - Reflects shift from hardware/product sales to AI capability as primary corporate value metric - Indicates growing investor belief in Google&#39;s AI strategy versus competitors The market cap milestone represents a significant inflection point in tech investment, where AI capability is now viewed as the primary corporate value driver.</p>
+        </div>
+        
+
+        <div class="event-link">
+            <a href="https://www.ibtimes.com/google-surges-nearly-4-trillion-overtakes-apple-first-time-ai-threatens-openai-nvidia-3794868" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+            </div>
+        
+    
+        
+            <div id="notable-hidden-4" style="display: none;">
+                
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
         <h3 class="event-title-compact"><strong>Google</strong> and Character.AI negotiate first major settlements in teen chatbot death cases</h3>
         <button class="expand-btn" id="btn-5045" onclick="toggleEvent(5045)">▶</button>
     </div>
@@ -1283,7 +1329,7 @@
         
     
         
-            <div id="notable-hidden-4" style="display: none;">
+            <div id="notable-hidden-5" style="display: none;">
                 
 
 
@@ -1333,7 +1379,7 @@
         
     
         
-            <div id="notable-hidden-5" style="display: none;">
+            <div id="notable-hidden-6" style="display: none;">
                 
 
 
@@ -1381,7 +1427,7 @@
         
     
         
-            <div id="notable-hidden-6" style="display: none;">
+            <div id="notable-hidden-7" style="display: none;">
                 
 
 
@@ -1431,7 +1477,7 @@
         
     
         
-            <div id="notable-hidden-7" style="display: none;">
+            <div id="notable-hidden-8" style="display: none;">
                 
 
 
@@ -1479,7 +1525,7 @@
         
     
         
-            <div id="notable-hidden-8" style="display: none;">
+            <div id="notable-hidden-9" style="display: none;">
                 
 
 
@@ -1528,56 +1574,6 @@
             </div>
         
     
-        
-            <div id="notable-hidden-9" style="display: none;">
-                
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>Sources:</strong> OpenAI last fall set aside RSUs worth 10% of the company, which was valued in October at $500B; it has already awarded about $80B in vested equity</h3>
-        <button class="expand-btn" id="btn-5151" onclick="toggleEvent(5151)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-5151" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">📈 positive</span>
-            
-             | OpenAI
-            
-            <span> | 2026-01-08 03:46</span>
-            <span> | Notable Notable - Provides insight into AI company compensation strategies and talent competition, but doesn&#39;t fundamentally alter immediate investment models.</span>
-        </div>
-
-        
-        <div class="implications">
-            <h4>💡 Implications</h4>
-            <p>For AI sector investors, this signals OpenAI&#39;s aggressive talent strategy and implicit valuation confidence. It suggests continued competitive intensity in AI talent acquisition and implies potential upward pressure on compensation and equity structures across the AI technology sector.</p>
-        </div>
-        
-
-        
-        <div class="affected-parties">
-            <h4>👥 Affected Parties</h4>
-            <p>- Beneficiaries: OpenAI, Microsoft (strategic partner), AI talent ecosystem - Potential Competitors: Google DeepMind, Anthropic, Meta AI - Talent Markets: Tech recruitment, AI research compensation</p>
-        </div>
-        
-
-        
-        <div class="context">
-            <h4>📚 Context</h4>
-            <p>- Contextualizes OpenAI&#39;s $500B valuation from October 2025 - Represents approximately 10% of company equity set aside for employee compensation - Reflects ongoing &#34;talent war&#34; in advanced AI development - Follows similar high-equity compensation models in tech (e.g., early Facebook, Google equity grants) - May accelerate equity-based compensation in AI sector - Signals continued high...</p>
-        </div>
-        
-
-        <div class="event-link">
-            <a href="https://biztoc.com/x/2059ed7ddd465dbb" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-            </div>
-        
-    
 
     
     <button onclick="toggleEventSection('notable', 10)" id="notable-toggle-btn"
@@ -1619,7 +1615,7 @@
                 Research Themes
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                The key research themes focus on enhancing the trustworthiness, self-awareness, and instruction following capabilities of embodied AI systems. Innovations also aim to enable adversarial program evolution, energy-efficient large language model routing, verifiable learning substrates, and multilingual knowledge graph alignment.
+                The key research themes focus on improving the trustworthiness, self-awareness, and instruction following capabilities of embodied AI systems. Innovations also aim to enhance adversarial program evolution, energy-efficient routing to large language models, and verifiable learning substrates with ledger-attested feedback.
             </p>
         </div>
         
