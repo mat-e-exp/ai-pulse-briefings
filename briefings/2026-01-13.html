@@ -22,12 +22,12 @@
         // Initialize charts when page loads
         window.addEventListener('DOMContentLoaded', function() {
             // Extract closed market dates (needed for both charts)
-            const marketData = {"BTC-USD": {"name": "Bitcoin", "dates": ["2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-01", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-2.31, -1.99, 1.66, -1.87, -0.55, 2.95, -0.15, -0.92, 0.32, 0.33, 0.08, -0.73, 1.18, -0.86, 0.84, 1.26, 2.96, -0.36, -2.9, -0.12, -0.74, 0.5]}, "NOW": {"name": null, "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-11.54, 2.08, 0.16, -1.98, 1.26, 0.88, -1.48, -1.15, 0.91, 0.99, -0.23, -0.67, -3.68, 0.74, 0.82, 1.4, -3.12, -3.0, 0.71]}, "TSM": {"name": "TSMC", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-1.47, -0.3, -3.45, 2.79, 1.5, 1.5, 1.25, 0.62, 0.98, -0.28, -0.45, 1.44, 2.45, -2.47, 1.61, -2.67, -0.21, 1.77, 3.0]}, "SNOW": {"name": "Snowflake", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-1.22, 2.47, -1.95, 2.32, 0.52, 1.97, -0.77, -1.41, 0.77, -0.04, -0.38, -1.21, -1.45, 3.23, 4.53, -0.44, -4.16, -2.1, 1.75]}, "ROBT": {"name": "First Trust Robotics AI", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-1.66, -0.3, -2.01, 1.03, 1.63, 1.39, -0.41, 0.22, -0.4, 0.05, -0.2, -1.07, -0.26, 1.25, 2.4, -0.01, -0.5, 1.02, 0.9]}, "PLTR": {"name": "Palantir", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-0.17, 2.46, -5.57, 4.74, 4.14, 0.31, 0.08, 0.02, -3.23, -1.46, -1.81, -1.71, -7.43, -0.48, 3.26, 1.1, -2.65, 0.36, 0.97]}, "META": {"name": "Meta", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [0.51, 1.49, -1.16, 2.3, -0.85, 0.41, 0.52, 0.39, -0.71, -1.41, 1.1, -0.88, -1.86, 1.29, 0.28, -1.81, -0.41, 1.08, -1.62]}, "INTC": {"name": "Intel", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-0.79, -0.53, -3.38, 0.64, 1.49, -1.22, -0.05, -0.52, 0.08, 1.82, 1.69, -1.07, 4.21, -5.34, 1.7, 6.47, -3.57, 10.8, -0.23]}, "GOOGL": {"name": "Alphabet", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-0.35, -0.54, -3.21, 1.93, 1.55, 0.85, 1.48, -0.08, -0.31, -0.31, 0.09, -0.27, -0.58, -0.34, -0.7, 2.43, 1.07, 0.96, 1.89]}, "CRM": {"name": "Salesforce", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-2.92, 0.13, 1.27, -0.11, 0.8, 1.82, -0.45, 0.69, 0.48, 0.57, -0.12, -0.38, -4.29, 1.04, 2.59, 1.22, -2.1, -0.23, 0.15]}, "BOTZ": {"name": "AI/Robotics ETF", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-0.66, -0.97, -2.21, 1.03, 1.7, 1.67, 0.36, -0.03, -0.14, 0.38, -0.46, -0.96, 0.16, 1.51, 0.85, 0.61, -1.13, 1.33, 0.18]}, "ARM": {"name": "Arm Holdings", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-4.98, -2.63, -5.38, -0.93, 0.46, -0.65, -1.12, -0.42, -1.07, 1.64, 0.32, -1.4, 1.68, -3.53, -0.5, 0.13, -2.25, -1.14, 0.18]}, "ARKQ": {"name": "ARK Autonomous Tech", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-1.25, 0.51, -3.45, 2.75, 3.65, 2.63, -0.22, -0.22, -1.59, -0.02, -0.52, -0.73, 1.63, 2.66, 2.13, -1.0, 1.61, 1.86, 1.68]}, "AMZN": {"name": "Amazon", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-1.61, 0.01, -0.58, 2.48, 0.26, 0.48, 1.62, 0.1, 0.21, 0.02, 0.2, -0.74, -2.09, 1.84, 3.38, 0.26, 1.96, 0.44, -0.11]}, "AMD": {"name": "AMD", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-1.52, 0.77, -5.29, 1.49, 6.15, 0.71, -0.02, 0.07, -0.2, 1.91, -0.13, -0.55, 2.09, -3.98, -3.04, -2.02, -2.54, -0.74, 3.24]}, "AIQ": {"name": "AI Analytics ETF", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-1.27, -0.02, -1.8, 1.69, 1.87, 0.85, 0.27, 0.29, -0.05, 0.37, -0.25, -0.97, -0.71, -0.33, 1.15, -0.13, -0.84, 0.84, 1.8]}, "AAPL": {"name": "Apple", "dates": ["2025-12-15", "2025-12-16", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-1.5, 0.18, 0.13, 0.54, -0.99, 0.51, 0.53, -0.28, -0.17, -0.25, -0.45, -0.46, -1.25, -1.83, -0.77, -0.5, 0.13, 0.42]}, "ASML": {"name": "ASML", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [0.64, -1.08, -5.63, 2.06, 1.9, 0.09, 0.46, 0.35, 0.61, 0.13, 0.58, -0.21, 2.65, 1.4, 1.14, -1.1, -2.78, 6.66, 2.0]}, "ADBE": {"name": "Adobe", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-1.48, -0.93, 1.95, 0.32, 0.01, 0.47, -1.43, 0.16, 0.37, 0.19, -0.18, -0.71, -4.95, 0.44, 1.34, 0.63, 0.28, -1.5, -0.04]}, "ORCL": {"name": "Oracle", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-2.7, 1.97, -5.41, 0.88, 6.63, 3.34, -1.53, 1.1, -0.04, 0.63, 0.94, -1.17, -0.89, -2.9, 0.6, -0.47, -1.65, 4.68, 3.58]}, "MSFT": {"name": "Microsoft", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-0.78, 0.33, -0.06, 1.65, 0.4, -0.21, 0.4, 0.24, 0.21, 0.08, 0.08, -0.79, -2.36, -0.23, 1.2, 1.04, -1.11, 0.24, 0.11]}, "NVDA": {"name": "NVIDIA", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [0.73, 0.81, -3.81, 1.87, 3.93, 1.49, 3.01, -0.32, 0.32, 0.28, -0.36, -0.55, -0.51, -1.88, -0.47, 1.0, -2.15, -0.1, 0.96]}, "^GSPC": {"name": "S&P 500", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-0.16, -0.24, -1.16, 0.79, 0.88, 0.64, 0.46, 0.32, -0.03, -0.35, -0.14, -0.74, 0.19, 0.64, 0.62, -0.34, 0.01, 0.65, 0.16]}, "^IXIC": {"name": "NASDAQ Composite", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12"], "changes": [-0.59, 0.23, -1.81, 1.38, 1.31, 0.52, 0.57, 0.22, -0.09, -0.5, -0.76, -0.03, 0.69, 0.65, 0.16, -0.44, 0.81, 0.26]}, "_closed_dates": []};
+            const marketData = {"BTC-USD": {"name": "Bitcoin", "dates": ["2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-01", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-2.31, -1.99, 1.66, -1.87, -0.55, 2.95, -0.15, -0.92, 0.32, 0.33, 0.08, -0.73, 1.18, -0.86, 0.84, 1.26, 2.96, -0.36, -2.9, -0.12, -0.74, 0.5, 3.29]}, "NOW": {"name": null, "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-11.54, 2.08, 0.16, -1.98, 1.26, 0.88, -1.48, -1.15, 0.91, 0.99, -0.23, -0.67, -3.68, 0.74, 0.82, 1.4, -3.12, -3.0, 0.71, -3.12]}, "TSM": {"name": "TSMC", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-1.47, -0.3, -3.45, 2.79, 1.5, 1.5, 1.25, 0.62, 0.98, -0.28, -0.45, 1.44, 2.45, -2.47, 1.61, -2.67, -0.21, 1.77, 3.0, -0.17]}, "SNOW": {"name": "Snowflake", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-1.22, 2.47, -1.95, 2.32, 0.52, 1.97, -0.77, -1.41, 0.77, -0.04, -0.38, -1.21, -1.45, 3.23, 4.53, -0.44, -4.16, -2.1, 1.75, -4.94]}, "ROBT": {"name": "First Trust Robotics AI", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-1.66, -0.3, -2.01, 1.03, 1.63, 1.39, -0.41, 0.22, -0.4, 0.05, -0.2, -1.07, -0.26, 1.25, 2.4, -0.01, -0.5, 1.02, 0.9, -1.34]}, "PLTR": {"name": "Palantir", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-0.17, 2.46, -5.57, 4.74, 4.14, 0.31, 0.08, 0.02, -3.23, -1.46, -1.81, -1.71, -7.43, -0.48, 3.26, 1.1, -2.65, 0.36, 0.97, -0.25]}, "META": {"name": "Meta", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [0.51, 1.49, -1.16, 2.3, -0.85, 0.41, 0.52, 0.39, -0.71, -1.41, 1.1, -0.88, -1.86, 1.29, 0.28, -1.81, -0.41, 1.08, -1.62, -1.69]}, "INTC": {"name": "Intel", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-0.79, -0.53, -3.38, 0.64, 1.49, -1.22, -0.05, -0.52, 0.08, 1.82, 1.69, -1.07, 4.21, -5.34, 1.7, 6.47, -3.57, 10.8, -0.23, 7.33]}, "GOOGL": {"name": "Alphabet", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-0.35, -0.54, -3.21, 1.93, 1.55, 0.85, 1.48, -0.08, -0.31, -0.31, 0.09, -0.27, -0.58, -0.34, -0.7, 2.43, 1.07, 0.96, 1.89, 1.24]}, "CRM": {"name": "Salesforce", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-2.92, 0.13, 1.27, -0.11, 0.8, 1.82, -0.45, 0.69, 0.48, 0.57, -0.12, -0.38, -4.29, 1.04, 2.59, 1.22, -2.1, -0.23, 0.15, -7.07]}, "BOTZ": {"name": "AI/Robotics ETF", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-0.66, -0.97, -2.21, 1.03, 1.7, 1.67, 0.36, -0.03, -0.14, 0.38, -0.46, -0.96, 0.16, 1.51, 0.85, 0.61, -1.13, 1.33, 0.18, -1.53]}, "ARM": {"name": "Arm Holdings", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-4.98, -2.63, -5.38, -0.93, 0.46, -0.65, -1.12, -0.42, -1.07, 1.64, 0.32, -1.4, 1.68, -3.53, -0.5, 0.13, -2.25, -1.14, 0.18, -2.97]}, "ARKQ": {"name": "ARK Autonomous Tech", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-1.25, 0.51, -3.45, 2.75, 3.65, 2.63, -0.22, -0.22, -1.59, -0.02, -0.52, -0.73, 1.63, 2.66, 2.13, -1.0, 1.61, 1.86, 1.68, -0.61]}, "AMZN": {"name": "Amazon", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-1.61, 0.01, -0.58, 2.48, 0.26, 0.48, 1.62, 0.1, 0.21, 0.02, 0.2, -0.74, -2.09, 1.84, 3.38, 0.26, 1.96, 0.44, -0.11, -1.57]}, "AMD": {"name": "AMD", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-1.52, 0.77, -5.29, 1.49, 6.15, 0.71, -0.02, 0.07, -0.2, 1.91, -0.13, -0.55, 2.09, -3.98, -3.04, -2.02, -2.54, -0.74, 3.24, 6.39]}, "AIQ": {"name": "AI Analytics ETF", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-1.27, -0.02, -1.8, 1.69, 1.87, 0.85, 0.27, 0.29, -0.05, 0.37, -0.25, -0.97, -0.71, -0.33, 1.15, -0.13, -0.84, 0.84, 1.8, -0.96]}, "AAPL": {"name": "Apple", "dates": ["2025-12-15", "2025-12-16", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-1.5, 0.18, 0.13, 0.54, -0.99, 0.51, 0.53, -0.28, -0.17, -0.25, -0.45, -0.46, -1.25, -1.83, -0.77, -0.5, 0.13, 0.42, 0.31]}, "ASML": {"name": "ASML", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [0.64, -1.08, -5.63, 2.06, 1.9, 0.09, 0.46, 0.35, 0.61, 0.13, 0.58, -0.21, 2.65, 1.4, 1.14, -1.1, -2.78, 6.66, 2.0, -0.86]}, "ADBE": {"name": "Adobe", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-1.48, -0.93, 1.95, 0.32, 0.01, 0.47, -1.43, 0.16, 0.37, 0.19, -0.18, -0.71, -4.95, 0.44, 1.34, 0.63, 0.28, -1.5, -0.04, -5.41]}, "ORCL": {"name": "Oracle", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-2.7, 1.97, -5.41, 0.88, 6.63, 3.34, -1.53, 1.1, -0.04, 0.63, 0.94, -1.17, -0.89, -2.9, 0.6, -0.47, -1.65, 4.68, 3.58, -1.17]}, "MSFT": {"name": "Microsoft", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-0.78, 0.33, -0.06, 1.65, 0.4, -0.21, 0.4, 0.24, 0.21, 0.08, 0.08, -0.79, -2.36, -0.23, 1.2, 1.04, -1.11, 0.24, 0.11, -1.36]}, "NVDA": {"name": "NVIDIA", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [0.73, 0.81, -3.81, 1.87, 3.93, 1.49, 3.01, -0.32, 0.32, 0.28, -0.36, -0.55, -0.51, -1.88, -0.47, 1.0, -2.15, -0.1, 0.96, 0.47]}, "^GSPC": {"name": "S&P 500", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-0.16, -0.24, -1.16, 0.79, 0.88, 0.64, 0.46, 0.32, -0.03, -0.35, -0.14, -0.74, 0.19, 0.64, 0.62, -0.34, 0.01, 0.65, 0.16, -0.19]}, "^IXIC": {"name": "NASDAQ Composite", "dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13"], "changes": [-0.59, 0.23, -1.81, 1.38, 1.31, 0.52, 0.57, 0.22, -0.09, -0.5, -0.76, -0.03, 0.69, 0.65, 0.16, -0.44, 0.81, 0.26, -0.1]}, "_closed_dates": []};
             const closedDates = marketData._closed_dates || [];
 
             // Sentiment Chart
             const ctx = document.getElementById('sentimentChart').getContext('2d');
-            const chartData = {"dates": ["2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-20", "2025-12-21", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-27", "2025-12-28", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-01", "2026-01-02", "2026-01-03", "2026-01-04", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-10", "2026-01-11", "2026-01-12", "2026-01-13"], "positive": [38.7, 36.9, 35.1, 32.5, 30.0, 32.8, 36.4, 37.3, 35.7, 33.9, 31.9, 31.9, 31.0, 31.0, 29.1, 27.3, 28.9, 32.5, 30.4, 31.0, 31.0, 31.7, 30.4, 28.2, 32.1, 36.2, 40.8, 42.2, 42.4, 41.4, 40.7], "negative": [8.6, 8.4, 9.6, 9.8, 8.3, 8.6, 8.9, 8.7, 8.4, 9.6, 10.9, 11.1, 11.2, 11.0, 10.5, 10.0, 8.3, 7.8, 7.7, 6.9, 7.7, 7.6, 8.0, 8.3, 8.9, 9.9, 11.4, 12.1, 11.6, 11.1, 11.4], "neutral": [38.9, 40.7, 41.3, 43.7, 47.2, 45.4, 39.9, 40.0, 43.0, 43.1, 44.3, 42.9, 44.4, 44.3, 45.0, 49.2, 48.2, 44.3, 46.6, 46.9, 48.2, 47.0, 49.3, 51.3, 46.2, 42.9, 36.5, 32.6, 32.7, 35.8, 36.5], "mixed": [13.7, 14.1, 14.0, 14.0, 14.5, 13.2, 14.8, 14.0, 12.9, 13.3, 13.0, 14.2, 13.4, 13.8, 15.3, 13.6, 14.6, 15.3, 15.3, 15.1, 13.2, 13.7, 12.2, 12.2, 12.8, 11.1, 11.4, 13.0, 13.4, 11.8, 11.4], "totals": [555, 548, 550, 508, 504, 491, 506, 528, 535, 540, 524, 452, 464, 465, 484, 472, 492, 510, 517, 522, 546, 542, 523, 515, 507, 506, 510, 552, 569, 561, 572]};
+            const chartData = {"dates": ["2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-20", "2025-12-21", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-27", "2025-12-28", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-01", "2026-01-02", "2026-01-03", "2026-01-04", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-10", "2026-01-11", "2026-01-12", "2026-01-13"], "positive": [36.9, 35.1, 32.5, 30.0, 32.8, 36.4, 37.3, 35.7, 33.9, 31.9, 31.9, 31.0, 31.0, 29.1, 27.3, 28.9, 32.5, 30.4, 31.0, 31.0, 31.7, 30.4, 28.2, 32.1, 36.2, 40.8, 42.2, 42.4, 41.4, 40.5], "negative": [8.4, 9.6, 9.8, 8.3, 8.6, 8.9, 8.7, 8.4, 9.6, 10.9, 11.1, 11.2, 11.0, 10.5, 10.0, 8.3, 7.8, 7.7, 6.9, 7.7, 7.6, 8.0, 8.3, 8.9, 9.9, 11.4, 12.1, 11.6, 11.1, 11.2], "neutral": [40.7, 41.3, 43.7, 47.2, 45.4, 39.9, 40.0, 43.0, 43.1, 44.3, 42.9, 44.4, 44.3, 45.0, 49.2, 48.2, 44.3, 46.6, 46.9, 48.2, 47.0, 49.3, 51.3, 46.2, 42.9, 36.5, 32.6, 32.7, 35.8, 36.6], "mixed": [14.1, 14.0, 14.0, 14.5, 13.2, 14.8, 14.0, 12.9, 13.3, 13.0, 14.2, 13.4, 13.8, 15.3, 13.6, 14.6, 15.3, 15.3, 15.1, 13.2, 13.7, 12.2, 12.2, 12.8, 11.1, 11.4, 13.0, 13.4, 11.8, 11.6], "totals": [548, 550, 508, 504, 491, 506, 528, 535, 540, 524, 452, 464, 465, 484, 472, 492, 510, 517, 522, 546, 542, 523, 515, 507, 506, 510, 552, 569, 561, 560]};
 
             // If we have data, generate labels from first data date to 30 days ahead
             let labels = chartData.dates;
@@ -200,7 +200,7 @@
 
             // Market Performance Chart
             const marketCtx = document.getElementById('marketChart').getContext('2d');
-            const correlationData = {"total": 18, "correct": 7, "wrong": 11, "ambiguous": 0, "accuracy_pct": 39, "timeline": [{"date": "2025-12-15", "sentiment": "neutral", "outcome": "negative", "correct": 0}, {"date": "2025-12-16", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2025-12-17", "sentiment": "neutral", "outcome": "negative", "correct": 0}, {"date": "2025-12-18", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2025-12-19", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2025-12-22", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2025-12-23", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2025-12-24", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2025-12-26", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2025-12-29", "sentiment": "neutral", "outcome": "negative", "correct": 0}, {"date": "2025-12-31", "sentiment": "neutral", "outcome": "negative", "correct": 0}, {"date": "2026-01-02", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2026-01-05", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2026-01-06", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2026-01-07", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2026-01-08", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2026-01-09", "sentiment": "positive", "outcome": "positive", "correct": 1}, {"date": "2026-01-12", "sentiment": "positive", "outcome": "neutral", "correct": 0}]};
+            const correlationData = {"total": 19, "correct": 7, "wrong": 12, "ambiguous": 0, "accuracy_pct": 37, "timeline": [{"date": "2025-12-15", "sentiment": "neutral", "outcome": "negative", "correct": 0}, {"date": "2025-12-16", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2025-12-17", "sentiment": "neutral", "outcome": "negative", "correct": 0}, {"date": "2025-12-18", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2025-12-19", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2025-12-22", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2025-12-23", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2025-12-24", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2025-12-26", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2025-12-29", "sentiment": "neutral", "outcome": "negative", "correct": 0}, {"date": "2025-12-31", "sentiment": "neutral", "outcome": "negative", "correct": 0}, {"date": "2026-01-02", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2026-01-05", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2026-01-06", "sentiment": "neutral", "outcome": "positive", "correct": 0}, {"date": "2026-01-07", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2026-01-08", "sentiment": "neutral", "outcome": "neutral", "correct": 1}, {"date": "2026-01-09", "sentiment": "positive", "outcome": "positive", "correct": 1}, {"date": "2026-01-12", "sentiment": "positive", "outcome": "neutral", "correct": 0}, {"date": "2026-01-13", "sentiment": "positive", "outcome": "neutral", "correct": 0}]};
 
             // Remove _closed_dates from marketData (already extracted above)
             delete marketData._closed_dates;
@@ -498,7 +498,7 @@
                 <img src="../logo.svg" alt="AI-Pulse Logo" style="width: 50px; height: 50px; vertical-align: middle; margin-right: 10px;">
             </object>
             <h1 style="display: inline; vertical-align: middle;">AI-Pulse</h1>
-            <p class="date">2026-01-13 14:05 UTC</p>
+            <p class="date">2026-01-13 21:45 UTC</p>
         </div>
 
         <nav class="header-nav">
@@ -536,7 +536,7 @@
                 Sector Signal
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                The overall sentiment for the AI sector is mixed, with positive signals around continued strong investor appetite for AI technologies and companies, but also concerns around regulatory scrutiny, cybersecurity risks, and supply chain disruptions. Investors should expect increased competition and potential valuation pressures in the AI space.
+                The overall sentiment signal for the AI sector is mixed, with positive developments like strong investor appetite, accelerating AI chip demand, and disruptive healthcare innovations balanced by concerns around cybersecurity, supply chain disruptions, and trust issues. Investors should anticipate continued volatility and the need to carefully assess AI companies&#39; strategies, governance, and alignment with their founding principles.
             </p>
         </div>
         
@@ -555,7 +555,7 @@
                 </span>
             </div>
             <p style="color: #94a3b8; margin: 0; font-size: 0.9rem; line-height: 1.5;">
-                The potential disruption in China&#39;s AI chip supply chain and the possibility of regulatory impacts on Nvidia&#39;s operations suggest a bearish sentiment for the company in the near term.
+                NVIDIA&#39;s reported request for Chinese customers to pay upfront for its H200 AI chips suggests potential disruption in the China AI chip supply chain, which may have negative implications for the company&#39;s global AI infrastructure development and earnings.
             </p>
         </div>
         
@@ -1078,7 +1078,7 @@
                 Emerging Trends
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                The AI sector continues to attract massive investment, driven by institutional confidence in technological differentiation and market disruption potential. Emerging trends include increased collaboration between tech giants, growing legal and compliance risks, and a diversification towards hardware-software convergence and physical AI platforms.
+                The AI sector continues to see massive capital inflows, fueling rapid growth and intense competition for top talent and technology. Emerging trends include increased collaboration between tech giants, growing focus on sustainable infrastructure, and the rise of embodied AI and robotics, signaling the sector&#39;s maturation and diversification.
             </p>
         </div>
         
@@ -1188,53 +1188,6 @@
 
 <article class="event-card-compact">
     <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>Grok</strong> is undressing children — can the law stop it?</h3>
-        <button class="expand-btn" id="btn-4929" onclick="toggleEvent(4929)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-4929" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">📉 negative</span>
-            
-            <span> | 2026-01-06 15:33</span>
-            <span> | Notable - Increased regulatory scrutiny - Potential legal penalties - Reputation damage - Investor confidence erosion - Potential product restrictions - Heightened due diligence on AI content generation capabilities - Increased valuation risk for companies with weak content moderation - Potential premium for AI companies with strong ethical frameworks</span>
-        </div>
-
-        
-        <div class="implications">
-            <h4>💡 Implications</h4>
-            <p>AI sector investors must reassess content generation risks, potential legal liabilities, and regulatory exposure for generative AI platforms. This could accelerate demand for robust content filtering and ethical AI development frameworks.</p>
-        </div>
-        
-
-        
-        <div class="affected-parties">
-            <h4>👥 Affected Parties</h4>
-            <p>- X/Twitter (direct negative impact) - Anthropic - OpenAI - Google (Bard) - Microsoft (potential competitive advantage if stronger ethics)</p>
-        </div>
-        
-
-        
-        <div class="context">
-            <h4>📚 Context</h4>
-            <p>Follows similar content generation controversies with DALL-E, Midjourney, and other generative AI platforms. Represents ongoing challenge of preventing misuse of generative AI technologies. - Monitor regulatory developments - Assess ethical AI investment criteria - Evaluate content moderation capabilities in AI investments</p>
-        </div>
-        
-
-        <div class="event-link">
-            <a href="https://www.theverge.com/ai-artificial-intelligence/855832/grok-undressing-children-csam-law-x-elon-musk" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-        
-    
-        
-            <div id="notable-hidden-3" style="display: none;">
-                
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
         <h3 class="event-title-compact"><strong>Google’s</strong> Gemini to power Apple’s AI features like Siri</h3>
         <button class="expand-btn" id="btn-5610" onclick="toggleEvent(5610)">▶</button>
     </div>
@@ -1275,11 +1228,10 @@
         </div>
     </div>
 </article>
-            </div>
         
     
         
-            <div id="notable-hidden-4" style="display: none;">
+            <div id="notable-hidden-3" style="display: none;">
                 
 
 
@@ -1329,7 +1281,7 @@
         
     
         
-            <div id="notable-hidden-5" style="display: none;">
+            <div id="notable-hidden-4" style="display: none;">
                 
 
 
@@ -1379,7 +1331,7 @@
         
     
         
-            <div id="notable-hidden-6" style="display: none;">
+            <div id="notable-hidden-5" style="display: none;">
                 
 
 
@@ -1429,7 +1381,7 @@
         
     
         
-            <div id="notable-hidden-7" style="display: none;">
+            <div id="notable-hidden-6" style="display: none;">
                 
 
 
@@ -1477,7 +1429,7 @@
         
     
         
-            <div id="notable-hidden-8" style="display: none;">
+            <div id="notable-hidden-7" style="display: none;">
                 
 
 
@@ -1525,7 +1477,7 @@
         
     
         
-            <div id="notable-hidden-9" style="display: none;">
+            <div id="notable-hidden-8" style="display: none;">
                 
 
 
@@ -1574,6 +1526,56 @@
             </div>
         
     
+        
+            <div id="notable-hidden-9" style="display: none;">
+                
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>Sources:</strong> OpenAI last fall set aside RSUs worth 10% of the company, which was valued in October at $500B; it has already awarded about $80B in vested equity</h3>
+        <button class="expand-btn" id="btn-5151" onclick="toggleEvent(5151)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-5151" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">📈 positive</span>
+            
+             | OpenAI
+            
+            <span> | 2026-01-08 03:46</span>
+            <span> | Notable Notable - Provides insight into AI company compensation strategies and talent competition, but doesn&#39;t fundamentally alter immediate investment models.</span>
+        </div>
+
+        
+        <div class="implications">
+            <h4>💡 Implications</h4>
+            <p>For AI sector investors, this signals OpenAI&#39;s aggressive talent strategy and implicit valuation confidence. It suggests continued competitive intensity in AI talent acquisition and implies potential upward pressure on compensation and equity structures across the AI technology sector.</p>
+        </div>
+        
+
+        
+        <div class="affected-parties">
+            <h4>👥 Affected Parties</h4>
+            <p>- Beneficiaries: OpenAI, Microsoft (strategic partner), AI talent ecosystem - Potential Competitors: Google DeepMind, Anthropic, Meta AI - Talent Markets: Tech recruitment, AI research compensation</p>
+        </div>
+        
+
+        
+        <div class="context">
+            <h4>📚 Context</h4>
+            <p>- Contextualizes OpenAI&#39;s $500B valuation from October 2025 - Represents approximately 10% of company equity set aside for employee compensation - Reflects ongoing &#34;talent war&#34; in advanced AI development - Follows similar high-equity compensation models in tech (e.g., early Facebook, Google equity grants) - May accelerate equity-based compensation in AI sector - Signals continued high...</p>
+        </div>
+        
+
+        <div class="event-link">
+            <a href="https://biztoc.com/x/2059ed7ddd465dbb" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+            </div>
+        
+    
 
     
     <button onclick="toggleEventSection('notable', 10)" id="notable-toggle-btn"
@@ -1615,7 +1617,7 @@
                 Research Themes
             </div>
             <p style="color: #1e3a5f; line-height: 1.6; margin: 0; font-size: 0.95rem;">
-                The research papers cover a wide range of AI applications, from improving clinical language models and enzyme prediction to advancing additive manufacturing and water monitoring systems. Key innovation areas include the use of knowledge graphs, hypergraphs, and personality steering to enhance model performance and capabilities.
+                The key research themes focus on developing advanced language models for medical and scientific applications, enhancing chemical and manufacturing processes through knowledge graph embeddings, and exploring the effects of personality steering on cooperative behavior in large language model agents. Researchers are also exploring novel autonomous systems for environmental monitoring, techniques for extracting books from production language models, and frameworks for certifying the trustworthiness of embodied AI systems.
             </p>
         </div>
         
@@ -2483,8 +2485,8 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <div>
             <span style="color: #94a3b8;">Overall: </span>
-            <span style="color: #fca5a5; font-weight: 700; font-size: 1.3rem;">39.0%</span>
-            <span style="color: #94a3b8; font-size: 0.9rem;"> (169/433 correct)</span>
+            <span style="color: #fca5a5; font-weight: 700; font-size: 1.3rem;">37.9%</span>
+            <span style="color: #94a3b8; font-size: 0.9rem;"> (173/457 correct)</span>
         </div>
         <button onclick="toggleSection('heatmap')" id="heatmap-toggle"
                 style="padding: 8px 20px; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
@@ -2539,6 +2541,8 @@
                 
                 <div class="heatmap-date-label" title="2026-01-12">12</div>
                 
+                <div class="heatmap-date-label" title="2026-01-13">13</div>
+                
             </div>
         </div>
 
@@ -2549,7 +2553,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="BTC-USD">Bitcoin</div>
-            <div class="heatmap-accuracy-label">30%</div>
+            <div class="heatmap-accuracy-label">33%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -2832,6 +2836,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-correct"></div>
+                        <div class="heatmap-square-back heatmap-square-correct">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">+3.3%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -2841,7 +2859,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="^GSPC">S&amp;P 500</div>
-            <div class="heatmap-accuracy-label">33%</div>
+            <div class="heatmap-accuracy-label">32%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -3114,6 +3132,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-0.2%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -3123,7 +3155,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="^IXIC">NASDAQ</div>
-            <div class="heatmap-accuracy-label">41%</div>
+            <div class="heatmap-accuracy-label">39%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -3391,6 +3423,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-0.1%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -3400,7 +3446,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="AAPL">Apple</div>
-            <div class="heatmap-accuracy-label">17%</div>
+            <div class="heatmap-accuracy-label">16%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -3673,6 +3719,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">+0.3%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -3682,7 +3742,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="ADBE">ADBE</div>
-            <div class="heatmap-accuracy-label">17%</div>
+            <div class="heatmap-accuracy-label">16%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -3955,6 +4015,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-5.4%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -3964,7 +4038,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="AIQ">AIQ</div>
-            <div class="heatmap-accuracy-label">39%</div>
+            <div class="heatmap-accuracy-label">37%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -4237,6 +4311,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-1.0%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -4246,7 +4334,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="AMD">AMD</div>
-            <div class="heatmap-accuracy-label">33%</div>
+            <div class="heatmap-accuracy-label">37%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -4519,6 +4607,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-correct"></div>
+                        <div class="heatmap-square-back heatmap-square-correct">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">+6.4%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -4528,7 +4630,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="AMZN">Amazon</div>
-            <div class="heatmap-accuracy-label">33%</div>
+            <div class="heatmap-accuracy-label">32%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -4801,6 +4903,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-1.6%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -4810,7 +4926,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="ARKQ">ARKQ</div>
-            <div class="heatmap-accuracy-label">50%</div>
+            <div class="heatmap-accuracy-label">47%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -5083,6 +5199,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-0.6%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -5092,7 +5222,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="ARM">ARM</div>
-            <div class="heatmap-accuracy-label">6%</div>
+            <div class="heatmap-accuracy-label">5%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -5365,6 +5495,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-3.0%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -5374,7 +5518,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="ASML">ASML</div>
-            <div class="heatmap-accuracy-label">50%</div>
+            <div class="heatmap-accuracy-label">47%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -5647,6 +5791,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-0.9%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -5656,7 +5814,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="BOTZ">BOTZ</div>
-            <div class="heatmap-accuracy-label">39%</div>
+            <div class="heatmap-accuracy-label">37%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -5929,6 +6087,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-1.5%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -5938,7 +6110,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="CRM">CRM</div>
-            <div class="heatmap-accuracy-label">44%</div>
+            <div class="heatmap-accuracy-label">42%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -6211,6 +6383,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-7.1%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -6220,7 +6406,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="GOOGL">Google</div>
-            <div class="heatmap-accuracy-label">50%</div>
+            <div class="heatmap-accuracy-label">53%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -6493,6 +6679,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-correct"></div>
+                        <div class="heatmap-square-back heatmap-square-correct">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">+1.2%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -6502,7 +6702,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="INTC">INTC</div>
-            <div class="heatmap-accuracy-label">39%</div>
+            <div class="heatmap-accuracy-label">42%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -6775,6 +6975,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-correct"></div>
+                        <div class="heatmap-square-back heatmap-square-correct">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">+7.3%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -6784,7 +6998,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="META">Meta</div>
-            <div class="heatmap-accuracy-label">44%</div>
+            <div class="heatmap-accuracy-label">42%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -7057,6 +7271,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-1.7%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -7066,7 +7294,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="MSFT">Microsoft</div>
-            <div class="heatmap-accuracy-label">22%</div>
+            <div class="heatmap-accuracy-label">21%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -7339,6 +7567,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-1.4%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -7348,7 +7590,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="NOW">NOW</div>
-            <div class="heatmap-accuracy-label">56%</div>
+            <div class="heatmap-accuracy-label">53%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -7621,6 +7863,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-3.1%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -7630,7 +7886,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="NVDA">NVIDIA</div>
-            <div class="heatmap-accuracy-label">50%</div>
+            <div class="heatmap-accuracy-label">47%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -7903,6 +8159,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">+0.5%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -7912,7 +8182,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="ORCL">ORCL</div>
-            <div class="heatmap-accuracy-label">61%</div>
+            <div class="heatmap-accuracy-label">58%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -8185,6 +8455,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-1.2%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -8194,7 +8478,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="PLTR">PLTR</div>
-            <div class="heatmap-accuracy-label">39%</div>
+            <div class="heatmap-accuracy-label">37%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -8467,6 +8751,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-0.3%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -8476,7 +8774,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="ROBT">ROBT</div>
-            <div class="heatmap-accuracy-label">39%</div>
+            <div class="heatmap-accuracy-label">37%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -8749,6 +9047,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-1.3%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -8758,7 +9070,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="SNOW">SNOW</div>
-            <div class="heatmap-accuracy-label">50%</div>
+            <div class="heatmap-accuracy-label">47%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -9031,6 +9343,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-4.9%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -9040,7 +9366,7 @@
         
         <div class="heatmap-row">
             <div class="heatmap-symbol-label" title="TSM">TSM</div>
-            <div class="heatmap-accuracy-label">56%</div>
+            <div class="heatmap-accuracy-label">53%</div>
             <div class="heatmap-cells">
                 
                 <div class="heatmap-square-container">
@@ -9313,6 +9639,20 @@
                     </div>
                 </div>
                 
+                <div class="heatmap-square-container">
+                    <div class="heatmap-square-inner">
+                        
+                        
+                        
+                        <div class="heatmap-square heatmap-square-incorrect"></div>
+                        <div class="heatmap-square-back heatmap-square-incorrect">
+                            <div class="flip-icon">↑</div>
+                            <div class="flip-pct">-0.2%</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
@@ -9387,7 +9727,7 @@
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #d1fae5; color: #065f46; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            +0.43
+                            +0.44
                         </span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #059669; font-weight: 500;">
@@ -9414,12 +9754,44 @@
                 
                 <tr style="border-bottom: 1px solid #1e293b;">
                     <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        CRM
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">CRM</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #d1fae5; color: #065f46; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            +0.25
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #059669; font-weight: 500;">
+                        Strong +
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        40.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
                         Apple
                         <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">AAPL</span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #d1fae5; color: #065f46; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            +0.24
+                            +0.25
                         </span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #059669; font-weight: 500;">
@@ -9446,8 +9818,8 @@
                 
                 <tr style="border-bottom: 1px solid #1e293b;">
                     <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
-                        CRM
-                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">CRM</span>
+                        PLTR
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">PLTR</span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #d1fae5; color: #065f46; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
@@ -9456,38 +9828,6 @@
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #059669; font-weight: 500;">
                         Strong +
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
-                        50.0%
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
-                        10
-                    </td>
-                </tr>
-                
-                
-                
-                
-                
-                    
-                        
-                        
-                        
-                        
-                    
-                
-                <tr style="border-bottom: 1px solid #1e293b;">
-                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
-                        PLTR
-                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">PLTR</span>
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px;">
-                        <span style="background: #ecfdf5; color: #047857; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            +0.20
-                        </span>
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #10b981; font-weight: 500;">
-                        Positive
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
                         40.0%
@@ -9515,7 +9855,7 @@
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #ecfdf5; color: #047857; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            +0.10
+                            +0.13
                         </span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #10b981; font-weight: 500;">
@@ -9545,14 +9885,14 @@
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            +0.01
+                            +0.03
                         </span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
                         Weak
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
-                        50.0%
+                        60.0%
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
                         10
@@ -9605,7 +9945,7 @@
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            -0.04
+                            -0.03
                         </span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
@@ -9665,7 +10005,7 @@
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            -0.04
+                            -0.06
                         </span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
@@ -9684,10 +10024,8 @@
                 
                 
                     
-                        
-                        
-                        
-                        
+                    
+                    
                     
                 
                 <tr style="border-bottom: 1px solid #1e293b;">
@@ -9696,12 +10034,12 @@
                         <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">AIQ</span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
-                        <span style="background: #fef2f2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            -0.11
+                        <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.10
                         </span>
                     </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #ef4444; font-weight: 500;">
-                        Negative
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 500;">
+                        Weak
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
                         40.0%
@@ -9729,14 +10067,46 @@
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #fef2f2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            -0.12
+                            -0.11
                         </span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #ef4444; font-weight: 500;">
                         Negative
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
-                        60.0%
+                        50.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        ORCL
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ORCL</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fef2f2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.13
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #ef4444; font-weight: 500;">
+                        Negative
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        50.0%
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
                         10
@@ -9788,38 +10158,6 @@
                 
                 <tr style="border-bottom: 1px solid #1e293b;">
                     <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
-                        ORCL
-                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ORCL</span>
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px;">
-                        <span style="background: #fef2f2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            -0.14
-                        </span>
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #ef4444; font-weight: 500;">
-                        Negative
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
-                        60.0%
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
-                        10
-                    </td>
-                </tr>
-                
-                
-                
-                
-                
-                    
-                        
-                        
-                        
-                        
-                    
-                
-                <tr style="border-bottom: 1px solid #1e293b;">
-                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
                         ARKQ
                         <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ARKQ</span>
                     </td>
@@ -9852,19 +10190,19 @@
                 
                 <tr style="border-bottom: 1px solid #1e293b;">
                     <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
-                        ARM
-                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ARM</span>
+                        Microsoft
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">MSFT</span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #fef2f2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            -0.18
+                            -0.17
                         </span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #ef4444; font-weight: 500;">
                         Negative
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
-                        10.0%
+                        30.0%
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
                         10
@@ -9916,8 +10254,40 @@
                 
                 <tr style="border-bottom: 1px solid #1e293b;">
                     <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
-                        Microsoft
-                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">MSFT</span>
+                        ARM
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ARM</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.20
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
+                        Strong -
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        0.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        S&amp;P 500
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">^GSPC</span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
@@ -9980,76 +10350,12 @@
                 
                 <tr style="border-bottom: 1px solid #1e293b;">
                     <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
-                        S&amp;P 500
-                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">^GSPC</span>
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px;">
-                        <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            -0.22
-                        </span>
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
-                        Strong -
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
-                        30.0%
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
-                        10
-                    </td>
-                </tr>
-                
-                
-                
-                
-                
-                    
-                        
-                        
-                        
-                        
-                    
-                
-                <tr style="border-bottom: 1px solid #1e293b;">
-                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
-                        NASDAQ
-                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">^IXIC</span>
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px;">
-                        <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            -0.27
-                        </span>
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
-                        Strong -
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
-                        30.0%
-                    </td>
-                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
-                        10
-                    </td>
-                </tr>
-                
-                
-                
-                
-                
-                    
-                        
-                        
-                        
-                        
-                    
-                
-                <tr style="border-bottom: 1px solid #1e293b;">
-                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
                         AMD
                         <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">AMD</span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            -0.27
+                            -0.25
                         </span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
@@ -10076,19 +10382,19 @@
                 
                 <tr style="border-bottom: 1px solid #1e293b;">
                     <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
-                        ASML
-                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ASML</span>
+                        NASDAQ
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">^IXIC</span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            -0.41
+                            -0.26
                         </span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
                         Strong -
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
-                        50.0%
+                        30.0%
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
                         10
@@ -10113,7 +10419,7 @@
                     </td>
                     <td style="text-align: center; padding: 10px 8px;">
                         <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
-                            -0.44
+                            -0.40
                         </span>
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
@@ -10121,6 +10427,38 @@
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
                         40.0%
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
+                        10
+                    </td>
+                </tr>
+                
+                
+                
+                
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 10px 8px; color: #e2e8f0; font-weight: 500;">
+                        ASML
+                        <span style="color: #64748b; font-size: 0.8rem; margin-left: 6px;">ASML</span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px;">
+                        <span style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem;">
+                            -0.40
+                        </span>
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #dc2626; font-weight: 500;">
+                        Strong -
+                    </td>
+                    <td style="text-align: center; padding: 10px 8px; color: #94a3b8;">
+                        50.0%
                     </td>
                     <td style="text-align: center; padding: 10px 8px; color: #64748b; font-size: 0.85rem;">
                         10
