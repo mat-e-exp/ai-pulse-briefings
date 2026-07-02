@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Pulse Briefing - 2026-07-01</title>
+    <title>AI-Pulse Briefing - 2026-07-02</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -22,12 +22,12 @@
         // Initialize charts when page loads
         window.addEventListener('DOMContentLoaded', function() {
             // Extract closed market dates (needed for both charts)
-            const marketData = {"BTC-USD": {"name": "Bitcoin", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [-3.11, -6.55, -3.44, -0.73, -3.14, 0.15, -2.23, 3.17]}, "ASML": {"name": "ASML", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [2.13, 4.72, 1.23, 1.8, -6.59, 1.13, 1.64, -7.36]}, "ROBT": {"name": "First Trust Robotics AI", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [2.68, 0.03, -1.73, 0.19, -6.39, -0.26, -1.97, 0.82]}, "ARKQ": {"name": "ARK Autonomous Tech", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [-0.61, 1.4, -2.13, 0.51, -7.12, -0.46, -2.13, -1.35]}, "AIQ": {"name": "AI Analytics ETF", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [2.1, 1.01, -1.4, -1.58, -8.15, -0.22, -1.99, -3.02]}, "BOTZ": {"name": "AI/Robotics ETF", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [0.74, 0.1, -0.91, -0.47, -5.24, -0.8, -1.83, 0.32]}, "ADBE": {"name": "Adobe", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [1.49, -4.35, -2.24, 0.85, -2.7, -1.63, -2.9, 2.91]}, "NOW": {"name": "ServiceNow", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [0.07, -6.04, -7.64, 1.24, -5.79, 2.24, -6.32, 6.57]}, "CRM": {"name": "Salesforce", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [5.46, -4.18, -5.09, -0.98, -1.64, -0.74, -3.94, 4.19]}, "SNOW": {"name": "Snowflake", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [7.77, -6.79, -7.61, 1.2, -2.42, 0.27, -0.33, 2.63]}, "PLTR": {"name": "Palantir", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [0.42, -5.28, -6.55, -0.35, -4.35, 0.6, -3.22, 7.77]}, "ORCL": {"name": "Oracle", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [7.66, -1.44, -5.83, 2.61, -9.59, -2.72, -2.84, -2.76]}, "AAPL": {"name": "Apple", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [-1.04, 2.9, -1.57, 0.31, -1.25, -2.33, -3.64, 1.73]}, "AMZN": {"name": "Amazon", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [-1.89, -1.81, -2.53, 1.51, -3.06, -0.56, -0.42, 1.41]}, "META": {"name": "Meta", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [-4.6, -0.47, 4.24, 0.74, -5.51, -0.82, -0.14, 8.81]}, "GOOGL": {"name": "Alphabet", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [-0.06, -3.86, -0.79, 3.68, -0.98, -0.51, 0.26, 1.07]}, "MSFT": {"name": "Microsoft", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [-0.98, -4.17, -3.17, 0.17, -2.66, -0.58, -2.02, 3.02]}, "TSM": {"name": "TSMC", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [2.53, 2.54, -2.24, 1.88, -6.69, 0.72, 0.26, -6.98]}, "ARM": {"name": "Arm Holdings", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [4.85, -1.5, 2.26, -4.47, -12.84, -2.15, -6.22, -4.82]}, "INTC": {"name": "Intel", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [-0.11, -1.28, 4.43, -0.83, -11.28, -0.66, -2.13, -9.03]}, "AMD": {"name": "AMD", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [1.95, 2.24, 4.02, -3.56, -10.86, 1.09, -3.02, -6.89]}, "NVDA": {"name": "NVIDIA", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [3.98, -0.69, -3.62, 1.82, -6.2, -0.73, -0.22, -1.25]}, "^GSPC": {"name": "S&P 500", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-05", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [0.26, 0.13, -0.74, -2.64, 0.3, -0.26, -0.22]}, "^IXIC": {"name": "NASDAQ Composite", "dates": ["2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-08", "2026-06-09", "2026-07-01"], "changes": [0.42, 0.03, -0.89, -0.09, 0.86, -0.97, -0.66]}, "_closed_dates": []};
+            const marketData = {"BTC-USD": {"name": "Bitcoin", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-6.55, -3.44, -0.73, -3.14, 0.15, -2.23]}, "ASML": {"name": "ASML", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [4.72, 1.23, 1.8, -6.59, 1.13, 1.64]}, "ROBT": {"name": "First Trust Robotics AI", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [0.03, -1.73, 0.19, -6.39, -0.26, -1.97]}, "ARKQ": {"name": "ARK Autonomous Tech", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [1.4, -2.13, 0.51, -7.12, -0.46, -2.13]}, "AIQ": {"name": "AI Analytics ETF", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [1.01, -1.4, -1.58, -8.15, -0.22, -1.99]}, "BOTZ": {"name": "AI/Robotics ETF", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [0.1, -0.91, -0.47, -5.24, -0.8, -1.83]}, "ADBE": {"name": "Adobe", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-4.35, -2.24, 0.85, -2.7, -1.63, -2.9]}, "NOW": {"name": "ServiceNow", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-6.04, -7.64, 1.24, -5.79, 2.24, -6.32]}, "CRM": {"name": "Salesforce", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-4.18, -5.09, -0.98, -1.64, -0.74, -3.94]}, "SNOW": {"name": "Snowflake", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-6.79, -7.61, 1.2, -2.42, 0.27, -0.33]}, "PLTR": {"name": "Palantir", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-5.28, -6.55, -0.35, -4.35, 0.6, -3.22]}, "ORCL": {"name": "Oracle", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-1.44, -5.83, 2.61, -9.59, -2.72, -2.84]}, "AAPL": {"name": "Apple", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [2.9, -1.57, 0.31, -1.25, -2.33, -3.64]}, "AMZN": {"name": "Amazon", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-1.81, -2.53, 1.51, -3.06, -0.56, -0.42]}, "META": {"name": "Meta", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-0.47, 4.24, 0.74, -5.51, -0.82, -0.14]}, "GOOGL": {"name": "Alphabet", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-3.86, -0.79, 3.68, -0.98, -0.51, 0.26]}, "MSFT": {"name": "Microsoft", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-4.17, -3.17, 0.17, -2.66, -0.58, -2.02]}, "TSM": {"name": "TSMC", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [2.54, -2.24, 1.88, -6.69, 0.72, 0.26]}, "ARM": {"name": "Arm Holdings", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-1.5, 2.26, -4.47, -12.84, -2.15, -6.22]}, "INTC": {"name": "Intel", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-1.28, 4.43, -0.83, -11.28, -0.66, -2.13]}, "AMD": {"name": "AMD", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [2.24, 4.02, -3.56, -10.86, 1.09, -3.02]}, "NVDA": {"name": "NVIDIA", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [-0.69, -3.62, 1.82, -6.2, -0.73, -0.22]}, "^GSPC": {"name": "S&P 500", "dates": ["2026-06-02", "2026-06-03", "2026-06-05", "2026-06-08", "2026-06-09"], "changes": [0.13, -0.74, -2.64, 0.3, -0.26]}, "^IXIC": {"name": "NASDAQ Composite", "dates": ["2026-06-02", "2026-06-03", "2026-06-04", "2026-06-08", "2026-06-09"], "changes": [0.03, -0.89, -0.09, 0.86, -0.97]}, "_closed_dates": []};
             const closedDates = marketData._closed_dates || [];
 
             // Sentiment Chart
             const ctx = document.getElementById('sentimentChart').getContext('2d');
-            const chartData = {"dates": ["2026-04-08", "2026-05-01", "2026-05-02", "2026-05-03", "2026-05-04", "2026-05-05", "2026-05-06", "2026-05-07", "2026-05-08", "2026-05-09", "2026-05-10", "2026-05-11", "2026-05-12", "2026-05-13", "2026-05-14", "2026-05-15", "2026-05-16", "2026-05-17", "2026-05-18", "2026-05-19", "2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-06", "2026-06-07", "2026-06-08", "2026-06-09", "2026-07-01"], "positive": [58.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "negative": [20.4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "neutral": [2.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "mixed": [19.4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "totals": [196, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]};
+            const chartData = {"dates": ["2026-04-08", "2026-05-01", "2026-05-02", "2026-05-03", "2026-05-04", "2026-05-05", "2026-05-06", "2026-05-07", "2026-05-08", "2026-05-09", "2026-05-10", "2026-05-11", "2026-05-12", "2026-05-13", "2026-05-14", "2026-05-15", "2026-05-16", "2026-05-17", "2026-05-18", "2026-05-19", "2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-06", "2026-06-07", "2026-06-08", "2026-06-09", "2026-07-01", "2026-07-02"], "positive": [58.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "negative": [20.4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "neutral": [2.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "mixed": [19.4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "totals": [196, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]};
 
             // If we have data, generate labels from first data date to 30 days ahead
             let labels = chartData.dates;
@@ -480,7 +480,7 @@
     <header>
         <div class="header-stats">
             <div class="stat-item">
-                <span class="stat-value-small">19,055</span>
+                <span class="stat-value-small">19,176</span>
                 <span class="stat-label-small">Events</span>
             </div>
             <div class="stat-item">
@@ -498,7 +498,7 @@
                 <img src="logo.svg" alt="AI-Pulse Logo" style="width: 50px; height: 50px; vertical-align: middle; margin-right: 10px;">
             </object>
             <h1 style="display: inline; vertical-align: middle;">AI-Pulse</h1>
-            <p class="date">2026-07-01 22:48 UTC</p>
+            <p class="date">2026-07-02 15:42 UTC</p>
         </div>
 
         <nav class="header-nav">
@@ -560,6 +560,230 @@
 
 <article class="event-card-compact">
     <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>Solution</strong> space path planning for supporting en-route air traffic control</h3>
+        <button class="expand-btn" id="btn-19218" onclick="toggleEvent(19218)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-19218" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">➡️ neutral</span>
+            
+            <span> | 2026-07-02 15:41</span>
+            <span> | N/A</span>
+        </div>
+
+        
+
+        
+
+        
+
+        <div class="event-link">
+            <a href="https://arxiv.org/abs/2607.00064" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+        
+    
+        
+            
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>Making</strong> Failure Safe: A Constrained, Verifiable Agent Framework for Open-Web Data Collection</h3>
+        <button class="expand-btn" id="btn-19217" onclick="toggleEvent(19217)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-19217" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">➡️ neutral</span>
+            
+            <span> | 2026-07-02 15:41</span>
+            <span> | N/A</span>
+        </div>
+
+        
+
+        
+
+        
+
+        <div class="event-link">
+            <a href="https://arxiv.org/abs/2607.00035" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+        
+    
+        
+            
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>The</strong> MMM Data Model -- A Normative Specification for Knowledge Interoperability in a Decentralisable Knowledge Commons</h3>
+        <button class="expand-btn" id="btn-19216" onclick="toggleEvent(19216)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-19216" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">➡️ neutral</span>
+            
+            <span> | 2026-07-02 15:41</span>
+            <span> | N/A</span>
+        </div>
+
+        
+
+        
+
+        
+
+        <div class="event-link">
+            <a href="https://arxiv.org/abs/2607.00032" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+        
+    
+        
+            
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>Bounded</strong> Morality: Defining the Space of Moral Computation</h3>
+        <button class="expand-btn" id="btn-19215" onclick="toggleEvent(19215)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-19215" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">➡️ neutral</span>
+            
+            <span> | 2026-07-02 15:41</span>
+            <span> | N/A</span>
+        </div>
+
+        
+
+        
+
+        
+
+        <div class="event-link">
+            <a href="https://arxiv.org/abs/2607.00002" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+        
+    
+        
+            
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>Constructive</strong> Alignment: Governing Preference Dynamics in Human-AI Interaction</h3>
+        <button class="expand-btn" id="btn-19214" onclick="toggleEvent(19214)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-19214" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">➡️ neutral</span>
+            
+            <span> | 2026-07-02 15:41</span>
+            <span> | N/A</span>
+        </div>
+
+        
+
+        
+
+        
+
+        <div class="event-link">
+            <a href="https://arxiv.org/abs/2607.00001" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+        
+    
+        
+            <div id="research-hidden-5" style="display: none;">
+                
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>NVIDIA</strong> BioNeMo accelerates Anthropic Claude Science</h3>
+        <button class="expand-btn" id="btn-19225" onclick="toggleEvent(19225)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-19225" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">➡️ neutral</span>
+            
+             | Anthropic, NVIDIA, Intel
+            
+            <span> | 2026-07-02 14:38</span>
+            <span> | N/A</span>
+        </div>
+
+        
+
+        
+
+        
+
+        <div class="event-link">
+            <a href="https://www.artificialintelligence-news.com/news/nvidia-bionemo-accelerates-anthropic-claude-science/" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+            </div>
+        
+    
+        
+            <div id="research-hidden-6" style="display: none;">
+                
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
+        <h3 class="event-title-compact"><strong>Is</strong> One Layer Enough? A Single Transformer Layer Matches Full-Parameter RL Train</h3>
+        <button class="expand-btn" id="btn-19175" onclick="toggleEvent(19175)">▶</button>
+    </div>
+
+    <div class="event-content-expanded" id="content-19175" style="display: none;">
+        <div class="event-meta-compact">
+            <span class="sentiment">➡️ neutral</span>
+            
+            <span> | 2026-07-02 12:10</span>
+            <span> | N/A</span>
+        </div>
+
+        
+
+        
+
+        
+
+        <div class="event-link">
+            <a href="https://arxiv.org/abs/2607.01232" target="_blank">Read full article →</a>
+        </div>
+    </div>
+</article>
+            </div>
+        
+    
+        
+            <div id="research-hidden-7" style="display: none;">
+                
+
+
+<article class="event-card-compact">
+    <div class="event-header-compact">
         <h3 class="event-title-compact"><strong>When</strong> Does Learning to Stop Help? A Cost-Aware Study of Early Exits in Reasoning Models</h3>
         <button class="expand-btn" id="btn-19096" onclick="toggleEvent(19096)">▶</button>
     </div>
@@ -583,10 +807,12 @@
         </div>
     </div>
 </article>
+            </div>
         
     
         
-            
+            <div id="research-hidden-8" style="display: none;">
+                
 
 
 <article class="event-card-compact">
@@ -614,10 +840,12 @@
         </div>
     </div>
 </article>
+            </div>
         
     
         
-            
+            <div id="research-hidden-9" style="display: none;">
+                
 
 
 <article class="event-card-compact">
@@ -642,238 +870,6 @@
 
         <div class="event-link">
             <a href="https://arxiv.org/abs/2606.30846" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-        
-    
-        
-            
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>Contrastive</strong> Reflection for Iterative Prompt Optimization</h3>
-        <button class="expand-btn" id="btn-19093" onclick="toggleEvent(19093)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-19093" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">➡️ neutral</span>
-            
-            <span> | 2026-07-01 16:06</span>
-            <span> | N/A</span>
-        </div>
-
-        
-
-        
-
-        
-
-        <div class="event-link">
-            <a href="https://arxiv.org/abs/2606.30840" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-        
-    
-        
-            
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>What</strong> Drives Interactive Improvement from Feedback?</h3>
-        <button class="expand-btn" id="btn-19092" onclick="toggleEvent(19092)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-19092" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">➡️ neutral</span>
-            
-            <span> | 2026-07-01 16:06</span>
-            <span> | N/A</span>
-        </div>
-
-        
-
-        
-
-        
-
-        <div class="event-link">
-            <a href="https://arxiv.org/abs/2606.30774" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-        
-    
-        
-            <div id="research-hidden-5" style="display: none;">
-                
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>Claude</strong> Helped a Hacker Find a Way to Issue Tickets to Almost Every US Music Festival</h3>
-        <button class="expand-btn" id="btn-19037" onclick="toggleEvent(19037)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-19037" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">➡️ neutral</span>
-            
-             | Anthropic
-            
-            <span> | 2026-07-01 10:00</span>
-            <span> | N/A</span>
-        </div>
-
-        
-
-        
-
-        
-
-        <div class="event-link">
-            <a href="https://www.wired.com/story/claude-helped-a-hacker-find-a-way-to-issue-tickets-to-almost-every-us-music-festival/" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-            </div>
-        
-    
-        
-            <div id="research-hidden-6" style="display: none;">
-                
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>TabFM:</strong> A zero-shot foundation model for tabular data</h3>
-        <button class="expand-btn" id="btn-18975" onclick="toggleEvent(18975)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-18975" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">➡️ neutral</span>
-            
-            <span> | 2026-06-30 22:08</span>
-            <span> | N/A</span>
-        </div>
-
-        
-
-        
-
-        
-
-        <div class="event-link">
-            <a href="https://research.google/blog/introducing-tabfm-a-zero-shot-foundation-model-for-tabular-data/" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-            </div>
-        
-    
-        
-            <div id="research-hidden-7" style="display: none;">
-                
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>Claude</strong> Science is Anthropic’s newest flagship product</h3>
-        <button class="expand-btn" id="btn-19048" onclick="toggleEvent(19048)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-19048" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">➡️ neutral</span>
-            
-             | Anthropic
-            
-            <span> | 2026-06-30 21:50</span>
-            <span> | N/A</span>
-        </div>
-
-        
-
-        
-
-        
-
-        <div class="event-link">
-            <a href="https://www.technologyreview.com/2026/06/30/1139987/claude-science-is-anthropics-newest-flagship-product/" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-            </div>
-        
-    
-        
-            <div id="research-hidden-8" style="display: none;">
-                
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>The</strong> DeepMind trio who built a poker AI are now making money for quant hedge funds</h3>
-        <button class="expand-btn" id="btn-19039" onclick="toggleEvent(19039)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-19039" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">➡️ neutral</span>
-            
-            <span> | 2026-06-30 20:33</span>
-            <span> | N/A</span>
-        </div>
-
-        
-
-        
-
-        
-
-        <div class="event-link">
-            <a href="https://techcrunch.com/2026/06/30/the-deepmind-trio-who-built-a-poker-ai-are-now-making-money-for-quant-hedge-funds/" target="_blank">Read full article →</a>
-        </div>
-    </div>
-</article>
-            </div>
-        
-    
-        
-            <div id="research-hidden-9" style="display: none;">
-                
-
-
-<article class="event-card-compact">
-    <div class="event-header-compact">
-        <h3 class="event-title-compact"><strong>Anthropic’s</strong> Claude Science bets on workflow, not a new model, to win over scientists</h3>
-        <button class="expand-btn" id="btn-19044" onclick="toggleEvent(19044)">▶</button>
-    </div>
-
-    <div class="event-content-expanded" id="content-19044" style="display: none;">
-        <div class="event-meta-compact">
-            <span class="sentiment">➡️ neutral</span>
-            
-             | Anthropic
-            
-            <span> | 2026-06-30 17:00</span>
-            <span> | N/A</span>
-        </div>
-
-        
-
-        
-
-        
-
-        <div class="event-link">
-            <a href="https://techcrunch.com/2026/06/30/anthropics-claude-science-bets-on-workflow-not-a-new-model-to-win-over-scientists/" target="_blank">Read full article →</a>
         </div>
     </div>
 </article>
